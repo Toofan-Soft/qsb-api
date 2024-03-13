@@ -64,17 +64,25 @@ object ConfigureUniversityDataRepo {
         val email = loggableProperty(_email)
         val address = loggableProperty(_address)
 
+
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
         }
     }
 
+    infix fun Request.phones(newValue: Long?) {
+        phone(newValue)
+    }
+
     data class Response(
         @Field("is_success")
-        internal val isSuccess: Boolean = false,
+        private val _isSuccess: Boolean = false,
         @Field("error_message")
-        internal val errorMessage: String? = null
+        private val _errorMessage: String? = null
     ) : IResponse {
+        val isSuccess get() = _isSuccess
+        val errorMessage get() = _errorMessage
+
         companion object {
             private fun getInstance(): Response {
                 return Response()
