@@ -68,10 +68,10 @@ object ConfigureUniversityDataRepo {
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
         }
-    }
 
-    infix fun Request.phones(newValue: Long?) {
-        phone(newValue)
+        infix fun Request.phones(newValue: Long?) {
+            phone(newValue)
+        }
     }
 
     data class Response(
