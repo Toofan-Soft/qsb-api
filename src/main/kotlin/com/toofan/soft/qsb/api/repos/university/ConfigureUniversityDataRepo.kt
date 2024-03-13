@@ -69,7 +69,11 @@ object ConfigureUniversityDataRepo {
             return build(block)
         }
 
-        infix fun Request.phones(newValue: Long?) {
+        infix fun phone1(newValue: Long?) {
+            phone(newValue)
+        }
+
+        fun phone2(newValue: Long?) {
             phone(newValue)
         }
     }
