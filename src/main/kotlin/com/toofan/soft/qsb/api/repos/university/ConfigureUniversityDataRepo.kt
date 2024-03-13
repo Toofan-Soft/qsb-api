@@ -10,8 +10,8 @@ object ConfigureUniversityDataRepo {
     @JvmStatic
     fun execute(
         data: (
-            mandatory: MandatoryFunction,
-            optional: OptionalFunction
+            mandatory: Mandatory,
+            optional: Optional
         ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
@@ -39,12 +39,12 @@ object ConfigureUniversityDataRepo {
 //        }
     }
 
-    fun interface MandatoryFunction {
+    fun interface Mandatory {
         operator fun invoke(arabicName: String, englishName: String)
     }
 
 
-    fun interface OptionalFunction {
+    fun interface Optional {
         operator fun invoke(block: Request.() -> Unit)
     }
 
