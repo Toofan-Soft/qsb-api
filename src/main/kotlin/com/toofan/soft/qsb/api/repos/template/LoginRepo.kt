@@ -1,4 +1,4 @@
-package com.toofan.soft.qsb.api.repos
+package com.toofan.soft.qsb.api.repos.template
 
 import com.toofan.soft.qsb.api.Route
 import com.toofan.soft.qsb.api.*
@@ -10,7 +10,7 @@ object LoginRepo {
         runBlocking {
             val request = Request(email, password)
             ApiExecutor.execute(
-                route = Route.LOGIN,
+                route = Route.User.Login,
                 request = request
             )
         }

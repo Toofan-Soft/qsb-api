@@ -1,6 +1,5 @@
 package com.toofan.soft.qsb.api.repos.university
 
-import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import com.toofan.soft.qsb.api.loggableProperty
@@ -26,23 +25,22 @@ object ConfigureUniversityDataRepo {
 
         println(request!!.string())
 
-//        request?.let {
-//            runBlocking {
-//                ApiExecutor.execute(
-//                    route = Route.LOGIN,
-//                    request = request
-//                ) {
-//                    val response = Response.map(it)
-//                    onComplete(response)
-//                }
-//            }
-//        }
+        request?.let {
+            runBlocking {
+                ApiExecutor.execute(
+                    route = Route.University.Add,
+                    request = it
+                ) {
+                    val response = Response.map(it)
+                    onComplete(response)
+                }
+            }
+        }
     }
 
     fun interface Mandatory {
         operator fun invoke(arabicName: String, englishName: String)
     }
-
 
     fun interface Optional {
         operator fun invoke(block: Request.() -> Unit)
@@ -64,37 +62,8 @@ object ConfigureUniversityDataRepo {
         val email = loggableProperty(_email)
         val address = loggableProperty(_address)
 
-
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
-        }
-
-        infix fun phone1(newValue: Long?) {
-            phone(newValue)
-        }
-
-        fun phone2(newValue: Long?) {
-            phone(newValue)
-        }
-    }
-
-    data class Response(
-        @Field("is_success")
-        private val _isSuccess: Boolean = false,
-        @Field("error_message")
-        private val _errorMessage: String? = null
-    ) : IResponse {
-        val isSuccess get() = _isSuccess
-        val errorMessage get() = _errorMessage
-
-        companion object {
-            private fun getInstance(): Response {
-                return Response()
-            }
-
-            fun map(data: JsonObject): Response {
-                return getInstance().getResponse(data) as Response
-            }
         }
     }
 }

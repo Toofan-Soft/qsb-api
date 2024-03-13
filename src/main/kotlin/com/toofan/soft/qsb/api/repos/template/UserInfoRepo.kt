@@ -1,4 +1,4 @@
-package com.toofan.soft.qsb.api.repos
+package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.Route
@@ -11,7 +11,7 @@ object UserInfoRepo {
     fun execute(onComplete: (Response) -> Unit) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.USERINFO
+                route = Route.User.Profile
             ) { jsonObject ->
                 val data = jsonObject.get("user").asJsonObject
                 println(data)

@@ -1,7 +1,3 @@
-import com.toofan.soft.qsb.api.repos.LoginRepo
-import com.toofan.soft.qsb.api.repos.RegisterRepo
-import com.toofan.soft.qsb.api.repos.StudentsRepo
-import com.toofan.soft.qsb.api.repos.UserInfoRepo
 import com.toofan.soft.qsb.api.repos.university.ConfigureUniversityDataRepo
 
 fun main(args: Array<String>) {
@@ -16,7 +12,7 @@ fun main(args: Array<String>) {
             optional.invoke {
                 email("ali@gmail.com")
 //                getEmails()("5")
-                this phone1 4
+//                this phone1 4
             }
         },
         onComplete = {

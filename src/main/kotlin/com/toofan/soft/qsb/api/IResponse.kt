@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.services.Logger
 import com.toofan.soft.qsb.api.session.unescapeBookends
 
-interface IResponse {
+internal interface IResponse {
     fun getResponse(jsonObject: JsonObject): IResponse? {
         return try {
             for (field in this.javaClass.declaredFields) {

@@ -1,4 +1,4 @@
-package com.toofan.soft.qsb.api.repos
+package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.Route
@@ -11,7 +11,7 @@ object RegisterRepo {
         runBlocking {
             val request = Request(name, email, password)
             ApiExecutor.execute(
-                route = Route.REGISTER,
+                route = Route.User.Register,
                 request = request
             ) { jsonObject ->
                 println("jsonObject: $jsonObject")
