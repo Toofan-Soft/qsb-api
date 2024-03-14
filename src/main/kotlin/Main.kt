@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
 
     ConfigureUniversityDataRepo.execute(
         data = { mandatory, optional ->
-            mandatory.invoke("علي", "Ali")
+            mandatory.invoke("علي", "Ali", ByteArray(5))
             optional.invoke {
                 email("ali@gmail.com")
 //                getEmails()("5")

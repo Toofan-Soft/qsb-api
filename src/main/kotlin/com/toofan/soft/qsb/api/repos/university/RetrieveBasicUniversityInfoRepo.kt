@@ -5,14 +5,14 @@ import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveUniversityInfoRepo {
+object RetrieveBasicUniversityInfoRepo {
     @JvmStatic
     fun execute(
         onComplete: (response: Response) -> Unit
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.University.Retrieve
+                route = Route.University.RetrieveBasicInfo
             ) {
                 val response = Response.map(it)
                 onComplete(response)
@@ -35,25 +35,7 @@ object RetrieveUniversityInfoRepo {
             @Field("english_name")
             val englishName: String,
             @Field("logo_url")
-            val logoUrl: String,
-            @Field("phone")
-            val phone: Long? = null,
-            @Field("email")
-            val email: String? = null,
-            @Field("address")
-            val address: String? = null,
-            @Field("description")
-            private val _description: String? = null,
-            @Field("web")
-            private val _web: String? = null,
-            @Field("youtube")
-            private val _youtube: String? = null,
-            @Field("x_platform")
-            private val _xPlatform: String? = null,
-            @Field("facebook")
-            private val _facebook: String? = null,
-            @Field("telegram")
-            private val _telegram: String? = null
+            val logoUrl: String
         )
 
         companion object {

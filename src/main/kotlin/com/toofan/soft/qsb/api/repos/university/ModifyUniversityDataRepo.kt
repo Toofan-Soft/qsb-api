@@ -5,43 +5,27 @@ import com.toofan.soft.qsb.api.Field
 import com.toofan.soft.qsb.api.loggableProperty
 import kotlinx.coroutines.runBlocking
 
-object ConfigureUniversityDataRepo {
+object ModifyUniversityDataRepo {
     @JvmStatic
     fun execute(
         data: (
-            mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
-        var request: Request? = null
+        val request = Request()
 
-        data.invoke(
-            { arabicName, englishName, logo ->
-                request = Request(arabicName, englishName, logo)
-            },
-            { request!!.optional(it) }
-        )
+        data.invoke { request.optional(it) }
 
-        request?.let {
-            runBlocking {
-                ApiExecutor.execute(
-                    route = Route.University.Add,
-                    request = it
-                ) {
-                    val response = Response.map(it)
-                    onComplete(response)
-                }
+        runBlocking {
+            ApiExecutor.execute(
+                route = Route.University.Modify,
+                request = request
+            ) {
+                val response = Response.map(it)
+                onComplete(response)
             }
         }
-    }
-
-    fun interface Mandatory {
-        operator fun invoke(
-            arabicName: String,
-            englishName: String,
-            logo: ByteArray
-        )
     }
 
     fun interface Optional {
@@ -50,13 +34,13 @@ object ConfigureUniversityDataRepo {
 
     data class Request(
         @Field("arabic_name")
-        private val _arabicName: String,
+        private val _arabicName: OptionalVariable<String> = OptionalVariable(),
         @Field("english_name")
-        private val _englishName: String,
-        @Field("logo")
-        private val _logo: ByteArray,
+        private val _englishName: OptionalVariable<String> = OptionalVariable(),
         @Field("phone")
         private val _phone: OptionalVariable<Long> = OptionalVariable(),
+        @Field("logo")
+        private val _logo: OptionalVariable<ByteArray> = OptionalVariable(),
         @Field("email")
         private val _email: OptionalVariable<String> = OptionalVariable(),
         @Field("address")
@@ -74,6 +58,9 @@ object ConfigureUniversityDataRepo {
         @Field("telegram")
         private val _telegram: OptionalVariable<String> = OptionalVariable()
     ) : IRequest {
+        val arabicName = loggableProperty(_arabicName)
+        val englishName = loggableProperty(_englishName)
+        val logo = loggableProperty(_logo)
         val phone = loggableProperty(_phone)
         val email = loggableProperty(_email)
         val address = loggableProperty(_address)

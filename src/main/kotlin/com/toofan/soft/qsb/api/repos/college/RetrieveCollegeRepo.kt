@@ -1,24 +1,46 @@
-package com.toofan.soft.qsb.api.repos.university
+package com.toofan.soft.qsb.api.repos.college
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveUniversityInfoRepo {
+object RetrieveCollegeRepo {
     @JvmStatic
     fun execute(
+        data: (
+            mandatory: Mandatory
+        ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
-        runBlocking {
-            ApiExecutor.execute(
-                route = Route.University.Retrieve
-            ) {
-                val response = Response.map(it)
-                onComplete(response)
+        var request: Request? = null
+
+        data.invoke { id ->
+            request = Request(id)
+        }
+
+        request?.let {
+            runBlocking {
+                ApiExecutor.execute(
+                    route = Route.College.Retrieve
+                ) {
+                    val response = Response.map(it)
+                    onComplete(response)
+                }
             }
         }
     }
+
+    fun interface Mandatory {
+        operator fun invoke(
+            id: Int
+        )
+    }
+
+    data class Request(
+        @Field("id")
+        private val _id: Int
+    ) : IRequest
 
     data class Response(
         @Field("is_success")
@@ -26,7 +48,7 @@ object RetrieveUniversityInfoRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: Data? = null
+        val data: List<Data>? = null
     ) : IResponse {
 
         data class Data(
@@ -34,26 +56,22 @@ object RetrieveUniversityInfoRepo {
             val arabicName: String,
             @Field("english_name")
             val englishName: String,
-            @Field("logo_url")
-            val logoUrl: String,
             @Field("phone")
             val phone: Long? = null,
             @Field("email")
             val email: String? = null,
-            @Field("address")
-            val address: String? = null,
             @Field("description")
-            private val _description: String? = null,
-            @Field("web")
-            private val _web: String? = null,
+            val description: String? = null,
             @Field("youtube")
-            private val _youtube: String? = null,
+            val youtube: String? = null,
             @Field("x_platform")
-            private val _xPlatform: String? = null,
+            val xPlatform: String? = null,
             @Field("facebook")
-            private val _facebook: String? = null,
+            val facebook: String? = null,
             @Field("telegram")
-            private val _telegram: String? = null
+            val telegram: String? = null,
+            @Field("logo_url")
+            val logoUrl: String? = null
         )
 
         companion object {
