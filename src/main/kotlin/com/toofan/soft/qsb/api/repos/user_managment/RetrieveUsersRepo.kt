@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.user
+package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveOwnerRolesRepo {
+object RetrieveUsersRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,8 +15,8 @@ object RetrieveOwnerRolesRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { ownerTypeId ->
-            request = Request(ownerTypeId)
+        data.invoke { ownerTypeId, roleId ->
+            request = Request(ownerTypeId, roleId)
         }
 
         request?.let {
@@ -33,13 +33,16 @@ object RetrieveOwnerRolesRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            ownerTypeId: Int
+            ownerTypeId: Int,
+            roleId: Int
         )
     }
 
     data class Request(
         @Field("owner_type_id")
-        private val _ownerTypeId: Int
+        private val _ownerTypeId: Int,
+        @Field("role_id")
+        private val _roleId: Int
     ) : IRequest
 
     data class Response(
@@ -54,10 +57,14 @@ object RetrieveOwnerRolesRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("is_mandatory")
-            val isMandatory: Boolean
+            @Field("owner_name")
+            val ownerName: String,
+            @Field("email")
+            val email: String,
+            @Field("status_name")
+            val statusName: String,
+            @Field("image_url")
+            val imageUrl: String? = null
         )
 
         companion object {

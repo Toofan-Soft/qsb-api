@@ -1,4 +1,4 @@
-package com.toofan.soft.qsb.api.repos.user
+package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field

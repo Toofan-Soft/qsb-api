@@ -1,10 +1,10 @@
-package com.toofan.soft.qsb.api.repos.user
+package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object ChangeUserStatusRepo {
+object ModifyUserRolesRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -14,14 +14,14 @@ object ChangeUserStatusRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { id ->
-            request = Request(id)
+        data.invoke { id, rolesIds ->
+            request = Request(id, rolesIds)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.Question.Add,
                     request = it
                 ) {
                     val response = Response.map(it)
@@ -33,12 +33,15 @@ object ChangeUserStatusRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            id: Int
+            id: Int,
+            rolesIds: List<Int>
         )
     }
 
     data class Request(
         @Field("id")
-        private val _id: Int
+        private val _id: Int,
+        @Field("roles_ids")
+        private val _rolesIds: List<Int>
     ) : IRequest
 }
