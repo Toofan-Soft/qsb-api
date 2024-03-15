@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.topic
+package com.toofan.soft.qsb.api.repos.department_course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveTopicsRepo {
+object RetrieveDepartmentCourseRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,8 +15,8 @@ object RetrieveTopicsRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { chapterId ->
-            request = Request(chapterId)
+        data.invoke { id ->
+            request = Request(id)
         }
 
         request?.let {
@@ -33,13 +33,13 @@ object RetrieveTopicsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            chapterId: Int
+            id: Int
         )
     }
 
     data class Request(
-        @Field("chapter_id")
-        private val _chapterId: Int
+        @Field("department_id")
+        private val _departmentId: Int
     ) : IRequest
 
     data class Response(
@@ -48,19 +48,38 @@ object RetrieveTopicsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: Data? = null
     ) : IResponse {
 
         data class Data(
-            @Field("id")
-            val id: Int,
-            @Field("arabic_title")
-            val arabicTitle: String,
-            @Field("english_title")
-            val englishTitle: String,
-            @Field("description")
-            val description: String? = null,
-        )
+            @Field("college_name")
+            val collegeName: String,
+            @Field("department_name")
+            val departmentName: String,
+            @Field("course_name")
+            val courseName: String,
+            @Field("level_id")
+            val levelId: Int,
+            @Field("semester_id")
+            val semesterId: Int,
+            @Field("course_parts")
+            val courseParts: List<CoursePart>
+        ) {
+            data class CoursePart(
+                @Field("id")
+                val Id: Int,
+                @Field("name")
+                val name: String,
+                @Field("score")
+                val score: Int? = null,
+                @Field("lecture_count")
+                val lectureCount: Int? = null,
+                @Field("lecture_duration")
+                val lectureDuration: Int? = null,
+                @Field("note")
+                val note: String? = null
+            )
+        }
 
         companion object {
             private fun getInstance(): Response {

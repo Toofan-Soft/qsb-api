@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.department_course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveCourseDepartmentsRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -22,7 +22,7 @@ object RetrieveCoursePartsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -42,7 +42,6 @@ object RetrieveCoursePartsRepo {
         private val _courseId: Int
     ) : IRequest
 
-
     data class Response(
         @Field("is_success")
         val isSuccess: Boolean = false,
@@ -55,12 +54,16 @@ object RetrieveCoursePartsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            @Field("college_name")
+            val collegeName: String,
+            @Field("department_name")
+            val departmentName: String,
+            @Field("department_course_id")
+            val departmentCourseId: Int,
+            @Field("level_name")
+            val levelName: String,
+            @Field("semester_name")
+            val semesterName: String
         )
 
         companion object {

@@ -2,10 +2,10 @@ package com.toofan.soft.qsb.api.repos.question
 
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
-import com.toofan.soft.qsb.api.repos.department.AddDepartmentRepo
+import com.toofan.soft.qsb.api.loggableProperty
 import kotlinx.coroutines.runBlocking
 
-object AddQuestionRepo {
+object ModifyQuestionRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -17,8 +17,8 @@ object AddQuestionRepo {
         var request: Request? = null
 
         data.invoke(
-            { topicId, typeId, difficultyLevelId, accessibilityStatusId, languageId, estimatedAnswerTime, content ->
-                request = Request(topicId, typeId, difficultyLevelId, accessibilityStatusId, languageId, estimatedAnswerTime, content)
+            { id ->
+                request = Request(id)
             },
             { request!!.optional(it) }
         )
@@ -26,7 +26,7 @@ object AddQuestionRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.Topic.Modify,
                     request = it
                 ) {
                     val response = Response.map(it)
@@ -38,13 +38,7 @@ object AddQuestionRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            topicId: Int,
-            typeId: Int,
-            difficultyLevelId: Int,
-            accessibilityStatusId: Int,
-            languageId: Int,
-            estimatedAnswerTime: Int,
-            content: String
+            id: Int
         )
     }
 
@@ -53,20 +47,18 @@ object AddQuestionRepo {
     }
 
     data class Request(
-        @Field("topic_id")
-        private val _topicId: Int,
-        @Field("type_id")
-        private val _typeId: Int,
+        @Field("id")
+        private val _id: Int,
         @Field("difficulty_level_id")
-        private val _difficultyLevelId: Int,
+        private val _difficultyLevelId: OptionalVariable<Int> = OptionalVariable(),
         @Field("accessibility_status_id")
-        private val _accessibilityStatusId: Int,
+        private val _accessibilityStatusId: OptionalVariable<Int> = OptionalVariable(),
         @Field("language_id")
-        private val _languageId: Int,
+        private val _languageId: OptionalVariable<Int> = OptionalVariable(),
         @Field("estimated_answer_time")
-        private val _estimatedAnswerTime: Int,
+        private val _estimatedAnswerTime: OptionalVariable<Int> = OptionalVariable(),
         @Field("content")
-        private val _content: String,
+        private val _content: OptionalVariable<String> = OptionalVariable(),
         @Field("attachment")
         private val _attachment: OptionalVariable<ByteArray> = OptionalVariable(),
         @Field("title")
@@ -74,6 +66,11 @@ object AddQuestionRepo {
         @Field("is_true")
         private val _isTrue: OptionalVariable<Boolean> = OptionalVariable()
     ) : IRequest {
+        val difficultyLevelId = loggableProperty(_difficultyLevelId)
+        val accessibilityStatusId = loggableProperty(_accessibilityStatusId)
+        val languageId = loggableProperty(_languageId)
+        val estimatedAnswerTime = loggableProperty(_estimatedAnswerTime)
+        val content = loggableProperty(_content)
         val attachment = loggableProperty(_attachment)
         val title = loggableProperty(_title)
         val isTrue = loggableProperty(_isTrue)

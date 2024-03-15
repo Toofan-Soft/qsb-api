@@ -1,11 +1,12 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.course_lecturer
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
+import com.toofan.soft.qsb.api.repos.question.RetrieveQuestionsRepo
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveLecturerCoursesRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,14 +16,14 @@ object RetrieveCoursePartsRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { courseId ->
-            request = Request(courseId)
+        data.invoke { employeeId ->
+            request = Request(employeeId)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,15 +34,14 @@ object RetrieveCoursePartsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            courseId: Int
+            employeeId: Int
         )
     }
 
     data class Request(
-        @Field("course_id")
-        private val _courseId: Int
+        @Field("employee_id")
+        private val _employeeId: Int
     ) : IRequest
-
 
     data class Response(
         @Field("is_success")
@@ -53,14 +53,22 @@ object RetrieveCoursePartsRepo {
     ) : IResponse {
 
         data class Data(
-            @Field("id")
-            val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            @Field("course_lecturer_id")
+            val courseLecturerId: Int,
+            @Field("course_name")
+            private val _courseName: String,
+            @Field("course_part_name")
+            private val _coursePartName: String,
+            @Field("academic_year")
+            private val _academicYear: Int,
+            @Field("college_name")
+            private val _collegeName: String,
+            @Field("department_name")
+            private val _departmentName: String,
+            @Field("level_name")
+            private val _levelName: String,
+            @Field("semester_name")
+            private val _semesterName: String,
         )
 
         companion object {

@@ -1,11 +1,12 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.course_student
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
+import com.toofan.soft.qsb.api.repos.question.RetrieveQuestionsRepo
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveUnlinkedCourseStudentsRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,14 +16,14 @@ object RetrieveCoursePartsRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { courseId ->
-            request = Request(courseId)
+        data.invoke { departmentCourseId ->
+            request = Request(departmentCourseId)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,15 +34,19 @@ object RetrieveCoursePartsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            courseId: Int
+            departmentCourseId: Int
         )
     }
 
-    data class Request(
-        @Field("course_id")
-        private val _courseId: Int
-    ) : IRequest
+    fun interface Optional {
+        operator fun invoke(block: Request.() -> Unit)
+    }
 
+
+    data class Request(
+        @Field("department_course_id")
+        private val _departmentCourseId: Int
+    ) : IRequest
 
     data class Response(
         @Field("is_success")
@@ -55,12 +60,12 @@ object RetrieveCoursePartsRepo {
         data class Data(
             @Field("id")
             val id: Int,
+            @Field("academic_id")
+            val academicId: Int,
             @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            private val _name: String,
+            @Field("image_url")
+            private val _imageUrl: String? = null
         )
 
         companion object {

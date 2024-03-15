@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,14 +15,14 @@ object RetrieveCoursePartsRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { courseId ->
-            request = Request(courseId)
+        data.invoke { departmentCoursePartId, chapterId ->
+            request = Request(departmentCoursePartId, chapterId)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,15 +33,17 @@ object RetrieveCoursePartsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            courseId: Int
+            departmentCoursePartId: Int,
+            chapterId: Int
         )
     }
 
     data class Request(
-        @Field("course_id")
-        private val _courseId: Int
+        @Field("department_course_part_id")
+        private val _departmentCoursePartId: Int,
+        @Field("chapter_id")
+        private val _chapterId: Int
     ) : IRequest
-
 
     data class Response(
         @Field("is_success")
@@ -55,12 +57,12 @@ object RetrieveCoursePartsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            @Field("arabic_title")
+            val arabicTitle: String,
+            @Field("english_title")
+            val englishTitle: String,
+            @Field("is_selected")
+            val isSelected: Boolean
         )
 
         companion object {

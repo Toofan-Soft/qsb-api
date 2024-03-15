@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.employee
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveEmployeeRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,14 +15,14 @@ object RetrieveCoursePartsRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { courseId ->
-            request = Request(courseId)
+        data.invoke { id ->
+            request = Request(id)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,15 +33,14 @@ object RetrieveCoursePartsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            courseId: Int
+            id: Int
         )
     }
 
     data class Request(
-        @Field("course_id")
-        private val _courseId: Int
+        @Field("id")
+        private val _id: Int
     ) : IRequest
-
 
     data class Response(
         @Field("is_success")
@@ -49,18 +48,28 @@ object RetrieveCoursePartsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: Data? = null
     ) : IResponse {
 
         data class Data(
-            @Field("id")
-            val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            @Field("arabic_name")
+            val arabicName: String,
+            @Field("english_name")
+            val englishName: String,
+            @Field("gender_id")
+            val genderId: Int,
+            @Field("qualification_Id")
+            val qualificationId: Int,
+            @Field("job_type_Id")
+            val jobTypeId: Int,
+            @Field("email")
+            val email: String? = null,
+            @Field("phone")
+            val phone: Long? = null,
+            @Field("specialization")
+            val specialization: String? = null,
+            @Field("image_url")
+            val imageUrl: String? = null
         )
 
         companion object {

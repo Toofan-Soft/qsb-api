@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.user
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveUsersRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,14 +15,14 @@ object RetrieveCoursePartsRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { courseId ->
-            request = Request(courseId)
+        data.invoke { ownerTypeId, roleId ->
+            request = Request(ownerTypeId, roleId)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,15 +33,17 @@ object RetrieveCoursePartsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            courseId: Int
+            ownerTypeId: Int,
+            roleId: Int
         )
     }
 
     data class Request(
-        @Field("course_id")
-        private val _courseId: Int
+        @Field("owner_type_id")
+        private val _ownerTypeId: Int,
+        @Field("role_id")
+        private val _roleId: Int
     ) : IRequest
-
 
     data class Response(
         @Field("is_success")
@@ -55,12 +57,14 @@ object RetrieveCoursePartsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            @Field("owner_name")
+            val ownerName: String,
+            @Field("email")
+            val email: String,
+            @Field("status_name")
+            val statusName: String,
+            @Field("image_url")
+            val imageUrl: String? = null
         )
 
         companion object {

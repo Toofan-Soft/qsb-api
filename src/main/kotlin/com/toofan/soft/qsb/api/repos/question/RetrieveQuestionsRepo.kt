@@ -1,28 +1,32 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveQuestionsRepo {
     @JvmStatic
     fun execute(
         data: (
-            mandatory: Mandatory
+            mandatory: Mandatory,
+            optional: Optional
         ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
         var request: Request? = null
 
-        data.invoke { courseId ->
-            request = Request(courseId)
-        }
+        data.invoke(
+            { topicId ->
+                request = Request(topicId)
+            },
+            { request!!.optional(it) }
+        )
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,15 +37,29 @@ object RetrieveCoursePartsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            courseId: Int
+            topicId: Int
         )
     }
 
-    data class Request(
-        @Field("course_id")
-        private val _courseId: Int
-    ) : IRequest
+    fun interface Optional {
+        operator fun invoke(block: Request.() -> Unit)
+    }
 
+    data class Request(
+        @Field("chapter_id")
+        private val _chapterId: Int,
+        @Field("type_id")
+        private val _typeId: OptionalVariable<Int> = OptionalVariable(),
+        @Field("status_id")
+        private val _statusId: OptionalVariable<Int> = OptionalVariable()
+    ) : IRequest {
+        val typeId = loggableProperty(_typeId)
+        val statusId = loggableProperty(_statusId)
+
+        fun optional(block: Request.() -> Unit): Request {
+            return build(block)
+        }
+    }
 
     data class Response(
         @Field("is_success")
@@ -55,12 +73,12 @@ object RetrieveCoursePartsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            @Field("content")
+            val content: String,
+            @Field("status_name")
+            val statusName: String? = null,
+            @Field("type_name")
+            val typeName: String? = null,
         )
 
         companion object {

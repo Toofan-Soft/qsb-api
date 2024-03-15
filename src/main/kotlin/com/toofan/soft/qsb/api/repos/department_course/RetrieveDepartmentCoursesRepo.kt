@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.course_part
+package com.toofan.soft.qsb.api.repos.department_course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCoursePartsRepo {
+object RetrieveDepartmentCoursesRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,14 +15,14 @@ object RetrieveCoursePartsRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { courseId ->
-            request = Request(courseId)
+        data.invoke { departmentId ->
+            request = Request(departmentId)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.CoursePart.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,15 +33,14 @@ object RetrieveCoursePartsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            courseId: Int
+            departmentId: Int
         )
     }
 
     data class Request(
-        @Field("course_id")
-        private val _courseId: Int
+        @Field("department_id")
+        private val _departmentId: Int
     ) : IRequest
-
 
     data class Response(
         @Field("is_success")
@@ -55,12 +54,12 @@ object RetrieveCoursePartsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("name")
-            val name: String,
-            @Field("status_id")
-            val statusId: Int,
-            @Field("description")
-            val description: String? = null,
+            @Field("course_name")
+            val courseName: String,
+            @Field("level_name")
+            val levelName: String,
+            @Field("semester_name")
+            val semesterName: String,
         )
 
         companion object {
