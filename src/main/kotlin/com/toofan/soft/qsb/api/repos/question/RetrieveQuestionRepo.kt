@@ -86,6 +86,7 @@ object RetrieveQuestionRepo {
                 ) : Answer
 
                 data class Choices(
+                    @Field("choices")
                     val choices: List<Choice>
                 ) : Answer
 
