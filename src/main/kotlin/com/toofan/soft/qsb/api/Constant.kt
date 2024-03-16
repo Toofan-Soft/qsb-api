@@ -121,6 +121,222 @@ sealed class Route(
         object Retrieve: Question("retrieve", Method.GET)
         object RetrieveList: Question("retrieve-list", Method.GET)
     }
+
+    sealed class QuestionChoice(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("question-choice/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class DepartmentCourse(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("department-course/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class DepartmentCoursePart(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("department-course-part/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class DepartmentCoursePartChapterAndTopic(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("department-course-part-chapter-and-topic/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class Employee(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("employee/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class CourseLecture(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("course-lecture/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class Student(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("student/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class CourseStudent(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("course-student/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class Guest(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("guest/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class UserManagement(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("user-management/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class LecturerOnlineExam(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("lecturer-online-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class StudentOnlineExam(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("student-online-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class ProctorOnlineExam(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("proctor-online-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class PaperExam(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("paper-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class PracticeOnlineExam(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("practice-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class FavoriteQuestion(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("favorite-question-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class Enum(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("lecturer-online-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
+
+    sealed class Filter(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+    ): Route("lecturer-online-exam/$name", method, isAuthorized) {
+        object Add: Question("add", Method.POST)
+        object Modify: Question("modify", Method.PUT)
+        object Delete: Question("delete", Method.DELETE)
+        object Retrieve: Question("retrieve", Method.GET)
+        object RetrieveList: Question("retrieve-list", Method.GET)
+    }
 }
 
 internal enum class Method(internal val value: String) {

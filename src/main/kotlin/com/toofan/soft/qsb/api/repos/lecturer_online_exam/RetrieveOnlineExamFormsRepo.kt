@@ -1,27 +1,23 @@
-package com.toofan.soft.qsb.api.repos.question
+package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveQuestionsRepo {
+object RetrieveOnlineExamFormsRepo {
     @JvmStatic
     fun execute(
         data: (
-            mandatory: Mandatory,
-            optional: Optional
+            mandatory: Mandatory
         ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
         var request: Request? = null
 
-        data.invoke(
-            { topicId ->
-                request = Request(topicId)
-            },
-            { request!!.optional(it) }
-        )
+        data.invoke { examId ->
+            request = Request(examId)
+        }
 
         request?.let {
             runBlocking {
@@ -37,29 +33,14 @@ object RetrieveQuestionsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            topicId: Int
+            examId: Int
         )
     }
 
-    fun interface Optional {
-        operator fun invoke(block: Request.() -> Unit)
-    }
-
     data class Request(
-        @Field("chapter_id")
-        private val _chapterId: Int,
-        @Field("type_id")
-        private val _typeId: OptionalVariable<Int> = OptionalVariable(),
-        @Field("status_id")
-        private val _statusId: OptionalVariable<Int> = OptionalVariable()
-    ) : IRequest {
-        val typeId = loggableProperty(_typeId)
-        val statusId = loggableProperty(_statusId)
-
-        fun optional(block: Request.() -> Unit): Request {
-            return build(block)
-        }
-    }
+        @Field("exam_id")
+        private val _examId: Int
+    ) : IRequest
 
     data class Response(
         @Field("is_success")
@@ -73,12 +54,8 @@ object RetrieveQuestionsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("content")
-            val content: String,
-            @Field("status_name")
-            val statusName: String? = null,
-            @Field("type_name")
-            val typeName: String? = null
+            @Field("name")
+            val name: String
         )
 
         companion object {

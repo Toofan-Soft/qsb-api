@@ -1,27 +1,23 @@
-package com.toofan.soft.qsb.api.repos.question
+package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveQuestionsRepo {
+object RetrievePracticeExamResultRepo {
     @JvmStatic
     fun execute(
         data: (
-            mandatory: Mandatory,
-            optional: Optional
+            mandatory: Mandatory
         ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
         var request: Request? = null
 
-        data.invoke(
-            { topicId ->
-                request = Request(topicId)
-            },
-            { request!!.optional(it) }
-        )
+        data.invoke { id ->
+            request = Request(id)
+        }
 
         request?.let {
             runBlocking {
@@ -37,29 +33,14 @@ object RetrieveQuestionsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            topicId: Int
+            id: Int
         )
     }
 
-    fun interface Optional {
-        operator fun invoke(block: Request.() -> Unit)
-    }
-
     data class Request(
-        @Field("chapter_id")
-        private val _chapterId: Int,
-        @Field("type_id")
-        private val _typeId: OptionalVariable<Int> = OptionalVariable(),
-        @Field("status_id")
-        private val _statusId: OptionalVariable<Int> = OptionalVariable()
-    ) : IRequest {
-        val typeId = loggableProperty(_typeId)
-        val statusId = loggableProperty(_statusId)
-
-        fun optional(block: Request.() -> Unit): Request {
-            return build(block)
-        }
-    }
+        @Field("exam_id")
+        private val _examId: Int
+    ) : IRequest
 
     data class Response(
         @Field("is_success")
@@ -67,18 +48,22 @@ object RetrieveQuestionsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: Data? = null
     ) : IResponse {
 
         data class Data(
-            @Field("id")
-            val id: Int,
-            @Field("content")
-            val content: String,
-            @Field("status_name")
-            val statusName: String? = null,
-            @Field("type_name")
-            val typeName: String? = null
+            @Field("time_spent")
+            val timeSpent: Long,
+            @Field("question_average_answer_time")
+            val questionAverageAnswerTime: Long,
+            @Field("correct_answer_count")
+            val correctAnswerCount: Int,
+            @Field("incorrect_answer_count")
+            val incorrectAnswerCount: Int,
+            @Field("appreciation")
+            val appreciation: String,
+            @Field("score_rate")
+            val scoreRate: Int
         )
 
         companion object {

@@ -1,27 +1,21 @@
-package com.toofan.soft.qsb.api.repos.question
+package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveQuestionsRepo {
+object RetrievePaperExamsAndroidRepo {
     @JvmStatic
     fun execute(
         data: (
-            mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
         var request: Request? = null
 
-        data.invoke(
-            { topicId ->
-                request = Request(topicId)
-            },
-            { request!!.optional(it) }
-        )
+        data.invoke { request!!.optional(it) }
 
         request?.let {
             runBlocking {
@@ -35,26 +29,18 @@ object RetrieveQuestionsRepo {
         }
     }
 
-    fun interface Mandatory {
-        operator fun invoke(
-            topicId: Int
-        )
-    }
-
     fun interface Optional {
         operator fun invoke(block: Request.() -> Unit)
     }
 
     data class Request(
-        @Field("chapter_id")
-        private val _chapterId: Int,
+        @Field("department_course_part_id")
+        private val _departmentCoursePartId: OptionalVariable<Int> = OptionalVariable(),
         @Field("type_id")
-        private val _typeId: OptionalVariable<Int> = OptionalVariable(),
-        @Field("status_id")
-        private val _statusId: OptionalVariable<Int> = OptionalVariable()
+        private val _typeId: OptionalVariable<Int> = OptionalVariable()
     ) : IRequest {
+        val departmentCoursePartId = loggableProperty(_departmentCoursePartId)
         val typeId = loggableProperty(_typeId)
-        val statusId = loggableProperty(_statusId)
 
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
@@ -73,12 +59,18 @@ object RetrieveQuestionsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("content")
-            val content: String,
-            @Field("status_name")
-            val statusName: String? = null,
+            @Field("course_name")
+            val courseName: String,
+            @Field("course_part_name")
+            val coursePartName: String,
+            @Field("language_name")
+            val languageName: String,
+            @Field("datetime")
+            val datetime: Long,
+            @Field("lecturer_name")
+            val lecturerName: String,
             @Field("type_name")
-            val typeName: String? = null
+            val typeName: String
         )
 
         companion object {

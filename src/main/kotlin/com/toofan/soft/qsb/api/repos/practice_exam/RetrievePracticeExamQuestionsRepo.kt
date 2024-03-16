@@ -1,32 +1,28 @@
-package com.toofan.soft.qsb.api.repos.favorite_question
+package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveFavoriteQuestionRepo {
+object RetrievePracticeExamQuestionsRepo {
     @JvmStatic
     fun execute(
         data: (
-            mandatory: Mandatory,
-            optional: Optional
-            ) -> Unit,
+            mandatory: Mandatory
+        ) -> Unit,
         onComplete: (response: Response) -> Unit
     ) {
         var request: Request? = null
 
-        data.invoke(
-            { questionId ->
-            request = Request(questionId)
-        },
-            { request!!.optional(it) }
-        )
+        data.invoke { examId ->
+            request = Request(examId)
+        }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.College.RetrieveList
+                    route = Route.Topic.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -37,26 +33,14 @@ object RetrieveFavoriteQuestionRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            questionId: Int
+            examId: Int
         )
     }
 
-    fun interface Optional {
-        operator fun invoke(block: Request.() -> Unit)
-    }
-
     data class Request(
-        @Field("question_id")
-        private val _questionId: Int,
-        @Field("combinationId")
-        private val _combinationId: OptionalVariable<Int> = OptionalVariable()
-    ) : IRequest {
-        val combinationId = loggableProperty(_combinationId)
-
-        fun optional(block: Request.() -> Unit): Request {
-            return build(block)
-        }
-    }
+        @Field("exam_id")
+        private val _examId: Int
+    ) : IRequest
 
     data class Response(
         @Field("is_success")
@@ -64,18 +48,14 @@ object RetrieveFavoriteQuestionRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: Data? = null
+        val data: List<Data>? = null
     ) : IResponse {
 
         data class Data(
-            @Field("chapter_name")
-            val chapterName: String,
-            @Field("topic_name")
-            val topicName: String,
             @Field("type_name")
             val typeName: String,
-            @Field("question")
-            val question: Data? = null,
+            @Field("questions")
+            val questions: List<Data>
         ) {
             sealed interface Data {
                 data class TrueFalse(
@@ -83,10 +63,12 @@ object RetrieveFavoriteQuestionRepo {
                     val id: Int,
                     @Field("content")
                     val content: String,
-                    @Field("is_true")
-                    val isTrue: Boolean,
                     @Field("attachment_url")
-                    val attachmentUrl: String? = null
+                    val attachmentUrl: String? = null,
+                    @Field("user_answer")
+                    val userAnswer: Boolean? = null,
+                    @Field("is_true")
+                    val isTrue: Boolean? = null
                 ) : Data
 
                 data class MultiChoice(
@@ -104,10 +86,12 @@ object RetrieveFavoriteQuestionRepo {
                         val id: Int,
                         @Field("content")
                         val content: String,
-                        @Field("is_true")
-                        val isTrue: Boolean,
                         @Field("attachment_url")
-                        val attachmentUrl: String? = null
+                        val attachmentUrl: String? = null,
+                        @Field("is_selected")
+                        val isSelected: Boolean? = null,
+                        @Field("is_true")
+                        val isTrue: Boolean? = null
                     )
                 }
             }

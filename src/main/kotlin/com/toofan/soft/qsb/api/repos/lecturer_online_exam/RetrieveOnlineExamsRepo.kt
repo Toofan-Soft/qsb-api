@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.question
+package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveQuestionsRepo {
+object RetrieveOnlineExamsRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -17,8 +17,8 @@ object RetrieveQuestionsRepo {
         var request: Request? = null
 
         data.invoke(
-            { topicId ->
-                request = Request(topicId)
+            { departmentCoursePartId ->
+                request = Request(departmentCoursePartId)
             },
             { request!!.optional(it) }
         )
@@ -37,7 +37,7 @@ object RetrieveQuestionsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            topicId: Int
+            departmentCoursePartId: Int
         )
     }
 
@@ -46,8 +46,8 @@ object RetrieveQuestionsRepo {
     }
 
     data class Request(
-        @Field("chapter_id")
-        private val _chapterId: Int,
+        @Field("department_course_part_id")
+        private val _departmentCoursePartId: Int,
         @Field("type_id")
         private val _typeId: OptionalVariable<Int> = OptionalVariable(),
         @Field("status_id")
@@ -73,8 +73,12 @@ object RetrieveQuestionsRepo {
         data class Data(
             @Field("id")
             val id: Int,
-            @Field("content")
-            val content: String,
+            @Field("datetime")
+            val datetime: Long,
+            @Field("form_count")
+            val formCount: Int,
+            @Field("score")
+            val score: Float,
             @Field("status_name")
             val statusName: String? = null,
             @Field("type_name")
