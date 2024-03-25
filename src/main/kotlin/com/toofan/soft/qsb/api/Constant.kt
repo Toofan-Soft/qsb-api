@@ -1,7 +1,11 @@
 package com.toofan.soft.qsb.api
 
 private object Constant {
-        private const val URL = "http://26.21.87.97:8000/"
+//    private const val URL = "http://26.21.87.97:8000/"
+//    private const val URL = "http://192.168.1.104:8000/"
+    private const val URL = "http://192.168.1.6:8000/"
+//    private const val URL = "http://192.168.1.14:8000/"
+//    private const val URL = "http://127.0.0.1:8000/"
     const val HOME = URL + "api"
 }
 
@@ -14,6 +18,27 @@ sealed class Route(
     internal val method get() = _method.value
     internal val isAuthorized get() = _isAuthorized
 
+    sealed class Template(
+        name: String,
+        method: Method,
+        isAuthorized: Boolean = false
+//    ): Route("colleges/$name", method, isAuthorized) {
+    ): Route("$name", method, isAuthorized) {
+//        object Retrieve: Template("retrieve-college/1", Method.GET)
+//        object Retrieve: Template("retrieve-college", Method.GET)
+        object Register: Template("register", Method.POST)
+        object Login: Template("login", Method.POST)
+        object UserInfo: Template("userinfo", Method.GET, true)
+        object Retrieve: Template("college", Method.GET)
+        object RetrieveColleges: Template("retrieve-colleges", Method.GET)
+        object RetrieveBasicInfoList: Template("retrieve-basic-colleges-info", Method.GET)
+//        object RetrieveCollege: Template("retrieve-college", Method.POST)
+        object RetrieveCollege: Template("retrieve-college", Method.GET)
+//        object RetrieveCollege: Template("retrieve-college2", Method.GET)
+//        object RetrieveCollege: Template("retrieve", Method.GET)
+    }
+
+
     sealed class User(
         name: String,
         method: Method,
@@ -23,6 +48,7 @@ sealed class Route(
         object Login: User("modify", Method.POST)
         object Profile: User("delete", Method.GET, true)
     }
+
     sealed class University(
         name: String,
         method: Method,
@@ -38,11 +64,12 @@ sealed class Route(
         name: String,
         method: Method,
         isAuthorized: Boolean = false
-    ): Route("college/$name", method, isAuthorized) {
+    ): Route("colleges/$name", method, isAuthorized) {
         object Add: College("add", Method.POST)
-        object Modify: College("modify", Method.PUT)
-        object Delete: College("delete", Method.DELETE)
+        object Modify: College("modify-college", Method.PUT)
+        object Delete: College("delete-college", Method.DELETE)
         object Retrieve: College("retrieve", Method.GET)
+        object RetrieveEditable: College("retrieve-editable", Method.GET)
         object RetrieveList: College("retrieve-list", Method.GET)
         object RetrieveBasicInfoList: College("retrieve-basic-info-list", Method.GET)
     }
@@ -51,7 +78,7 @@ sealed class Route(
         name: String,
         method: Method,
         isAuthorized: Boolean = false
-    ): Route("department/$name", method, isAuthorized) {
+    ): Route("departments/$name", method, isAuthorized) {
         object Add: Department("add", Method.POST)
         object Modify: Department("modify", Method.PUT)
         object Delete: Department("delete", Method.DELETE)
@@ -127,11 +154,11 @@ sealed class Route(
         method: Method,
         isAuthorized: Boolean = false
     ): Route("question-choice/$name", method, isAuthorized) {
-        object Add: Question("add", Method.POST)
-        object Modify: Question("modify", Method.PUT)
-        object Delete: Question("delete", Method.DELETE)
-        object Retrieve: Question("retrieve", Method.GET)
-        object RetrieveList: Question("retrieve-list", Method.GET)
+        object Add: QuestionChoice("add", Method.POST)
+        object Modify: QuestionChoice("modify", Method.PUT)
+        object Delete: QuestionChoice("delete", Method.DELETE)
+        object Retrieve: QuestionChoice("retrieve", Method.GET)
+        object RetrieveList: QuestionChoice("retrieve-list", Method.GET)
     }
 
     sealed class DepartmentCourse(
@@ -139,11 +166,11 @@ sealed class Route(
         method: Method,
         isAuthorized: Boolean = false
     ): Route("department-course/$name", method, isAuthorized) {
-        object Add: Question("add", Method.POST)
-        object Modify: Question("modify", Method.PUT)
-        object Delete: Question("delete", Method.DELETE)
-        object Retrieve: Question("retrieve", Method.GET)
-        object RetrieveList: Question("retrieve-list", Method.GET)
+        object Add: DepartmentCourse("add", Method.POST)
+        object Modify: DepartmentCourse("modify", Method.PUT)
+        object Delete: DepartmentCourse("delete", Method.DELETE)
+        object Retrieve: DepartmentCourse("retrieve", Method.GET)
+        object RetrieveList: DepartmentCourse("retrieve-list", Method.GET)
     }
 
     sealed class DepartmentCoursePart(
@@ -344,9 +371,4 @@ internal enum class Method(internal val value: String) {
     GET("GET"),
     PUT("PUT"),
     DELETE("DELETE");
-}
-
-fun main() {
-    val url = Route.College.RetrieveList.url
-    println(url)
 }

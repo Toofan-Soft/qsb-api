@@ -10,7 +10,7 @@ object LoginRepo {
         runBlocking {
             val request = Request(email, password)
             ApiExecutor.execute(
-                route = Route.User.Login,
+                route = Route.Template.Login,
                 request = request
             )
         }

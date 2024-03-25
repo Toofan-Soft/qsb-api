@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.college
+package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveCollegeRepo {
+object RetrieveCollegeDepartmentsRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -19,13 +19,17 @@ object RetrieveCollegeRepo {
             request = Request(id)
         }
 
+        println("parameters: ${request!!.parameters}")
+
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.College.Retrieve,
-                    request = request
+                    route = Route.Template.Retrieve,
+                    request = it
                 ) {
+                    println("json: $it")
                     val response = Response.map(it)
+                    println("response: $response")
                     onComplete(response)
                 }
             }
@@ -49,7 +53,7 @@ object RetrieveCollegeRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: Data? = null
     ) : IResponse {
 
         data class Data(
@@ -57,23 +61,18 @@ object RetrieveCollegeRepo {
             val arabicName: String,
             @Field("english_name")
             val englishName: String,
-            @Field("phone")
-            val phone: Long? = null,
-            @Field("email")
-            val email: String? = null,
-            @Field("description")
-            val description: String? = null,
-            @Field("youtube")
-            val youtube: String? = null,
-            @Field("x_platform")
-            val xPlatform: String? = null,
-            @Field("facebook")
-            val facebook: String? = null,
-            @Field("telegram")
-            val telegram: String? = null,
-            @Field("logo_url")
-            val logoUrl: String? = null
-        )
+            @Field("departments")
+            val departments: List<Data>
+        ): IResponse {
+            data class Data(
+                @Field("id")
+                val id: Int,
+                @Field("arabic_name")
+                val arabicName: String,
+                @Field("english_name")
+                val englishName: String
+            )
+        }
 
         companion object {
             private fun getInstance(): Response {

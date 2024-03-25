@@ -11,7 +11,8 @@ object RegisterRepo {
         runBlocking {
             val request = Request(name, email, password)
             ApiExecutor.execute(
-                route = Route.User.Register,
+//                route = Route.User.Register,
+                route = Route.Template.Register,
                 request = request
             ) { jsonObject ->
                 println("jsonObject: $jsonObject")

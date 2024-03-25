@@ -1,22 +1,103 @@
+import com.toofan.soft.qsb.api.Route
+import com.toofan.soft.qsb.api.repos.college.DeleteCollegeRepo
+import com.toofan.soft.qsb.api.repos.college.ModifyCollegeRepo
+import com.toofan.soft.qsb.api.repos.college.RetrieveCollegeRepo
+import com.toofan.soft.qsb.api.repos.college.RetrieveCollegesRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.SavePracticeExamQuestionAnswerRepo
+import com.toofan.soft.qsb.api.repos.template.*
 
 fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
-    SavePracticeExamQuestionAnswerRepo.execute(
-        data = { mandatory ->
-            mandatory.invoke(1, 1, answer = { trueFalse, multiChoice ->
-                trueFalse.invoke(true)
-//                trueFalse.invoke(false)
-//                multiChoice.invoke(5)
-            })
+    RetrieveCollegeRepo.execute(
+        data = {
+            it.invoke(2)
         },
         onComplete = {
-
+            println(it)
         }
     )
+
+//    RetrieveCollegesRepo.execute {
+//        println(it)
+//    }
+
+//    ModifyCollegeRepo.execute(
+//        data = { mandatory, optional ->
+//            mandatory.invoke(4)
+//            optional.invoke {
+//                arabicName("Ali")
+//            }
+//        },
+//        onComplete = {
+//            println("onComplete: $it")
+//        }
+//    )
+
+//    DeleteCollegeRepo.execute(
+//        data = { mandatory ->
+//            mandatory.invoke(3)
+//        },
+//        onComplete = {
+//            println("onComplete: $it")
+//        }
+//    )
+
+//    RegisterRepo.execute("test1234", "test1234@gmail.com", "test1234") {
+//        println("onComplete: $it")
+//    }
+
+//    LoginRepo.execute("test123@gmail.com", "test1234")
+//    UserInfoRepo.execute {
+//        println("info: $it")
+//    }
+
+    LoginRepo.execute("test12345@gmail.com", "test12345")
+    UserInfoRepo.execute {  }
+
+
+//    RetrieveCollegeRepo.execute(
+//        data = { mandatory ->
+//            mandatory.invoke(2)
+//        },
+//        onComplete = {
+//            println("OnComplete: $it")
+//        }
+//    )
+
+//    RetrieveCollegesRepo.execute(
+//        onComplete = {
+//            println("OnComplete: $it")
+//        }
+//    )
+
+//    RetrieveCollegesRepo.execute {
+//        println("OnComplete: $it")
+//    }
+
+//    RetrieveCollegeDepartmentsRepo.execute(
+//        data = { mandatory ->
+//               mandatory.invoke(1)
+//        },
+//        onComplete = {
+//            println("OnComplete: $it")
+//        }
+//    )
+
+//    SavePracticeExamQuestionAnswerRepo.execute(
+//        data = { mandatory ->
+//            mandatory.invoke(1, 1, answer = { trueFalse, multiChoice ->
+//                trueFalse.invoke(true)
+////                trueFalse.invoke(false)
+////                multiChoice.invoke(5)
+//            })
+//        },
+//        onComplete = {
+//
+//        }
+//    )
 
 //    AddPaperExamRepoTest.execute(
 //        data = { mandatory, optional ->

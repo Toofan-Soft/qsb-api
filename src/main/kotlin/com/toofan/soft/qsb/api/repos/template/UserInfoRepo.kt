@@ -4,19 +4,30 @@ import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.Route
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
+import com.toofan.soft.qsb.api.services.Logger
 import kotlinx.coroutines.runBlocking
+
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import com.google.gson.Gson
+import com.toofan.soft.qsb.api.session.Memory
+import com.toofan.soft.qsb.api.session.checkToken
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object UserInfoRepo {
     @JvmStatic
     fun execute(onComplete: (Response) -> Unit) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.User.Profile
+                route = Route.Template.UserInfo
             ) { jsonObject ->
-                val data = jsonObject.get("user").asJsonObject
-                println(data)
+//                val data = jsonObject.get("user")
+//                println("data: $data")
 
-                val response = Response.map(data)
+                val response = Response.map(jsonObject)
                 onComplete(response)
             }
         }
