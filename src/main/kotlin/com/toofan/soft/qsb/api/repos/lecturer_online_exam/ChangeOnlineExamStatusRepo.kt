@@ -21,7 +21,7 @@ object ChangeOnlineExamStatusRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.LecturerOnlineExam.ChangeStatus,
                     request = it
                 ) {
                     val response = Response.map(it)

@@ -22,7 +22,7 @@ object RetrievePracticeExamResultRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.PracticeOnlineExam.RetrieveResult
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

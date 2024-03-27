@@ -21,7 +21,7 @@ object PassCourseStudentRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.CourseStudent.Pass,
                     request = it
                 ) {
                     val response = Response.map(it)

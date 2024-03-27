@@ -22,7 +22,7 @@ object RetrieveOnlineExamStudentsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.ProctorOnlineExam.RetrieveStudentList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

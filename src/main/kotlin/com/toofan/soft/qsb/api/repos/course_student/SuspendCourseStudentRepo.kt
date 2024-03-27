@@ -21,7 +21,7 @@ object SuspendCourseStudentRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.CourseStudent.Suspend,
                     request = it
                 ) {
                     val response = Response.map(it)

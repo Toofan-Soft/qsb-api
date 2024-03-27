@@ -22,7 +22,7 @@ object RetrieveDepartmentCourseRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.DepartmentCourse.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -38,8 +38,8 @@ object RetrieveDepartmentCourseRepo {
     }
 
     data class Request(
-        @Field("department_id")
-        private val _departmentId: Int
+        @Field("id")
+        private val _id: Int
     ) : IRequest
 
     data class Response(
@@ -58,10 +58,10 @@ object RetrieveDepartmentCourseRepo {
             val departmentName: String,
             @Field("course_name")
             val courseName: String,
-            @Field("level_id")
-            val levelId: Int,
-            @Field("semester_id")
-            val semesterId: Int,
+            @Field("level_name")
+            val levelName: String,
+            @Field("semester_Name")
+            val semesterName: String,
             @Field("course_parts")
             val courseParts: List<CoursePart>
         ) {
@@ -72,8 +72,8 @@ object RetrieveDepartmentCourseRepo {
                 val name: String,
                 @Field("score")
                 val score: Int? = null,
-                @Field("lecture_count")
-                val lectureCount: Int? = null,
+                @Field("lectures_count")
+                val lecturesCount: Int? = null,
                 @Field("lecture_duration")
                 val lectureDuration: Int? = null,
                 @Field("note")

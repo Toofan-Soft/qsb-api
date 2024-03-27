@@ -23,7 +23,7 @@ object ModifyGuestProfileRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.Guest.Modify,
                     request = it
                 ) {
                     val response = Response.map(it)

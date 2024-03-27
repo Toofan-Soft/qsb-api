@@ -22,7 +22,7 @@ object RetrievePaperExamFormQuestionsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.PaperExam.RetrieveFormQuestionList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

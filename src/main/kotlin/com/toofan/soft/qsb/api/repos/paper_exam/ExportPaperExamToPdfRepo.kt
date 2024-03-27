@@ -26,7 +26,7 @@ object ExportPaperExamToPdfRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.PaperExam.Export
                 ) {
 //                    val response = Response.map(it)
 //                    onComplete(response)

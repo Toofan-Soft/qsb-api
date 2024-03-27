@@ -26,7 +26,7 @@ object ConfigureUniversityDataRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.University.Add,
+                    route = Route.University.Configure,
                     request = it
                 ) {
                     val response = Response.map(it)

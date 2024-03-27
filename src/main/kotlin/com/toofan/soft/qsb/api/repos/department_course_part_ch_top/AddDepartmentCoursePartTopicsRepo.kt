@@ -22,7 +22,7 @@ object AddDepartmentCoursePartTopicsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.DepartmentCoursePartChapterAndTopic.AddTopicList,
                     request = it
                 ) {
                     val response = Response.map(it)

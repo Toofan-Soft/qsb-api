@@ -21,7 +21,7 @@ object SuspendPracticeExamRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.PracticeOnlineExam.Suspend,
                     request = it
                 ) {
                     val response = Response.map(it)

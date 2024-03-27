@@ -12,7 +12,7 @@ object LogoutRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Question.Add
+                route = Route.User.Logout
             ) {
                 val response = Response.map(it)
                 onComplete(response)

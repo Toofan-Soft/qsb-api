@@ -21,7 +21,7 @@ object AcceptQuestionRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.Question.Accept,
                     request = it
                 ) {
                     val response = Response.map(it)

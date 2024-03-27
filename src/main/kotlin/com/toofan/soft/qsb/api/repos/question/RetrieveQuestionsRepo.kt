@@ -26,7 +26,7 @@ object RetrieveQuestionsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.Question.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -46,8 +46,8 @@ object RetrieveQuestionsRepo {
     }
 
     data class Request(
-        @Field("chapter_id")
-        private val _chapterId: Int,
+        @Field("topic_id")
+        private val _topicId: Int,
         @Field("type_id")
         private val _typeId: OptionalVariable<Int> = OptionalVariable(),
         @Field("status_id")

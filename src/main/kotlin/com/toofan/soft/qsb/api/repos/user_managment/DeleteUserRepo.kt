@@ -21,7 +21,7 @@ object DeleteUserRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.UserManagement.Delete,
                     request = it
                 ) {
                     val response = Response.map(it)

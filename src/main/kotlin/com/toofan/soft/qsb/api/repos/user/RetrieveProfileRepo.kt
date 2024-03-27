@@ -11,7 +11,7 @@ object RetrieveProfileRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Question.Add,
+                route = Route.User.RetrieveProfile,
             ) {
                 val response = Response.map(it)
                 onComplete(response)
@@ -34,8 +34,8 @@ object RetrieveProfileRepo {
                 val name: String,
                 @Field("email")
                 val email: String,
-                @Field("gender_id")
-                val genderId: Int,
+                @Field("gender_name")
+                val genderName: String,
                 @Field("phone")
                 val phone: Long? = null,
                 @Field("image_url")

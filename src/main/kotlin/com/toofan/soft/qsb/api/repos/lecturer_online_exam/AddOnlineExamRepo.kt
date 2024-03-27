@@ -18,7 +18,7 @@ object AddOnlineExamRepo {
         data.invoke(
             { departmentCoursePartId, conductMethodId, typeId, datetime, duration,
               datetimeNotificationDatetime, resultNotificationDatetime, languageId, difficultyLevelId,
-              formCount, formConfigurationMethodId, formNameMethodId, questionsTypes, topicsIds ->
+              formsCount, formConfigurationMethodId, formNameMethodId, questionsTypes, topicsIds ->
                 val _questionsTypes: ArrayList<Request.Data> = arrayListOf()
 
                 questionsTypes.invoke { typeId, questionsCount, questionScore ->
@@ -27,7 +27,7 @@ object AddOnlineExamRepo {
 
                 request = Request(departmentCoursePartId, conductMethodId, typeId, datetime, duration,
                     datetimeNotificationDatetime, resultNotificationDatetime, languageId, difficultyLevelId,
-                    formCount, formConfigurationMethodId, formNameMethodId, _questionsTypes, topicsIds)
+                    formsCount, formConfigurationMethodId, formNameMethodId, _questionsTypes, topicsIds)
             },
             { request!!.optional(it) }
         )
@@ -35,7 +35,7 @@ object AddOnlineExamRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.LecturerOnlineExam.Add,
                     request = it
                 ) {
                     val response = Response.map(it)
@@ -57,7 +57,7 @@ object AddOnlineExamRepo {
             languageId: Int,
             difficultyLevelId: Int,
 
-            formCount: Int,
+            formsCount: Int,
             formConfigurationMethodId: Int,
             formNameMethodId: Int,
 
@@ -99,8 +99,8 @@ object AddOnlineExamRepo {
         @Field("difficulty_level_id")
         private val _difficultyLevelId: Int,
 
-        @Field("form_count")
-        private val _formCount: Int,
+        @Field("forms_count")
+        private val _formsCount: Int,
         @Field("form_configuration_method_id")
         private val _formConfigurationMethodId: Int,
         @Field("form_name_method_id")

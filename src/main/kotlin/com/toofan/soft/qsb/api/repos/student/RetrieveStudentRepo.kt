@@ -22,7 +22,7 @@ object RetrieveStudentRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.Student.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -58,14 +58,14 @@ object RetrieveStudentRepo {
             val arabicName: String,
             @Field("english_name")
             val englishName: String,
-            @Field("gender_id")
-            val genderId: Int,
+            @Field("gender_name")
+            val genderName: String,
             @Field("college_name")
             val collegeName: String,
             @Field("department_name")
             val departmentName: String,
-            @Field("level_id")
-            val levelId: Int,
+            @Field("level_Name")
+            val levelName: String,
             @Field("email")
             val email: String? = null,
             @Field("phone")

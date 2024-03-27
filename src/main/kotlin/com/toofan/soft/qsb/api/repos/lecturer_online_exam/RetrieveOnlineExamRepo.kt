@@ -22,7 +22,7 @@ object RetrieveOnlineExamRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.LecturerOnlineExam.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -64,10 +64,10 @@ object RetrieveOnlineExamRepo {
             val courseName: String,
             @Field("course_part_name")
             val coursePartName: String,
-            @Field("conduct_method_id")
-            val conductMethodId: Int,
-            @Field("type_id")
-            val typeId: Int,
+            @Field("conduct_method_name")
+            val conductMethodName: String,
+            @Field("type_name")
+            val typeName: String,
             @Field("datetime")
             val datetime: Long,
             @Field("duration")
@@ -84,16 +84,16 @@ object RetrieveOnlineExamRepo {
             val difficultyLevelName: String,
             @Field("status_name")
             val statusName: String,
-            @Field("form_count")
-            val formCount: Int,
+            @Field("forms_count")
+            val formsCount: Int,
             @Field("form_configuration_method_name")
             val formConfigurationMethodName: String,
-            @Field("form_name_method_id")
-            val formNameMethodId: Int,
+            @Field("form_name_method_name")
+            val formNameMethodName: String,
             @Field("questions_types")
             val questionsTypes: List<Data>,
-            @Field("proctor_id")
-            val proctorId: Int? = null,
+            @Field("proctor_name")
+            val proctorName: String? = null,
             @Field("special_note")
             val specialNote: String? = null
         ) {

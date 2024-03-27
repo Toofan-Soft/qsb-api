@@ -22,7 +22,7 @@ object RetrieveEmployeeRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.Employee.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -56,12 +56,12 @@ object RetrieveEmployeeRepo {
             val arabicName: String,
             @Field("english_name")
             val englishName: String,
-            @Field("gender_id")
-            val genderId: Int,
-            @Field("qualification_Id")
-            val qualificationId: Int,
-            @Field("job_type_Id")
-            val jobTypeId: Int,
+            @Field("gender_name")
+            val genderName: String,
+            @Field("qualification_name")
+            val qualificationName: String,
+            @Field("job_type_Name")
+            val jobTypeName: String,
             @Field("email")
             val email: String? = null,
             @Field("phone")

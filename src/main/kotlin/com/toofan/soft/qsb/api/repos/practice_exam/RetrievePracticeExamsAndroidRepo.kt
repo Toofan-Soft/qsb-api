@@ -23,7 +23,7 @@ object RetrievePracticeExamsAndroidRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.PracticeOnlineExam.RetrieveAndroidList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

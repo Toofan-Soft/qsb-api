@@ -27,7 +27,7 @@ object RetrieveCourseStudentsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.CourseStudent.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

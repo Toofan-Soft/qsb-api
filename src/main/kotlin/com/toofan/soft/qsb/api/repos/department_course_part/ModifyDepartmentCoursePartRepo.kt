@@ -22,7 +22,7 @@ object ModifyDepartmentCoursePartRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Modify,
+                    route = Route.DepartmentCoursePart.Modify,
                     request = it
                 ) {
                     val response = Response.map(it)
@@ -43,15 +43,15 @@ object ModifyDepartmentCoursePartRepo {
         private val _id: Int,
         @Field("score")
         private val _score: OptionalVariable<Int> = OptionalVariable(),
-        @Field("lecture_count")
-        private val _lectureCount: OptionalVariable<Int> = OptionalVariable(),
+        @Field("lectures_count")
+        private val _lecturesCount: OptionalVariable<Int> = OptionalVariable(),
         @Field("lecture_duration")
         private val _lectureDuration: OptionalVariable<Int> = OptionalVariable(),
         @Field("note")
         private val _note: OptionalVariable<String> = OptionalVariable()
     ) : IRequest {
         val score = loggableProperty(_score)
-        val lectureCount = loggableProperty(_lectureCount)
+        val lecturesCount = loggableProperty(_lecturesCount)
         val lectureDuration = loggableProperty(_lectureDuration)
         val note = loggableProperty(_note)
 

@@ -22,7 +22,7 @@ object RetrieveQuestionRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Retrieve
+                    route = Route.Question.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -53,12 +53,12 @@ object RetrieveQuestionRepo {
     ) : IResponse {
 
         data class Data(
-            @Field("difficulty_level_id")
-            val difficultyLevelId: Int,
-            @Field("accessibility_status_id")
-            val accessibilityStatusId: Int,
-            @Field("language_id")
-            val languageId: Int,
+            @Field("difficulty_level_name")
+            val difficultyLevelName: String,
+            @Field("accessibility_status_Name")
+            val accessibilityStatusName: String,
+            @Field("language_Name")
+            val languageName: String,
             @Field("estimated_answer_time")
             val estimatedAnswerTime: Int,
             @Field("content")

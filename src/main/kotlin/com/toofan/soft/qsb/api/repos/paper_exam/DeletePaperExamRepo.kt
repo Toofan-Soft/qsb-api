@@ -21,7 +21,7 @@ object DeletePaperExamRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.PaperExam.Delete,
                     request = it
                 ) {
                     val response = Response.map(it)

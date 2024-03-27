@@ -12,7 +12,7 @@ object RetrieveOnlineExamsRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.ProctorOnlineExam.RetrieveList
             ) {
                 val response = Response.map(it)
                 onComplete(response)
@@ -34,7 +34,7 @@ object RetrieveOnlineExamsRepo {
             val id: Int,
             @Field("course_name")
             val courseName: String,
-            @Field("course__part_name")
+            @Field("course_part_name")
             val coursePartName: String,
             @Field("datetime")
             val datetime: Long

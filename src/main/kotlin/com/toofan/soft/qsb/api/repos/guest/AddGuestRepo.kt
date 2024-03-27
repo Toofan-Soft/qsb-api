@@ -26,7 +26,7 @@ object AddGuestRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.Guest.Add,
                     request = it
                 ) {
                     val response = Response.map(it)

@@ -22,7 +22,7 @@ object RetrieveOnlineExamQuestionsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.StudentOnlineExam.RetrieveQuestionList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

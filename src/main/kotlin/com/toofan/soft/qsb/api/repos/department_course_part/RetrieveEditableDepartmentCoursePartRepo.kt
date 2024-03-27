@@ -1,11 +1,11 @@
-package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
+package com.toofan.soft.qsb.api.repos.department_course_part
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
-object RetrieveAvailavleDepartmentCoursePartChaptersRepo {
+object RetrieveEditableDepartmentCoursePartRepo {
     @JvmStatic
     fun execute(
         data: (
@@ -15,14 +15,14 @@ object RetrieveAvailavleDepartmentCoursePartChaptersRepo {
     ) {
         var request: Request? = null
 
-        data.invoke { departmentCoursePartId ->
-            request = Request(departmentCoursePartId)
+        data.invoke { id ->
+            request = Request(id)
         }
 
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.DepartmentCoursePart.RetrieveEditable
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -33,13 +33,13 @@ object RetrieveAvailavleDepartmentCoursePartChaptersRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            departmentCoursePartId: Int
+            id: Int
         )
     }
 
     data class Request(
-        @Field("department_course_part_id")
-        private val _departmentCoursePartId: Int
+        @Field("id")
+        private val _id: Int
     ) : IRequest
 
     data class Response(
@@ -48,28 +48,19 @@ object RetrieveAvailavleDepartmentCoursePartChaptersRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: Data? = null
     ) : IResponse {
 
         data class Data(
-            @Field("id")
-            val id: Int,
-            @Field("arabic_title")
-            val arabicTitle: String,
-            @Field("english_title")
-            val englishTitle: String,
-            @Field("selection_status")
-            val selectionStatus: SelectionStatus
-        ) {
-            data class SelectionStatus(
-                @Field("is_nune")
-                val isNune: Boolean,
-                @Field("is_half")
-                val isHalf: Boolean,
-                @Field("is_full")
-                val isFull: Boolean
-            )
-        }
+            @Field("score")
+            val score: Int? = null,
+            @Field("lectures_count")
+            val lecturesCount: Int? = null,
+            @Field("lecture_duration")
+            val lectureDuration: Int? = null,
+            @Field("note")
+            val note: String? = null
+        )
 
         companion object {
             private fun getInstance(): Response {

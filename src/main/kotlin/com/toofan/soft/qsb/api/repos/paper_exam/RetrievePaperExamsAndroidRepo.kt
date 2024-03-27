@@ -20,7 +20,7 @@ object RetrievePaperExamsAndroidRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.PaperExam.RetrieveAndroidList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

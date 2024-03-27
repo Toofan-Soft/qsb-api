@@ -26,7 +26,7 @@ object RetrievePaperExamsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.PaperExam.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -72,8 +72,8 @@ object RetrievePaperExamsRepo {
             val id: Int,
             @Field("datetime")
             val datetime: Long,
-            @Field("form_count")
-            val formCount: Int,
+            @Field("forms_count")
+            val formsCount: Int,
             @Field("score")
             val score: Float,
             @Field("lecturer_name")

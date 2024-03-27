@@ -21,7 +21,7 @@ object DeleteCourseLecturerRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.CourseLecture.Delete,
                     request = it
                 ) {
                     val response = Response.map(it)

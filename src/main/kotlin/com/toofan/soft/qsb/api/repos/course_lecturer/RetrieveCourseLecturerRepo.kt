@@ -23,7 +23,7 @@ object RetrieveCourseLecturerRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.CourseLecture.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -67,8 +67,8 @@ object RetrieveCourseLecturerRepo {
             private val _coursePartName: String,
             @Field("academic_year")
             private val _academicYear: Int,
-            @Field("lecture_count")
-            private val _lectureCount: Int? = null,
+            @Field("lectures_count")
+            private val _lecturesCount: Int? = null,
             @Field("lecture_duration")
             private val _lectureDuration: Int? = null,
             @Field("score")

@@ -22,7 +22,7 @@ object RetrieveUserRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.UserManagement.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -54,8 +54,10 @@ object RetrieveUserRepo {
         data class Data(
             @Field("email")
             val email: String,
-            @Field("status_id")
-            val statusId: Int,
+            @Field("status_name")
+            val statusName: String,
+            @Field("is_active")
+            val isActive: Boolean,
             @Field("owner_type_name")
             val ownerTypeName: String,
             @Field("owner_name")

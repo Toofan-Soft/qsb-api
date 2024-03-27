@@ -18,7 +18,7 @@ object AddPaperExamRepo {
         data.invoke(
             { departmentCoursePartId, typeId, datetime, duration,
               languageId, difficultyLevelId, lecturerName,
-              formCount, formConfigurationMethodId, formNameMethodId, questionsTypes, topicsIds ->
+              formsCount, formConfigurationMethodId, formNameMethodId, questionsTypes, topicsIds ->
                 val _questionsTypes: ArrayList<Request.Data> = arrayListOf()
 
                 questionsTypes.invoke { typeId, questionsCount, questionScore ->
@@ -27,7 +27,7 @@ object AddPaperExamRepo {
 
                 request = Request(departmentCoursePartId, typeId, datetime, duration,
                     languageId, difficultyLevelId, lecturerName,
-                    formCount, formConfigurationMethodId, formNameMethodId, _questionsTypes, topicsIds)
+                    formsCount, formConfigurationMethodId, formNameMethodId, _questionsTypes, topicsIds)
             },
             { request!!.optional(it) }
         )
@@ -35,7 +35,7 @@ object AddPaperExamRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.PaperExam.Add,
                     request = it
                 ) {
                     val response = Response.map(it)
@@ -55,7 +55,7 @@ object AddPaperExamRepo {
             difficultyLevelId: Int,
             lecturerName: String,
 
-            formCount: Int,
+            formsCount: Int,
             formConfigurationMethodId: Int,
             formNameMethodId: Int,
 
@@ -93,8 +93,8 @@ object AddPaperExamRepo {
         @Field("lecturer_name")
         private val _lecturerName: String,
 
-        @Field("form_count")
-        private val _formCount: Int,
+        @Field("forms_count")
+        private val _formsCount: Int,
         @Field("form_configuration_method_id")
         private val _formConfigurationMethodId: Int,
         @Field("form_name_method_id")

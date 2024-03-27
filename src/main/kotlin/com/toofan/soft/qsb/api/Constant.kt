@@ -59,7 +59,7 @@ sealed class Route(
         method: Method,
         isAuthorized: Boolean = false
     ): Route("university/$name", method, isAuthorized) {
-        object Add: University("configure", Method.POST)
+        object Configure: University("configure", Method.POST)
         object Modify: University("modify", Method.PUT)
         object Retrieve: University("retrieve", Method.GET)
         object RetrieveBasicInfo: University("retrieve-basic-info", Method.GET)
@@ -279,7 +279,7 @@ sealed class Route(
         isAuthorized: Boolean = false
     ): Route("user-management/$name", method, isAuthorized) {
         object Add: UserManagement("add", Method.POST)
-        object Modify: UserManagement("modify", Method.PUT)
+        object ModifyRoleList: UserManagement("modify-role-list", Method.PUT)
         object Delete: UserManagement("delete", Method.DELETE)
         object Retrieve: UserManagement("retrieve", Method.GET)
         object RetrieveList: UserManagement("retrieve-list", Method.GET)

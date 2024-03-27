@@ -21,7 +21,7 @@ object FinishOnlineExamRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Delete,
+                    route = Route.StudentOnlineExam.Finish,
                     request = it
                 ) {
                     val response = Response.map(it)

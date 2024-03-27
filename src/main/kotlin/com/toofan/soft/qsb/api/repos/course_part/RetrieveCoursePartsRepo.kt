@@ -57,8 +57,8 @@ object RetrieveCoursePartsRepo {
             val id: Int,
             @Field("name")
             val name: String,
-            @Field("status_id")
-            val statusId: Int,
+            @Field("status_Name")
+            val statusName: String,
             @Field("description")
             val description: String? = null,
         )

@@ -20,7 +20,7 @@ object ModifyPracticeExamRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.PracticeOnlineExam.Modify,
                     request = it
                 ) {
                     val response = Response.map(it)

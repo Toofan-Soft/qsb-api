@@ -20,7 +20,7 @@ object RequestAccountRecoveryRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Question.Add,
+                    route = Route.User.RequestAccountRecovery,
                     request = it
                 ) {
                     val response = Response.map(it)

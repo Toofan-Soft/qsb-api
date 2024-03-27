@@ -26,7 +26,7 @@ object ModifyDepartmentCourseRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.Modify,
+                    route = Route.DepartmentCourse.Modify,
                     request = it
                 ) {
                     val response = Response.map(it)

@@ -33,7 +33,7 @@ object SavePracticeExamQuestionAnswerRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.PracticeOnlineExam.SaveQuestionAnswer
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
