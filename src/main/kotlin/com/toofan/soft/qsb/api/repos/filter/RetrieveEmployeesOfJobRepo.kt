@@ -22,7 +22,7 @@ object RetrieveEmployeesOfJobRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.Filter.RetrieveEmployeeOfJobList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

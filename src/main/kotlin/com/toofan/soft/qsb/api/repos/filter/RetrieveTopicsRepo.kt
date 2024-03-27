@@ -22,7 +22,7 @@ object RetrieveTopicsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.Filter.RetrieveTopicList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

@@ -22,7 +22,7 @@ object RetrieveDepartmentLevelSemesterCoursesRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.Filter.RetrieveDepartmentLevelSemesterCourseList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

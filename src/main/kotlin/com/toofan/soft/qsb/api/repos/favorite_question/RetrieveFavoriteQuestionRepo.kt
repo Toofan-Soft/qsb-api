@@ -26,7 +26,7 @@ object RetrieveFavoriteQuestionRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.College.RetrieveList
+                    route = Route.FavoriteQuestion.Retrieve
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -48,7 +48,7 @@ object RetrieveFavoriteQuestionRepo {
     data class Request(
         @Field("question_id")
         private val _questionId: Int,
-        @Field("combinationId")
+        @Field("combination_id")
         private val _combinationId: OptionalVariable<Int> = OptionalVariable()
     ) : IRequest {
         val combinationId = loggableProperty(_combinationId)

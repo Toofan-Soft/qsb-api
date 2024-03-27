@@ -12,7 +12,7 @@ object RetrieveEmployeesRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Filter.RetrieveEmployeeList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

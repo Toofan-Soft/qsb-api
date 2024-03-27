@@ -12,7 +12,7 @@ object RetrieveCollegesRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Filter.RetrieveCollegeList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

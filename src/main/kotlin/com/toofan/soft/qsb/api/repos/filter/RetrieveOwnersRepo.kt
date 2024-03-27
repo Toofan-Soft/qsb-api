@@ -22,7 +22,7 @@ object RetrieveOwnersRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveList
+                    route = Route.Filter.RetrieveOwnerList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)

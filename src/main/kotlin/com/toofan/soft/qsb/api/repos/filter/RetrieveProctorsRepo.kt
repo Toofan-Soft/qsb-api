@@ -12,7 +12,7 @@ object RetrieveProctorsRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Filter.RetrieveProctorList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

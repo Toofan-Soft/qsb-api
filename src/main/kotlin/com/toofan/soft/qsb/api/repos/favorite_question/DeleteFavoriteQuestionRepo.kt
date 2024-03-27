@@ -27,7 +27,7 @@ object DeleteFavoriteQuestionRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.College.Add,
+                    route = Route.FavoriteQuestion.Delete,
                     request = it
                 ) {
                     val response = Response.map(it)

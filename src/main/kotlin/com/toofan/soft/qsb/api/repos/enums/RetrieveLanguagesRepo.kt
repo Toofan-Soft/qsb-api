@@ -12,7 +12,7 @@ object RetrieveLanguagesRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveLanguageList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

@@ -12,7 +12,7 @@ object RetrieveDifficultyLevelsRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveDifficultyLevelList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

@@ -22,7 +22,7 @@ object RetrieveFavoriteQuestionsRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.College.RetrieveList
+                    route = Route.FavoriteQuestion.RetrieveList
                 ) {
                     val response = Response.map(it)
                     onComplete(response)
@@ -54,7 +54,7 @@ object RetrieveFavoriteQuestionsRepo {
         data class Data(
             @Field("question_id")
             val questionId: Int,
-            @Field("combinationId")
+            @Field("combination_id")
             val combinationId: Int? = null,
             @Field("content")
             val content: String,

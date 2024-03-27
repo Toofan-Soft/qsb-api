@@ -12,7 +12,7 @@ object RetrieveConductMethodsRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveConductMethodList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

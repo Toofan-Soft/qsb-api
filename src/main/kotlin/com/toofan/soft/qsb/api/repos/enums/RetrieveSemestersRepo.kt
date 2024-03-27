@@ -12,7 +12,7 @@ object RetrieveSemestersRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveSemesterList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

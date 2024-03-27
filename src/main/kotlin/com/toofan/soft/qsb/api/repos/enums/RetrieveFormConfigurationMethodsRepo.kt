@@ -12,7 +12,7 @@ object RetrieveFormConfigurationMethodsRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveFormConfigurationMethodList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

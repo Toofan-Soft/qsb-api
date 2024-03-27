@@ -12,7 +12,7 @@ object RetrieveGendersRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveGenderList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

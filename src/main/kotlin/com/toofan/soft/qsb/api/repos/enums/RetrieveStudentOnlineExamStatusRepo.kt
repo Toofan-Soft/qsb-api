@@ -12,7 +12,7 @@ object RetrieveStudentOnlineExamStatusRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveStudentOnlineExamStatusList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

@@ -12,7 +12,7 @@ object RetrieveJobTypesRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveJobTypeList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

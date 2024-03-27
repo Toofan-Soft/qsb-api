@@ -12,7 +12,7 @@ object RetrieveAccessibilityStatusRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Enum.RetrieveAccessibilityStatusList
             ) {
                 val response = Response.map(it)
                 onComplete(response)

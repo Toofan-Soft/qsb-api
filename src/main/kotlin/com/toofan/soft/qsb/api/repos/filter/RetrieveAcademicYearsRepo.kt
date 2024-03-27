@@ -12,7 +12,7 @@ object RetrieveAcademicYearsRepo {
     ) {
         runBlocking {
             ApiExecutor.execute(
-                route = Route.Topic.RetrieveList
+                route = Route.Filter.RetrieveAcademicYearList
             ) {
                 val response = Response.map(it)
                 onComplete(response)
