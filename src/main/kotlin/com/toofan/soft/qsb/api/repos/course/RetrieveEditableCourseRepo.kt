@@ -22,7 +22,7 @@ object RetrieveEditableCourseRepo {
         request?.let {
             runBlocking {
                 ApiExecutor.execute(
-                    route = Route.Course.Retrieve,
+                    route = Route.Course.RetrieveEditable,
                     request = request
                 ) {
                     val response = Response.map(it)

@@ -99,7 +99,7 @@ sealed class Route(
         object Add: Course("add", Method.POST)
         object Modify: Course("modify", Method.PUT)
         object Delete: Course("delete", Method.DELETE)
-        object Retrieve: Course("retrieve", Method.GET)
+        object RetrieveEditable: Course("retrieve-editable", Method.GET)
         object RetrieveList: Course("retrieve-list", Method.GET)
     }
 
