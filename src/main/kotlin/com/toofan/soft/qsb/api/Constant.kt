@@ -102,7 +102,7 @@ sealed class Route(
         object RetrieveEditable: Course("retrieve-editable", Method.GET)
         object RetrieveList: Course("retrieve-list", Method.GET)
     }
-
+    
     sealed class CoursePart(
         name: String,
         method: Method,
