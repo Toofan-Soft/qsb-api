@@ -26,17 +26,20 @@ object RetrieveBasicCollegesInfoRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+//            val id: Int,
+//            val id: Int? = null,
+            val id: Integer = 0 as Integer,
             @Field("name")
-            val name: String,
+//            val name: String,
+            val name: String = "",
             @Field("logo_url")
             val logoUrl: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {
