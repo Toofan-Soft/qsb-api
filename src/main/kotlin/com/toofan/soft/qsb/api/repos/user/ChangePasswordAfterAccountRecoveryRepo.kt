@@ -9,7 +9,8 @@ object ChangePasswordAfterAccountRecoveryRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+//        onComplete: (response: Response) -> Unit,
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,7 +25,13 @@ object ChangePasswordAfterAccountRecoveryRepo {
                     request = it
                 ) {
                     val response = Response.map(it)
-                    onComplete(response)
+//                    onComplete(response)
+
+                    if (response.isSuccess) {
+                        onComplete(Resource.Success(true))
+                    } else {
+                        onComplete(Resource.Error(response.errorMessage))
+                    }
                 }
             }
         }

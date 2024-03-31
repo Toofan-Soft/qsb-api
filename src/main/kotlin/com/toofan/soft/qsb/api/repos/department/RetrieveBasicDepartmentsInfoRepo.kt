@@ -11,7 +11,8 @@ object RetrieveBasicDepartmentsInfoRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+//        onComplete: (response: Response) -> Unit,
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         var request: Request? = null
 
@@ -25,7 +26,13 @@ object RetrieveBasicDepartmentsInfoRepo {
                     route = Route.Department.RetrieveBasicInfoList
                 ) {
                     val response = Response.map(it)
-                    onComplete(response)
+//                    onComplete(response)
+
+                    if (response.isSuccess) {
+                        onComplete(Resource.Success(response.data))
+                    } else {
+                        onComplete(Resource.Error(response.errorMessage))
+                    }
                 }
             }
         }
@@ -48,7 +55,7 @@ object RetrieveBasicDepartmentsInfoRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(

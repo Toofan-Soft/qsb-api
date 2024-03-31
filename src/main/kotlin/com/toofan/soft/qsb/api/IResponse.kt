@@ -6,6 +6,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.repos.college.RetrieveBasicCollegesInfoRepo
 import com.toofan.soft.qsb.api.services.Logger
+import kotlinx.coroutines.runBlocking
 import java.lang.reflect.ParameterizedType
 
 internal interface IResponse {
@@ -128,7 +129,7 @@ internal interface IResponse {
 
 fun main() {
     val jsonObject = JsonObject()
-    jsonObject.addProperty("isSuccess", true)
+    jsonObject.addProperty("is_success", true)
 
     val data = listOf(
         mapOf("id" to 2147483647, "name" to "College 1", "logo_url" to "https://example.com/logo1.png"),
@@ -159,10 +160,43 @@ fun main() {
 
     jsonObject.add("data", dataArray)
 
-    val jsonString = Gson().toJson(jsonObject)
+//    val jsonString = Gson().toJson(jsonObject)
+//
+//    println(jsonString)
+//
+//    val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
+//    println("response: $response")
 
-    println(jsonString)
+    execute(
+        jsonObject = jsonObject,
+        onComplete = {
+            when (it) {
+                is Resource.Success -> {
+                    println("data: ${it.data}")
+                }
+                is Resource.Error -> {
+                    println("message: ${it.message}")
+                }
+            }
+        }
+    )
+}
 
-    val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
-    println("response: $response")
+fun execute(
+    jsonObject: JsonObject,
+//    onComplete: (response: Response) -> Unit
+    onComplete: (Resource<List<RetrieveBasicCollegesInfoRepo.Response.Data>>) -> Unit
+) {
+    runBlocking {
+        val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
+//                onComplete(response)
+
+        println("response: $response")
+
+        if (response.isSuccess) {
+            onComplete(Resource.Success(response.data))
+        } else {
+            onComplete(Resource.Error(response.errorMessage))
+        }
+    }
 }
