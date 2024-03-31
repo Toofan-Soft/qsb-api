@@ -3,19 +3,27 @@ package com.toofan.soft.qsb.api.repos.enums
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.Field
+import com.toofan.soft.qsb.api.repos.course.RetrieveCoursesRepo
 import kotlinx.coroutines.runBlocking
 
 object RetrieveGendersRepo {
     @JvmStatic
     fun execute(
-        onComplete: (response: Response) -> Unit
+//        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         runBlocking {
             ApiExecutor.execute(
                 route = Route.Enum.RetrieveGenderList
             ) {
                 val response = Response.map(it)
-                onComplete(response)
+//                onComplete(response)
+
+                if (response.isSuccess) {
+                    onComplete(Resource.Success(response.data))
+                } else {
+                    onComplete(Resource.Error(response.errorMessage))
+                }
             }
         }
     }
