@@ -60,9 +60,9 @@ object RetrieveBasicDepartmentsInfoRepo {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("name")
-            val name: String,
+            val name: String = "",
             @Field("logo_url")
             val logoUrl: String? = null
         )

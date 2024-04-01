@@ -38,9 +38,7 @@ object RetrieveBasicCollegesInfoRepo {
 
         data class Data(
             @Field("id")
-//            val id: Int,
-//            val id: Int? = null,
-            val id: Integer = 0 as Integer,
+            val id: Int = 0,
             @Field("name")
 //            val name: String,
             val name: String = "",

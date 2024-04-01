@@ -57,8 +57,9 @@ internal interface IResponse {
 
     private fun castFieldValue(value: JsonElement?, field: java.lang.reflect.Field): Any? {
         return value?.let {
+            println("field type: ${field.type}")
             when (val targetType = field.type) {
-                Integer::class.java -> value.asInt
+                Int::class.java -> value.asInt
                 Long::class.java -> value.asLong
                 Float::class.java -> value.asFloat
                 Double::class.java -> value.asDouble
@@ -66,11 +67,9 @@ internal interface IResponse {
                 String::class.java -> if (value.isJsonNull) null else value.asString
                 List::class.java -> {
                     val listType = getListType(field)
-                    println("methods: ${listType?.methods?.map { it.name }}")
-
                     listType?.let {
                         when(listType) {
-                            Integer::class.java -> value.asJsonArray.map { it.asInt }
+                            Int::class.java -> value.asJsonArray.map { it.asInt }
                             Long::class.java -> value.asJsonArray.map { it.asLong }
                             Float::class.java -> value.asJsonArray.map { it.asFloat }
                             Double::class.java -> value.asJsonArray.map { it.asDouble }
