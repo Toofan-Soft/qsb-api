@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.repos.college.RetrieveBasicCollegesInfoRepo
 import com.toofan.soft.qsb.api.services.Logger
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.lang.reflect.ParameterizedType
 
 internal interface IResponse {
@@ -166,22 +166,24 @@ fun main() {
 //    val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
 //    println("response: $response")
 
-    execute(
-        jsonObject = jsonObject,
-        onComplete = {
-            when (it) {
-                is Resource.Success -> {
-                    println("data: ${it.data}")
-                }
-                is Resource.Error -> {
-                    println("message: ${it.message}")
+    runBlocking {
+        execute(
+            jsonObject = jsonObject,
+            onComplete = {
+                when (it) {
+                    is Resource.Success -> {
+                        println("data: ${it.data}")
+                    }
+                    is Resource.Error -> {
+                        println("message: ${it.message}")
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 }
 
-fun execute(
+suspend fun execute(
     jsonObject: JsonObject,
 //    onComplete: (response: Response) -> Unit
     onComplete: (Resource<List<RetrieveBasicCollegesInfoRepo.Response.Data>>) -> Unit

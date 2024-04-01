@@ -8,14 +8,22 @@ import kotlinx.coroutines.runBlocking
 object RetrieveCollegesRepo {
     @JvmStatic
     fun execute(
-        onComplete: (response: Response) -> Unit
+//        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
+
     ) {
         runBlocking {
             ApiExecutor.execute(
                 route = Route.Filter.RetrieveCollegeList
             ) {
                 val response = Response.map(it)
-                onComplete(response)
+//                onComplete(response)
+
+                if (response.isSuccess) {
+                    onComplete(Resource.Success(response.data))
+                } else {
+                    onComplete(Resource.Error(response.errorMessage))
+                }
             }
         }
     }
