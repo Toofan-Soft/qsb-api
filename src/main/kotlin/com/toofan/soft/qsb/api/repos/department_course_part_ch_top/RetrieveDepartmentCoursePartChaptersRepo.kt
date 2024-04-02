@@ -11,7 +11,8 @@ object RetrieveDepartmentCoursePartChaptersRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+//        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         var request: Request? = null
 
@@ -25,7 +26,13 @@ object RetrieveDepartmentCoursePartChaptersRepo {
                     route = Route.DepartmentCoursePartChapterAndTopic.RetrieveChapterList
                 ) {
                     val response = Response.map(it)
-                    onComplete(response)
+//                    onComplete(response)
+
+                    if (response.isSuccess) {
+                        onComplete(Resource.Success(response.data))
+                    } else {
+                        onComplete(Resource.Error(response.errorMessage))
+                    }
                 }
             }
         }
