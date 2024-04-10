@@ -49,21 +49,3 @@ object LoginRepo {
         private val _password: String
     ) : IRequest
 }
-
-fun main() {
-    LoginRepo.execute(
-        data = {
-            it.invoke("", "")
-        },
-        onComplete = {
-            when (it) {
-                is Resource.Error -> {
-                    println("error -> ${it.message}")
-                }
-                is Resource.Success -> {
-                    println("success -> ${it}")
-                }
-            }
-        }
-    )
-}
