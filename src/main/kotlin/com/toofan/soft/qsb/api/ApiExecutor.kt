@@ -246,7 +246,6 @@ object ApiExecutor {
             jsonObject.addProperty("is_success", false)
             jsonObject.addProperty("error_message", "Internet is not available, check it then try again :)")
 
-            println(jsonObject)
             onResponse(jsonObject)
         }
     }
