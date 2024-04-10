@@ -8,7 +8,6 @@ import kotlinx.coroutines.runBlocking
 object RetrieveBasicCollegesInfoRepo {
     @JvmStatic
     fun execute(
-//        onComplete: (response: Response) -> Unit
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         runBlocking {
@@ -16,7 +15,6 @@ object RetrieveBasicCollegesInfoRepo {
                 route = Route.College.RetrieveBasicInfoList
             ) {
                 val response = Response.map(it)
-//                onComplete(response)
 
                 if (response.isSuccess) {
                     onComplete(Resource.Success(response.data))
@@ -40,7 +38,6 @@ object RetrieveBasicCollegesInfoRepo {
             @Field("id")
             val id: Int = 0,
             @Field("name")
-//            val name: String,
             val name: String = "",
             @Field("logo_url")
             val logoUrl: String? = null
