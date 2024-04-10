@@ -242,9 +242,12 @@ object ApiExecutor {
                 }
             }
         } else {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty("is_success", false)
-            jsonObject.addProperty("error_message", "Internet is not available, check it then try again :)")
+            val info = "{\"is_success\":false,\"error_message\":\"Internet is not available, check it then try again :)\"}"
+
+            val gson = Gson()
+            val jsonObject = gson.fromJson(info, JsonObject::class.java)
+
+            println(jsonObject)
             onResponse(jsonObject)
         }
     }
