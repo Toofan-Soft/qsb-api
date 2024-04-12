@@ -1,12 +1,11 @@
 package com.toofan.soft.qsb.api
 
-import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.repos.college.RetrieveBasicCollegesInfoRepo
 import com.toofan.soft.qsb.api.services.Logger
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
 import java.lang.reflect.ParameterizedType
 
 internal interface IResponse {
