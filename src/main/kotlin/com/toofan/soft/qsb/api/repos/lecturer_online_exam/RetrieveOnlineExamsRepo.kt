@@ -12,7 +12,7 @@ object RetrieveOnlineExamsRepo {
             mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         var request: Request? = null
 
@@ -29,7 +29,12 @@ object RetrieveOnlineExamsRepo {
                     route = Route.LecturerOnlineExam.RetrieveList
                 ) {
                     val response = Response.map(it)
-                    onComplete(response)
+
+                    if (response.isSuccess) {
+                        onComplete(Resource.Success(response.data))
+                    } else {
+                        onComplete(Resource.Error(response.errorMessage))
+                    }
                 }
             }
         }
