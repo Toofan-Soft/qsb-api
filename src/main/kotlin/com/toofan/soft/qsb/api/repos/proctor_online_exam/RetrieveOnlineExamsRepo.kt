@@ -2,20 +2,18 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveOnlineExamsRepo {
     @JvmStatic
     fun execute(
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         runBlocking {
             ApiExecutor.execute(
                 route = Route.ProctorOnlineExam.RetrieveList
             ) {
-                val response = Response.map(it)
-                onComplete(response)
+                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }
     }

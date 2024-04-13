@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveEditablePracticeExamRepo {
@@ -11,7 +10,7 @@ object RetrieveEditablePracticeExamRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object RetrieveEditablePracticeExamRepo {
                 ApiExecutor.execute(
                     route = Route.PracticeOnlineExam.RetrieveEditable
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }

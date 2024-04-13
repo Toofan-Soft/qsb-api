@@ -1,7 +1,6 @@
 package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object DeletePaperExamRepo {
@@ -10,7 +9,7 @@ object DeletePaperExamRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object DeletePaperExamRepo {
                     route = Route.PaperExam.Delete,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

@@ -11,7 +11,7 @@ object RetrieveRolesRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +24,7 @@ object RetrieveRolesRepo {
                 ApiExecutor.execute(
                     route = Route.Filter.RetrieveRoleList
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }
             }
         }

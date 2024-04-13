@@ -1,7 +1,6 @@
 package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object DeleteOnlineExamRepo {
@@ -10,7 +9,7 @@ object DeleteOnlineExamRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object DeleteOnlineExamRepo {
                     route = Route.LecturerOnlineExam.Delete,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

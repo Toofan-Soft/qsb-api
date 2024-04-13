@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrievePaperExamRepo {
@@ -11,7 +10,7 @@ object RetrievePaperExamRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object RetrievePaperExamRepo {
                 ApiExecutor.execute(
                     route = Route.PaperExam.Retrieve
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }

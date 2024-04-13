@@ -12,7 +12,7 @@ object ModifyCoursePartRepo {
             mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -29,8 +29,7 @@ object ModifyCoursePartRepo {
                     route = Route.CoursePart.Modify,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

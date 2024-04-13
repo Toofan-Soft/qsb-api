@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.favorite_question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
-import com.toofan.soft.qsb.api.loggableProperty
-import com.toofan.soft.qsb.api.repos.college.AddCollegeRepo
 import kotlinx.coroutines.runBlocking
 
 object CheckFavoriteQuestionRepo {
@@ -14,7 +11,7 @@ object CheckFavoriteQuestionRepo {
             mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         var request: Request? = null
 
@@ -31,8 +28,7 @@ object CheckFavoriteQuestionRepo {
                     route = Route.FavoriteQuestion.Check,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }

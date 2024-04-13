@@ -2,13 +2,11 @@ package com.toofan.soft.qsb.api.repos.filter
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveCollegesRepo {
     @JvmStatic
     fun execute(
-//        onComplete: (response: Response) -> Unit
         onComplete: (Resource<List<Response.Data>>) -> Unit
 
     ) {
@@ -16,14 +14,7 @@ object RetrieveCollegesRepo {
             ApiExecutor.execute(
                 route = Route.Filter.RetrieveCollegeList
             ) {
-                val response = Response.map(it)
-//                onComplete(response)
-
-                if (response.isSuccess) {
-                    onComplete(Resource.Success(response.data))
-                } else {
-                    onComplete(Resource.Error(response.errorMessage))
-                }
+                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }
     }

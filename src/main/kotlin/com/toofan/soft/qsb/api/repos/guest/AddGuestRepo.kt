@@ -1,8 +1,6 @@
 package com.toofan.soft.qsb.api.repos.guest
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
-import com.toofan.soft.qsb.api.repos.department.AddDepartmentRepo
 import kotlinx.coroutines.runBlocking
 
 object AddGuestRepo {
@@ -12,7 +10,6 @@ object AddGuestRepo {
             mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
-//        onComplete: (response: Response) -> Unit
         onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
@@ -30,14 +27,7 @@ object AddGuestRepo {
                     route = Route.Guest.Add,
                     request = it
                 ) {
-                    val response = Response.map(it)
-//                    onComplete(response)
-
-                    if (response.isSuccess) {
-                        onComplete(Resource.Success(true))
-                    } else {
-                        onComplete(Resource.Error(response.errorMessage))
-                    }
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

@@ -2,27 +2,18 @@ package com.toofan.soft.qsb.api.repos.enums
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveFormNameMethodsRepo {
     @JvmStatic
     fun execute(
-//        onComplete: (response: Response) -> Unit
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         runBlocking {
             ApiExecutor.execute(
                 route = Route.Enum.RetrieveFormNameMethodList
             ) {
-                val response = Response.map(it)
-//                onComplete(response)
-
-                if (response.isSuccess) {
-                    onComplete(Resource.Success(response.data))
-                } else {
-                    onComplete(Resource.Error(response.errorMessage))
-                }
+                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }
     }

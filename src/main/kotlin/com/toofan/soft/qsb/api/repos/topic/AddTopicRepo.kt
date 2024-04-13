@@ -1,8 +1,6 @@
 package com.toofan.soft.qsb.api.repos.topic
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
-import com.toofan.soft.qsb.api.repos.department.AddDepartmentRepo
 import kotlinx.coroutines.runBlocking
 
 object AddTopicRepo {
@@ -12,7 +10,7 @@ object AddTopicRepo {
             mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -29,8 +27,7 @@ object AddTopicRepo {
                     route = Route.Topic.Add,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

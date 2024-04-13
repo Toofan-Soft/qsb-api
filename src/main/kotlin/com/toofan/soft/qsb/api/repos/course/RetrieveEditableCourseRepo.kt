@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveEditableCourseRepo {
@@ -11,7 +10,7 @@ object RetrieveEditableCourseRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         var request: Request? = null
 
@@ -25,8 +24,7 @@ object RetrieveEditableCourseRepo {
                     route = Route.Course.RetrieveEditable,
                     request = request
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }
@@ -49,7 +47,7 @@ object RetrieveEditableCourseRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: Data? = null
     ) : IResponse {
 
         data class Data(

@@ -1,7 +1,6 @@
 package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object DeleteUserRepo {
@@ -10,7 +9,7 @@ object DeleteUserRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object DeleteUserRepo {
                     route = Route.UserManagement.Delete,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

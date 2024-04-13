@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.department_course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveDepartmentCoursesRepo {
@@ -11,7 +10,6 @@ object RetrieveDepartmentCoursesRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-//        onComplete: (response: Response) -> Unit
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         var request: Request? = null
@@ -25,14 +23,7 @@ object RetrieveDepartmentCoursesRepo {
                 ApiExecutor.execute(
                     route = Route.DepartmentCourse.RetrieveList
                 ) {
-                    val response = Response.map(it)
-//                    onComplete(response)
-
-                    if (response.isSuccess) {
-                        onComplete(Resource.Success(response.data))
-                    } else {
-                        onComplete(Resource.Error(response.errorMessage))
-                    }
+                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }
             }
         }

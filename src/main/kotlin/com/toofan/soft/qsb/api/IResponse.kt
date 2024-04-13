@@ -9,6 +9,30 @@ import kotlinx.coroutines.runBlocking
 import java.lang.reflect.ParameterizedType
 
 internal interface IResponse {
+    fun getResource(): Resource<out Any> {
+        val fields = this.javaClass.declaredFields
+
+        return fields.filter { it.isAnnotationPresent(Field::class.java) }
+            .firstOrNull { it.getAnnotation(Field::class.java).value == "is_success" }
+            ?.let { isSuccessField ->
+                isSuccessField.isAccessible = true
+                val isSuccess = isSuccessField.getBoolean(this)
+                if (isSuccess) {
+                    fields.firstOrNull { it.isAnnotationPresent(Field::class.java) && it.getAnnotation(Field::class.java).value == "data" }
+                            ?.let { dataField ->
+                                dataField.isAccessible = true
+                                Resource.Success(dataField.get(this))
+                            } ?: Resource.Success(true)
+                } else {
+                    fields.firstOrNull { it.isAnnotationPresent(Field::class.java) && it.getAnnotation(Field::class.java).value == "error_message" }
+                        ?.let { dataField ->
+                            dataField.isAccessible = true
+                            Resource.Error(dataField.get(this) as String)
+                        } ?: Resource.Error("Error! error_message not found...")
+                }
+            } ?: Resource.Error("Error! is_success not found...")
+    }
+
     fun getResponse(jsonObject: JsonObject): IResponse? {
         return try {
             for (field in this.javaClass.declaredFields) {
@@ -184,19 +208,20 @@ fun main() {
 
 suspend fun execute(
     jsonObject: JsonObject,
-//    onComplete: (response: Response) -> Unit
     onComplete: (Resource<List<RetrieveBasicCollegesInfoRepo.Response.Data>>) -> Unit
 ) {
     runBlocking {
         val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
-//                onComplete(response)
 
         println("response: $response")
 
-        if (response.isSuccess) {
-            onComplete(Resource.Success(response.data))
-        } else {
-            onComplete(Resource.Error(response.errorMessage))
-        }
+        val resource = response.getResource() as Resource<RetrieveBasicCollegesInfoRepo.Response.Data>
+        println(resource.toString())
+
+//        if (response.isSuccess) {
+//            onComplete(Resource.Success(response.data))
+//        } else {
+//            onComplete(Resource.Error(response.errorMessage))
+//        }
     }
 }

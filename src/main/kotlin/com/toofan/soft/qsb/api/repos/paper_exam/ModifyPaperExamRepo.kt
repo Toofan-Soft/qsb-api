@@ -10,7 +10,7 @@ object ModifyPaperExamRepo {
             mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -27,8 +27,7 @@ object ModifyPaperExamRepo {
                     route = Route.PaperExam.Modify,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

@@ -21,13 +21,7 @@ object LoginRepo {
                     route = Route.User.Login,
                     request = it
                 ) {
-                    val response = Response.map(it)
-
-                    if (response.isSuccess) {
-                        onComplete(Resource.Success(true))
-                    } else {
-                        onComplete(Resource.Error(response.errorMessage))
-                    }
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

@@ -7,21 +7,13 @@ import kotlinx.coroutines.runBlocking
 object RetrieveProfileRepo {
     @JvmStatic
     fun execute(
-//        onComplete: (response: Response) -> Unit
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
         runBlocking {
             ApiExecutor.execute(
                 route = Route.User.RetrieveProfile,
             ) {
-                val response = Response.map(it)
-//                onComplete(response)
-
-                if (response.isSuccess) {
-                    onComplete(Resource.Success(response.data))
-                } else {
-                    onComplete(Resource.Error(response.errorMessage))
-                }
+                onComplete(Response.map(it).getResource() as Resource<Response.Data>)
             }
         }
     }

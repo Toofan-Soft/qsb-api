@@ -1,7 +1,6 @@
 package com.toofan.soft.qsb.api.repos.department_course_part
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import kotlinx.coroutines.runBlocking
 
@@ -11,7 +10,7 @@ object AddDepartmentCoursePartRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -25,8 +24,7 @@ object AddDepartmentCoursePartRepo {
                     route = Route.DepartmentCoursePart.Add,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

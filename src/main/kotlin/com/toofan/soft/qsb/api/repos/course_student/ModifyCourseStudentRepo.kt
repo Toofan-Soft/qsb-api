@@ -1,7 +1,6 @@
 package com.toofan.soft.qsb.api.repos.course_student
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object ModifyCourseStudentRepo {
@@ -10,7 +9,7 @@ object ModifyCourseStudentRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object ModifyCourseStudentRepo {
                     route = Route.CourseStudent.Modify,
                     request = it
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

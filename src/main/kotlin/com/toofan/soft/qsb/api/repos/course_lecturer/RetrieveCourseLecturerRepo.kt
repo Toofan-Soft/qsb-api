@@ -2,8 +2,6 @@ package com.toofan.soft.qsb.api.repos.course_lecturer
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
-import com.toofan.soft.qsb.api.repos.question.RetrieveQuestionsRepo
 import kotlinx.coroutines.runBlocking
 
 object RetrieveCourseLecturerRepo {
@@ -12,7 +10,7 @@ object RetrieveCourseLecturerRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         var request: Request? = null
 
@@ -25,8 +23,7 @@ object RetrieveCourseLecturerRepo {
                 ApiExecutor.execute(
                     route = Route.CourseLecture.Retrieve
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }

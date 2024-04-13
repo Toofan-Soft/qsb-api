@@ -1,8 +1,6 @@
 package com.toofan.soft.qsb.api.repos.paper_exam
 
-import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object ExportPaperExamToPdfRepo {
@@ -12,7 +10,7 @@ object ExportPaperExamToPdfRepo {
             mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -28,8 +26,7 @@ object ExportPaperExamToPdfRepo {
                 ApiExecutor.execute(
                     route = Route.PaperExam.Export
                 ) {
-//                    val response = Response.map(it)
-//                    onComplete(response)
+//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

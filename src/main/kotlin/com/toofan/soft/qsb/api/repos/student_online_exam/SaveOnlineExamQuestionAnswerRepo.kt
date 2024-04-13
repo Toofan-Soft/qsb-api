@@ -9,7 +9,7 @@ object SaveOnlineExamQuestionAnswerRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         var request: Request? = null
 
@@ -35,8 +35,7 @@ object SaveOnlineExamQuestionAnswerRepo {
                 ApiExecutor.execute(
                     route = Route.StudentOnlineExam.SaveQuestionAnswer
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

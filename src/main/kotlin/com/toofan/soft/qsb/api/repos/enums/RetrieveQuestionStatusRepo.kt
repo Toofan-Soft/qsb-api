@@ -2,20 +2,18 @@ package com.toofan.soft.qsb.api.repos.enums
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveQuestionStatusRepo {
     @JvmStatic
     fun execute(
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         runBlocking {
             ApiExecutor.execute(
                 route = Route.Enum.RetrieveQuestionStatusList
             ) {
-                val response = Response.map(it)
-                onComplete(response)
+                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }
     }

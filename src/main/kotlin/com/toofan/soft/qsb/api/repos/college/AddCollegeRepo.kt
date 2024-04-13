@@ -1,8 +1,6 @@
 package com.toofan.soft.qsb.api.repos.college
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
-import com.toofan.soft.qsb.api.loggableProperty
 import kotlinx.coroutines.runBlocking
 
 object AddCollegeRepo {
@@ -29,13 +27,7 @@ object AddCollegeRepo {
                     route = Route.College.Add,
                     request = it
                 ) {
-                    val response = Response.map(it)
-
-                    if (response.isSuccess) {
-                        onComplete(Resource.Success(true))
-                    } else {
-                        onComplete(Resource.Error(response.errorMessage))
-                    }
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }

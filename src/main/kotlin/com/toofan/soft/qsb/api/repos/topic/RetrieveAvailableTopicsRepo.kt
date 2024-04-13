@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.topic
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveAvailableTopicsRepo {
@@ -11,7 +10,7 @@ object RetrieveAvailableTopicsRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object RetrieveAvailableTopicsRepo {
                 ApiExecutor.execute(
                     route = Route.Topic.RetrieveAvailableList
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }
             }
         }

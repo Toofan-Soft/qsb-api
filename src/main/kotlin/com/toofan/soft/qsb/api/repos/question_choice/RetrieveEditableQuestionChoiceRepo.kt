@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.question_choice
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveEditableQuestionChoiceRepo {
@@ -11,7 +10,7 @@ object RetrieveEditableQuestionChoiceRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         var request: Request? = null
 
@@ -24,8 +23,7 @@ object RetrieveEditableQuestionChoiceRepo {
                 ApiExecutor.execute(
                     route = Route.QuestionChoice.RetrieveEditable
                 ) {
-                    val response = Response.map(it)
-                    onComplete(response)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }

@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveOnlineExamsRepo {
@@ -28,13 +27,7 @@ object RetrieveOnlineExamsRepo {
                 ApiExecutor.execute(
                     route = Route.LecturerOnlineExam.RetrieveList
                 ) {
-                    val response = Response.map(it)
-
-                    if (response.isSuccess) {
-                        onComplete(Resource.Success(response.data))
-                    } else {
-                        onComplete(Resource.Error(response.errorMessage))
-                    }
+                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }
             }
         }

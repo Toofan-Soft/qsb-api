@@ -1,10 +1,6 @@
-import com.toofan.soft.qsb.api.Route
-import com.toofan.soft.qsb.api.repos.college.DeleteCollegeRepo
-import com.toofan.soft.qsb.api.repos.college.ModifyCollegeRepo
 import com.toofan.soft.qsb.api.repos.college.RetrieveCollegeRepo
-import com.toofan.soft.qsb.api.repos.college.RetrieveCollegesRepo
-import com.toofan.soft.qsb.api.repos.practice_exam.SavePracticeExamQuestionAnswerRepo
-import com.toofan.soft.qsb.api.repos.template.*
+import com.toofan.soft.qsb.api.repos.template.LoginRepo
+import com.toofan.soft.qsb.api.repos.template.UserInfoRepo
 
 fun main(args: Array<String>) {
     println("Hello World!")

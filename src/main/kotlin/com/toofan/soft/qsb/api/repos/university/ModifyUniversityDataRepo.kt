@@ -1,8 +1,6 @@
 package com.toofan.soft.qsb.api.repos.university
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
-import com.toofan.soft.qsb.api.loggableProperty
 import kotlinx.coroutines.runBlocking
 
 object ModifyUniversityDataRepo {
@@ -11,7 +9,7 @@ object ModifyUniversityDataRepo {
         data: (
             optional: Optional
         ) -> Unit,
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Boolean>) -> Unit
     ) {
         val request = Request()
 
@@ -22,8 +20,7 @@ object ModifyUniversityDataRepo {
                 route = Route.University.Modify,
                 request = request
             ) {
-                val response = Response.map(it)
-                onComplete(response)
+                onComplete(Response.map(it).getResource() as Resource<Boolean>)
             }
         }
     }

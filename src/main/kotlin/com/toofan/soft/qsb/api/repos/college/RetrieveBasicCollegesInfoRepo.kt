@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.college
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveBasicCollegesInfoRepo {
@@ -14,13 +13,7 @@ object RetrieveBasicCollegesInfoRepo {
             ApiExecutor.execute(
                 route = Route.College.RetrieveBasicInfoList
             ) {
-                val response = Response.map(it)
-
-                if (response.isSuccess) {
-                    onComplete(Resource.Success(response.data))
-                } else {
-                    onComplete(Resource.Error(response.errorMessage))
-                }
+                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }
     }

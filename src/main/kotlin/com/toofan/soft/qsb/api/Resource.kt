@@ -6,4 +6,11 @@ sealed class Resource<T>(
 ) {
     class Success<T>(data: T?): Resource<T>(data = data)
     class Error<T>(message: String?): Resource<T>(message = message)
+
+    override fun toString(): String {
+        return when (this) {
+            is Success -> "Resource.Success(data=$data)"
+            is Error -> "Resource.Error(message=$message)"
+        }
+    }
 }

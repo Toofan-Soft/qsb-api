@@ -2,20 +2,18 @@ package com.toofan.soft.qsb.api.repos.university
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveUniversityInfoRepo {
     @JvmStatic
     fun execute(
-        onComplete: (response: Response) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         runBlocking {
             ApiExecutor.execute(
                 route = Route.University.Retrieve
             ) {
-                val response = Response.map(it)
-                onComplete(response)
+                onComplete(Response.map(it).getResource() as Resource<Response.Data>)
             }
         }
     }
