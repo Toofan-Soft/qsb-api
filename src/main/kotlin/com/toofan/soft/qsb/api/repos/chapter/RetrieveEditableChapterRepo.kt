@@ -52,11 +52,11 @@ object RetrieveEditableChapterRepo {
 
         data class Data(
             @Field("arabic_title")
-            val arabicTitle: String,
+            val arabicTitle: String = "",
             @Field("english_title")
-            val englishTitle: String,
+            val englishTitle: String = "",
             @Field("status_id")
-            val statusId: Int,
+            val statusId: Int = 0,
             @Field("description")
             val description: String? = null,
         )

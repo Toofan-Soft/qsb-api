@@ -62,20 +62,20 @@ object RetrievePaperExamsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("forms_count")
-            val formsCount: Int,
+            val formsCount: Int = 0,
             @Field("score")
-            val score: Float,
+            val score: Float = 0.0f,
             @Field("lecturer_name")
-            val lecturerName: String,
+            val lecturerName: String = "",
             @Field("type_name")
             val typeName: String? = null
         )

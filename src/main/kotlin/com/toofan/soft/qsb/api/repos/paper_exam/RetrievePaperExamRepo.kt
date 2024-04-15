@@ -51,47 +51,47 @@ object RetrievePaperExamRepo {
 
         data class Data(
             @Field("college_name")
-            val collegeName: String,
+            val collegeName: String = "",
             @Field("department_name")
-            val departmentName: String,
+            val departmentName: String = "",
             @Field("level_name")
-            val levelName: String,
+            val levelName: String = "",
             @Field("semester_name")
-            val semesterName: String,
+            val semesterName: String = "",
             @Field("course_name")
-            val courseName: String,
+            val courseName: String = "",
             @Field("course_part_name")
-            val coursePartName: String,
+            val coursePartName: String = "",
             @Field("type_name")
-            val typeName: String,
+            val typeName: String = "",
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("duration")
-            val duration: Int,
+            val duration: Int = 0,
             @Field("language_name")
-            val languageName: String,
+            val languageName: String = "",
             @Field("lecturer_name")
-            val lecturerName: String,
+            val lecturerName: String = "",
             @Field("difficulty_level_name")
-            val difficultyLevelName: String,
+            val difficultyLevelName: String = "",
             @Field("forms_count")
-            val formsCount: Int,
+            val formsCount: Int = 0,
             @Field("form_configuration_method_name")
-            val formConfigurationMethodName: String,
+            val formConfigurationMethodName: String = "",
             @Field("form_name_method_name")
-            val formNameMethodName: String,
+            val formNameMethodName: String = "",
             @Field("questions_types")
-            val questionsTypes: List<Data>,
+            val questionsTypes: List<Data> = emptyList(),
             @Field("special_note")
             val specialNote: String? = null
         ) {
             data class Data(
                 @Field("type_name")
-                val typeName: String,
+                val typeName: String = "",
                 @Field("questions_count")
-                val questionsCount: Int,
+                val questionsCount: Int = 0,
                 @Field("question_score")
-                val questionScore: Float,
+                val questionScore: Float = 0.0f
             )
         }
 

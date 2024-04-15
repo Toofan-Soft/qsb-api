@@ -51,29 +51,29 @@ object RetrievePracticeExamRepo {
 
         data class Data(
             @Field("college_name")
-            val collegeName: String,
+            val collegeName: String = "",
             @Field("department_name")
-            val departmentName: String,
+            val departmentName: String = "",
             @Field("level_name")
-            val levelName: String,
+            val levelName: String = "",
             @Field("semester_name")
-            val semesterName: String,
+            val semesterName: String = "",
             @Field("course_name")
-            val courseName: String,
+            val courseName: String = "",
             @Field("course_part_name")
-            val coursePartName: String,
+            val coursePartName: String = "",
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("duration")
-            val duration: Int,
+            val duration: Int = 0,
             @Field("language_name")
-            val languageName: String,
+            val languageName: String = "",
             @Field("is_mandatory_question_sequence")
-            val isMandatoryQuestionSequence: Boolean,
+            val isMandatoryQuestionSequence: Boolean = false,
             @Field("title")
-            val title: String,
+            val title: String = "",
             @Field("is_complete")
-            val isComplete: Boolean
+            val isComplete: Boolean = false
         )
 
         companion object {

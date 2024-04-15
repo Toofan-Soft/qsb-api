@@ -51,15 +51,15 @@ object RetrieveEditableStudentRepo {
 
         data class Data(
             @Field("academic_id")
-            val academicId: Int,
+            val academicId: Int = 0,
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("gender_id")
-            val genderId: Int,
+            val genderId: Int = 0,
             @Field("level_id")
-            val levelId: Int,
+            val levelId: Int = 0,
             @Field("phone")
             val phone: Long? = null,
             @Field("birthdate")

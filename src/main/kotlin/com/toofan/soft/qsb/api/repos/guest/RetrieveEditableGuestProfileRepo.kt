@@ -29,9 +29,9 @@ object RetrieveEditableGuestProfileRepo {
 
         data class Data(
             @Field("name")
-            val name: String,
+            val name: String = "",
             @Field("gender_id")
-            val genderId: Int,
+            val genderId: Int = 0,
             @Field("phone")
             val phone: Long? = null,
             @Field("image_url")

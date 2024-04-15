@@ -67,31 +67,31 @@ object RetrieveFavoriteQuestionRepo {
 
         data class Data(
             @Field("chapter_name")
-            val chapterName: String,
+            val chapterName: String = "",
             @Field("topic_name")
-            val topicName: String,
+            val topicName: String = "",
             @Field("type_name")
-            val typeName: String,
+            val typeName: String = "",
             @Field("question")
             val question: Data? = null,
         ) {
             sealed interface Data {
                 data class TrueFalse(
                     @Field("id")
-                    val id: Int,
+                    val id: Int = 0,
                     @Field("content")
-                    val content: String,
+                    val content: String = "",
                     @Field("is_true")
-                    val isTrue: Boolean,
+                    val isTrue: Boolean = false,
                     @Field("attachment_url")
                     val attachmentUrl: String? = null
                 ) : Data
 
                 data class MultiChoice(
                     @Field("id")
-                    val id: Int,
+                    val id: Int = 0,
                     @Field("content")
-                    val content: String,
+                    val content: String = "",
                     @Field("attachment_url")
                     val attachmentUrl: String? = null,
                     @Field("choices")
@@ -99,11 +99,11 @@ object RetrieveFavoriteQuestionRepo {
                 ) : Data {
                     data class Data(
                         @Field("id")
-                        val id: Int,
+                        val id: Int = 0,
                         @Field("content")
-                        val content: String,
+                        val content: String = "",
                         @Field("is_true")
-                        val isTrue: Boolean,
+                        val isTrue: Boolean = false,
                         @Field("attachment_url")
                         val attachmentUrl: String? = null
                     )

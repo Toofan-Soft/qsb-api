@@ -46,16 +46,16 @@ object RetrieveOwnerRolesRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("name")
-            val name: String,
+            val name: String = "",
             @Field("is_mandatory")
-            val isMandatory: Boolean
+            val isMandatory: Boolean = false
         )
 
         companion object {

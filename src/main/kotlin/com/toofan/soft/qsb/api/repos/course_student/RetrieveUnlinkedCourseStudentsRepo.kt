@@ -51,16 +51,16 @@ object RetrieveUnlinkedCourseStudentsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("academic_id")
-            val academicId: Int,
+            val academicId: Int = 0,
             @Field("name")
-            private val _name: String,
+            private val _name: String = "",
             @Field("image_url")
             private val _imageUrl: String? = null
         )

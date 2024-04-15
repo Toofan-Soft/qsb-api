@@ -51,19 +51,19 @@ object RetrieveEditableOnlineExamRepo {
 
         data class Data(
             @Field("conduct_method_id")
-            val conductMethodId: Int,
+            val conductMethodId: Int = 0,
             @Field("type_id")
-            val typeId: Int,
+            val typeId: Int = 0,
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("duration")
-            val duration: Int,
+            val duration: Int = 0,
             @Field("datetime_notification_datetime")
-            val datetimeNotificationDatetime: Long,
+            val datetimeNotificationDatetime: Long = 0,
             @Field("result_notification_datetime")
-            val resultNotificationDatetime: Long,
+            val resultNotificationDatetime: Long = 0,
             @Field("form_name_method_id")
-            val formNameMethodId: Int,
+            val formNameMethodId: Int = 0,
             @Field("proctor_id")
             val proctorId: Int? = null,
             @Field("special_note")

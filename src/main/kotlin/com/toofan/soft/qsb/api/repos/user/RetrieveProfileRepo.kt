@@ -30,11 +30,11 @@ object RetrieveProfileRepo {
         sealed interface Data {
             data class Guest(
                 @Field("name")
-                val name: String,
+                val name: String = "",
                 @Field("email")
-                val email: String,
+                val email: String = "",
                 @Field("gender_name")
-                val genderName: String,
+                val genderName: String = "",
                 @Field("phone")
                 val phone: Long? = null,
                 @Field("image_url")
@@ -43,17 +43,17 @@ object RetrieveProfileRepo {
 
             data class Employee (
                 @Field("arabic_name")
-                val arabicName: String,
+                val arabicName: String = "",
                 @Field("english_name")
-                val englishName: String,
+                val englishName: String = "",
                 @Field("email")
-                val email: String,
+                val email: String = "",
                 @Field("gender_name")
-                val genderName: String,
+                val genderName: String = "",
                 @Field("qualification_name")
-                val qualificationName: String,
+                val qualificationName: String = "",
                 @Field("job_type_name")
-                val jobTypeName: String,
+                val jobTypeName: String = "",
                 @Field("phone")
                 val phone: Long? = null,
                 @Field("image_url")
@@ -64,13 +64,13 @@ object RetrieveProfileRepo {
 
             data class Student(
                 @Field("arabic_name")
-                val arabicName: String,
+                val arabicName: String = "",
                 @Field("english_name")
-                val englishName: String,
+                val englishName: String = "",
                 @Field("email")
-                val email: String,
+                val email: String = "",
                 @Field("gender_name")
-                val genderName: String,
+                val genderName: String = "",
                 @Field("phone")
                 val phone: Long? = null,
                 @Field("image_url")

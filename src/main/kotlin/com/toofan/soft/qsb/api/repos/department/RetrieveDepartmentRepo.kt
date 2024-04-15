@@ -51,9 +51,9 @@ object RetrieveDepartmentRepo {
 
         data class Data(
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("level_count")
             val levelCount: Int? = null,
             @Field("description")

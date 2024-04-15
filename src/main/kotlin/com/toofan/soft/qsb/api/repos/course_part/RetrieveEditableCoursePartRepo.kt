@@ -52,7 +52,7 @@ object RetrieveEditableCoursePartRepo {
 
         data class Data(
             @Field("status_id")
-            val statusId: Int,
+            val statusId: Int = 0,
             @Field("description")
             val description: String? = null
         )

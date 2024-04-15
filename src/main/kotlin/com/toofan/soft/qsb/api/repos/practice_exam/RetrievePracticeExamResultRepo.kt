@@ -51,17 +51,17 @@ object RetrievePracticeExamResultRepo {
 
         data class Data(
             @Field("time_spent")
-            val timeSpent: Long,
+            val timeSpent: Long = 0,
             @Field("question_average_answer_time")
-            val questionAverageAnswerTime: Long,
+            val questionAverageAnswerTime: Long = 0,
             @Field("correct_answer_count")
-            val correctAnswerCount: Int,
+            val correctAnswerCount: Int = 0,
             @Field("incorrect_answer_count")
-            val incorrectAnswerCount: Int,
+            val incorrectAnswerCount: Int = 0,
             @Field("appreciation")
-            val appreciation: String,
+            val appreciation: String = "",
             @Field("score_rate")
-            val scoreRate: Int
+            val scoreRate: Int = 0
         )
 
         companion object {

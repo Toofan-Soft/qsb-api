@@ -47,22 +47,22 @@ object RetrieveCourseDepartmentsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("college_name")
-            val collegeName: String,
+            val collegeName: String = "",
             @Field("department_name")
-            val departmentName: String,
+            val departmentName: String = "",
             @Field("department_course_id")
-            val departmentCourseId: Int,
+            val departmentCourseId: Int = 0,
             @Field("level_name")
-            val levelName: String,
+            val levelName: String = "",
             @Field("semester_name")
-            val semesterName: String
+            val semesterName: String = ""
         )
 
         companion object {

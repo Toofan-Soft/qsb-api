@@ -29,11 +29,11 @@ object RetrieveBasicUniversityInfoRepo {
 
         data class Data(
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("logo_url")
-            val logoUrl: String
+            val logoUrl: String = ""
         )
 
         companion object {

@@ -46,18 +46,18 @@ object RetrieveDepartmentsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("level_count")
-            val levelCount: Int,
+            val levelCount: Int = 0,
             @Field("logo_url")
             val logoUrl: String? = null
         )

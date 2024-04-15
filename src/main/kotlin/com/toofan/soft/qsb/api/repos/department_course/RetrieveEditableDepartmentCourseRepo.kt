@@ -51,9 +51,9 @@ object RetrieveEditableDepartmentCourseRepo {
 
         data class Data(
             @Field("level_id")
-            val levelId: Int,
+            val levelId: Int = 0,
             @Field("semester_id")
-            val semesterId: Int
+            val semesterId: Int = 0
         )
 
         companion object {

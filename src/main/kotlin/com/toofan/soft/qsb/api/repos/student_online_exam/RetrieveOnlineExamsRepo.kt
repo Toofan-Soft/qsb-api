@@ -46,18 +46,18 @@ object RetrieveOnlineExamsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("course_name")
-            val courseName: String,
+            val courseName: String = "",
             @Field("course_part_name")
-            val coursePartName: String,
+            val coursePartName: String = "",
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("appreciation")
             val appreciation: String? = null,
             @Field("score_rate")

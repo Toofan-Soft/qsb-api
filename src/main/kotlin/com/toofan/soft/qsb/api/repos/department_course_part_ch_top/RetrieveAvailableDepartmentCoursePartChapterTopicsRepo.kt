@@ -49,18 +49,18 @@ object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("arabic_title")
-            val arabicTitle: String,
+            val arabicTitle: String = "",
             @Field("english_title")
-            val englishTitle: String,
+            val englishTitle: String = "",
             @Field("is_selected")
-            val isSelected: Boolean
+            val isSelected: Boolean = false
         )
 
         companion object {

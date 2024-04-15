@@ -51,15 +51,15 @@ object RetrieveEmployeeRepo {
 
         data class Data(
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("gender_name")
-            val genderName: String,
+            val genderName: String = "",
             @Field("qualification_name")
-            val qualificationName: String,
+            val qualificationName: String = "",
             @Field("job_type_Name")
-            val jobTypeName: String,
+            val jobTypeName: String = "",
             @Field("email")
             val email: String? = null,
             @Field("phone")

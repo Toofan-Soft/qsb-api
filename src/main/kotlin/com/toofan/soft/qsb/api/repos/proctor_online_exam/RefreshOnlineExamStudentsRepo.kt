@@ -46,14 +46,14 @@ object RefreshOnlineExamStudentsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("status_name")
-            val statusName: String,
+            val statusName: String = "",
             @Field("start_datetime")
             val startDatetime: Long? = null,
             @Field("end_datetime")

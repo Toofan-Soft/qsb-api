@@ -46,52 +46,52 @@ object RetrievePaperExamFormQuestionsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("type_name")
-            val typeName: String,
+            val typeName: String = "",
             @Field("questions")
-            val questions: List<Data>
+            val questions: List<Data> = emptyList()
         ) {
             data class Data(
                 @Field("chapter_name")
-                val chapterName: String,
+                val chapterName: String = "",
                 @Field("topic_name")
-                val topicName: String,
+                val topicName: String = "",
                 @Field("question")
                 val question: Data
             ) {
                 sealed interface Data {
                     data class TrueFalse(
                         @Field("id")
-                        val id: Int,
+                        val id: Int = 0,
                         @Field("content")
-                        val content: String,
+                        val content: String = "",
                         @Field("is_true")
-                        val isTrue: Boolean,
+                        val isTrue: Boolean = false,
                         @Field("attachment_url")
                         val attachmentUrl: String? = null
                     ) : Data
 
                     data class MultiChoice(
                         @Field("id")
-                        val id: Int,
+                        val id: Int = 0,
                         @Field("content")
-                        val content: String,
+                        val content: String = "",
                         @Field("attachment_url")
                         val attachmentUrl: String? = null,
                         @Field("choices")
-                        val choices: List<Data>
+                        val choices: List<Data> = emptyList()
                     ) : Data {
                         data class Data(
                             @Field("id")
-                            val id: Int,
+                            val id: Int = 0,
                             @Field("content")
-                            val content: String,
+                            val content: String = "",
                             @Field("is_true")
-                            val isTrue: Boolean,
+                            val isTrue: Boolean = false,
                             @Field("attachment_url")
                             val attachmentUrl: String? = null
                         )

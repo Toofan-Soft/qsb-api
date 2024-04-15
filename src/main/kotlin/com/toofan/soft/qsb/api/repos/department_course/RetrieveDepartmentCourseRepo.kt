@@ -51,23 +51,23 @@ object RetrieveDepartmentCourseRepo {
 
         data class Data(
             @Field("college_name")
-            val collegeName: String,
+            val collegeName: String = "",
             @Field("department_name")
-            val departmentName: String,
+            val departmentName: String = "",
             @Field("course_name")
-            val courseName: String,
+            val courseName: String = "",
             @Field("level_name")
-            val levelName: String,
+            val levelName: String = "",
             @Field("semester_Name")
-            val semesterName: String,
+            val semesterName: String = "",
             @Field("course_parts")
-            val courseParts: List<CoursePart>
+            val courseParts: List<Data>  = emptyList()
         ) {
-            data class CoursePart(
+            data class Data(
                 @Field("id")
-                val Id: Int,
+                val Id: Int = 0,
                 @Field("name")
-                val name: String,
+                val name: String = "",
                 @Field("score")
                 val score: Int? = null,
                 @Field("lectures_count")

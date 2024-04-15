@@ -52,9 +52,9 @@ object RetrieveEditableQuestionChoiceRepo {
 
         data class Data(
             @Field("content")
-            val content: String,
+            val content: String = "",
             @Field("is_true")
-            val isTrue: Boolean,
+            val isTrue: Boolean = false,
             @Field("attachment_url")
             val attachmentUrl: String? = null
         )

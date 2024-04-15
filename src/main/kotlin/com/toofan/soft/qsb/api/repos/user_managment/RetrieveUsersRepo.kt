@@ -49,18 +49,18 @@ object RetrieveUsersRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("owner_name")
-            val ownerName: String,
+            val ownerName: String = "",
             @Field("email")
-            val email: String,
+            val email: String = "",
             @Field("status_name")
-            val statusName: String,
+            val statusName: String = "",
             @Field("image_url")
             val imageUrl: String? = null
         )

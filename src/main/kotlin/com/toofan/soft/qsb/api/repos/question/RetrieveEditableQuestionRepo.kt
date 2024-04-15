@@ -52,17 +52,17 @@ object RetrieveEditableQuestionRepo {
 
         data class Data(
             @Field("difficulty_level_id")
-            val difficultyLevelId: Int,
+            val difficultyLevelId: Int = 0,
             @Field("accessibility_status_id")
-            val accessibilityStatusId: Int,
+            val accessibilityStatusId: Int = 0,
             @Field("language_id")
-            val languageId: Int,
+            val languageId: Int = 0,
             @Field("estimated_answer_time")
-            val estimatedAnswerTime: Int,
+            val estimatedAnswerTime: Int = 0,
             @Field("content")
-            val content: String,
+            val content: String = "",
             @Field("is_true")
-            val isTrue: Boolean,
+            val isTrue: Boolean = false,
             @Field("attachment_url")
             val attachmentUrl: String? = null,
             @Field("title")

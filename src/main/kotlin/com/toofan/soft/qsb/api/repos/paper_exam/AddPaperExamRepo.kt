@@ -133,7 +133,7 @@ object AddPaperExamRepo {
 
         data class Data(
             @Field("id")
-            val id: Int
+            val id: Int = 0
         )
 
         companion object {

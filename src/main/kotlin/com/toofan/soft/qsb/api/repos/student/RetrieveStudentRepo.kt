@@ -51,19 +51,19 @@ object RetrieveStudentRepo {
 
         data class Data(
             @Field("academic_id")
-            val academicId: Int,
+            val academicId: Int = 0,
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("gender_name")
-            val genderName: String,
+            val genderName: String = "",
             @Field("college_name")
-            val collegeName: String,
+            val collegeName: String = "",
             @Field("department_name")
-            val departmentName: String,
+            val departmentName: String = "",
             @Field("level_Name")
-            val levelName: String,
+            val levelName: String = "",
             @Field("email")
             val email: String? = null,
             @Field("phone")

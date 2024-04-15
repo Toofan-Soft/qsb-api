@@ -51,29 +51,29 @@ object RetrieveUserRepo {
 
         data class Data(
             @Field("email")
-            val email: String,
+            val email: String = "",
             @Field("status_name")
-            val statusName: String,
+            val statusName: String = "",
             @Field("is_active")
-            val isActive: Boolean,
+            val isActive: Boolean = false,
             @Field("owner_type_name")
-            val ownerTypeName: String,
+            val ownerTypeName: String = "",
             @Field("owner_name")
-            val ownerName: String,
+            val ownerName: String = "",
             @Field("roles")
-            val roles: Data,
+            val roles: Data = Data(),
             @Field("image_url")
             val imageUrl: String? = null
         ) {
             data class Data(
                 @Field("id")
-                val id: Int,
+                val id: Int = 0,
                 @Field("name")
-                val name: String,
+                val name: String = "",
                 @Field("is_selected")
-                val isSelected: Boolean,
+                val isSelected: Boolean = false,
                 @Field("is_mandatory")
-                val isMandatory: Boolean
+                val isMandatory: Boolean = false
             )
         }
 

@@ -46,26 +46,26 @@ object RetrieveAvailableDepartmentCoursePartChaptersRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("arabic_title")
-            val arabicTitle: String,
+            val arabicTitle: String = "",
             @Field("english_title")
-            val englishTitle: String,
+            val englishTitle: String = "",
             @Field("selection_status")
-            val selectionStatus: SelectionStatus
+            val selectionStatus: Data = Data()
         ) {
-            data class SelectionStatus(
+            data class Data(
                 @Field("is_nune")
-                val isNune: Boolean,
+                val isNune: Boolean = false,
                 @Field("is_half")
-                val isHalf: Boolean,
+                val isHalf: Boolean = false,
                 @Field("is_full")
-                val isFull: Boolean
+                val isFull: Boolean = false
             )
         }
 

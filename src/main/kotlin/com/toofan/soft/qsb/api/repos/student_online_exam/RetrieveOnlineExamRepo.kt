@@ -51,33 +51,33 @@ object RetrieveOnlineExamRepo {
 
         data class Data(
             @Field("college_name")
-            val collegeName: String,
+            val collegeName: String = "",
             @Field("department_name")
-            val departmentName: String,
+            val departmentName: String = "",
             @Field("level_name")
-            val levelName: String,
+            val levelName: String = "",
             @Field("semester_name")
-            val semesterName: String,
+            val semesterName: String = "",
             @Field("course_name")
-            val courseName: String,
+            val courseName: String = "",
             @Field("course_part_name")
-            val coursePartName: String,
+            val coursePartName: String = "",
             @Field("type_name")
-            val typeName: String,
+            val typeName: String = "",
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("duration")
-            val duration: Int,
+            val duration: Int = 0,
             @Field("score")
-            val score: Float,
+            val score: Float = 0.0f,
             @Field("lecturer_name")
-            val lecturerName: String,
+            val lecturerName: String = "",
             @Field("language_name")
-            val languageName: String,
+            val languageName: String = "",
             @Field("is_mandatory_question_sequence")
-            val isMandatoryQuestionSequence: Boolean,
+            val isMandatoryQuestionSequence: Boolean = false,
             @Field("general_note")
-            val generalNote: String,
+            val generalNote: String = "",
             @Field("special_note")
             val specialNote: String? = null
         )

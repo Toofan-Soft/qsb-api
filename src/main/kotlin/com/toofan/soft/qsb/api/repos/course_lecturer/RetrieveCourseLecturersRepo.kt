@@ -63,18 +63,18 @@ object RetrieveCourseLecturersRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("course_lecturer_id")
-            val courseLecturerId: Int,
+            val courseLecturerId: Int = 0,
             @Field("college_name")
-            private val _collegeName: String,
+            private val _collegeName: String = "",
             @Field("department_name")
-            private val _departmentName: String,
+            private val _departmentName: String = "",
             @Field("lecturer_name")
-            private val _lecturerName: String,
+            private val _lecturerName: String = "",
             @Field("academic_year")
             private val _academicYear: Int? = null
         )

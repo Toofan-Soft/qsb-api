@@ -65,14 +65,14 @@ object RetrieveQuestionsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("content")
-            val content: String,
+            val content: String = "",
             @Field("status_name")
             val statusName: String? = null,
             @Field("type_name")

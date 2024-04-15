@@ -51,15 +51,15 @@ object RetrieveEditablePaperExamRepo {
 
         data class Data(
             @Field("type_id")
-            val typeId: Int,
+            val typeId: Int = 0,
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("duration")
-            val duration: Int,
+            val duration: Int = 0,
             @Field("lecturer_name")
-            val lecturerName: String,
+            val lecturerName: String = "",
             @Field("form_name_method_id")
-            val formNameMethodId: Int,
+            val formNameMethodId: Int = 0,
             @Field("special_note")
             val specialNote: String? = null
         )

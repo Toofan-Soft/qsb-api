@@ -51,15 +51,15 @@ object RetrieveEditableEmployeeRepo {
 
         data class Data(
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("gender_id")
-            val genderId: Int,
-            @Field("qualification_Id")
-            val qualificationId: Int,
-            @Field("job_type_Id")
-            val jobTypeId: Int,
+            val genderId: Int = 0,
+            @Field("qualification_id")
+            val qualificationId: Int = 0,
+            @Field("job_type_id")
+            val jobTypeId: Int = 0,
             @Field("phone")
             val phone: Long? = null,
             @Field("specialization")

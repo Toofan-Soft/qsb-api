@@ -52,9 +52,9 @@ object RetrieveTopicRepo {
 
         data class Data(
             @Field("arabic_title")
-            val arabicTitle: String,
+            val arabicTitle: String = "",
             @Field("english_title")
-            val englishTitle: String,
+            val englishTitle: String = "",
             @Field("description")
             val description: String? = null,
         )

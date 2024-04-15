@@ -52,9 +52,9 @@ object RetrieveCollegeRepo {
 
         data class Data(
             @Field("arabic_name")
-            val arabicName: String,
+            val arabicName: String = "",
             @Field("english_name")
-            val englishName: String,
+            val englishName: String = "",
             @Field("phone")
             val phone: Long? = null,
             @Field("email")

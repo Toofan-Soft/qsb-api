@@ -46,20 +46,20 @@ object RetrieveFavoriteQuestionsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
             @Field("question_id")
-            val questionId: Int,
-            @Field("combination_id")
-            val combinationId: Int? = null,
+            val questionId: Int = 0,
             @Field("content")
-            val content: String,
+            val content: String = "",
             @Field("type_name")
-            val typeName: String,
+            val typeName: String = "",
             @Field("datetime")
-            val datetime: Long
+            val datetime: Long = 0,
+            @Field("combination_id")
+            val combinationId: Int? = null
         )
 
         companion object {

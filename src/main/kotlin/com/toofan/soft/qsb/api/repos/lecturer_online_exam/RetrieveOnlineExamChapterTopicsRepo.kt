@@ -49,12 +49,12 @@ object RetrieveOnlineExamChapterTopicsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data>? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
-            @Field("name")
-            val name: String
+            @Field("title")
+            val title: String = ""
         )
 
         companion object {

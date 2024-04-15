@@ -52,49 +52,49 @@ object RetrieveQuestionRepo {
 
         data class Data(
             @Field("difficulty_level_name")
-            val difficultyLevelName: String,
+            val difficultyLevelName: String = "",
             @Field("accessibility_status_Name")
-            val accessibilityStatusName: String,
+            val accessibilityStatusName: String = "",
             @Field("language_Name")
-            val languageName: String,
+            val languageName: String = "",
             @Field("estimated_answer_time")
-            val estimatedAnswerTime: Int,
+            val estimatedAnswerTime: Int = 0,
             @Field("content")
-            val content: String,
+            val content: String = "",
             @Field("attachment_url")
             val attachmentUrl: String? = null,
             @Field("title")
             val title: String? = null,
             @Field("status")
-            val status: Status,
+            val status: Status = Status(),
             @Field("answer")
-            val answer: Answer
+            val answer: Answer = Answer()
         ) {
             data class Status(
                 @Field("is_requested")
-                val isRequested: Boolean,
+                val isRequested: Boolean = false,
                 @Field("is_accepted")
-                val isAccepted: Boolean,
+                val isAccepted: Boolean = false
             )
 
             sealed interface Answer {
                 data class TrueFalse(
                     @Field("is_true")
-                    val isTrue: Boolean
+                    val isTrue: Boolean = false
                 ) : Answer
 
                 data class Choices(
                     @Field("choices")
-                    val choices: List<Choice>
+                    val choices: List<Choice> = emptyList()
                 ) : Answer
 
                 data class Choice(
                     @Field("id")
-                    val id: Int,
+                    val id: Int = 0,
                     @Field("content")
-                    val content: String,
+                    val content: String = "",
                     @Field("is_true")
-                    val isTrue: Boolean,
+                    val isTrue: Boolean = false,
                     @Field("attachment_url")
                     val attachmentUrl: String? = null
                 )

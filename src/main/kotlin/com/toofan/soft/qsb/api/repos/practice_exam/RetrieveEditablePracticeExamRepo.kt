@@ -51,7 +51,7 @@ object RetrieveEditablePracticeExamRepo {
 
         data class Data(
             @Field("title")
-            val title: String,
+            val title: String = ""
         )
 
         companion object {
