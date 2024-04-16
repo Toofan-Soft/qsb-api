@@ -68,7 +68,7 @@ object RetrieveQuestionRepo {
             @Field("status")
             val status: Status = Status(),
             @Field("answer")
-            val answer: Answer = Answer()
+            val answer: Answer
         ) {
             data class Status(
                 @Field("is_requested")

@@ -1,20 +1,18 @@
-import com.toofan.soft.qsb.api.repos.college.RetrieveCollegeRepo
-import com.toofan.soft.qsb.api.repos.template.LoginRepo
-import com.toofan.soft.qsb.api.repos.template.UserInfoRepo
+
 
 fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
-    RetrieveCollegeRepo.execute(
-        data = {
-            it.invoke(2)
-        },
-        onComplete = {
-            println(it)
-        }
-    )
+//    RetrieveCollegeRepo.execute(
+//        data = {
+//            it.invoke(2)
+//        },
+//        onComplete = {
+//            println(it)
+//        }
+//    )
 
 //    RetrieveCollegesRepo.execute {
 //        println(it)
@@ -50,8 +48,8 @@ fun main(args: Array<String>) {
 //        println("info: $it")
 //    }
 
-    LoginRepo.execute("test12345@gmail.com", "test12345")
-    UserInfoRepo.execute {  }
+//    LoginRepo.execute("test12345@gmail.com", "test12345")
+//    UserInfoRepo.execute {  }
 
 
 //    RetrieveCollegeRepo.execute(
