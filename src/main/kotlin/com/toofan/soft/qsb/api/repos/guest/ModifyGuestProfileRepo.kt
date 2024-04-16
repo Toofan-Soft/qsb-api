@@ -38,7 +38,7 @@ object ModifyGuestProfileRepo {
         @Field("name")
         private val _name: OptionalVariable<String> = OptionalVariable(),
         @Field("gender_id")
-        private val _genderId: OptionalVariable<String> = OptionalVariable(),
+        private val _genderId: OptionalVariable<Int> = OptionalVariable(),
         @Field("phone")
         private val _phone: OptionalVariable<Long> = OptionalVariable(),
         @Field("image")
