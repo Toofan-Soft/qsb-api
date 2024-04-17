@@ -1,9 +1,21 @@
-
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import kotlinx.coroutines.runBlocking
 
 fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
+
+    runBlocking {
+        LoginRepo.execute(
+            data = { mandatory ->
+                mandatory.invoke("", "")
+            },
+            onComplete = {
+
+            }
+        )
+    }
 
 //    RetrieveCollegeRepo.execute(
 //        data = {

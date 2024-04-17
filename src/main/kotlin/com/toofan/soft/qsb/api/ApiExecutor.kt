@@ -238,7 +238,14 @@ object ApiExecutor {
                 } catch (e: Exception) {
                     Logger.log(route.url, "exception: ${e.message}")
 
-                    throw RuntimeException(e)
+                    val jsonObject = JsonObject()
+                    jsonObject.addProperty("is_success", false)
+//                    jsonObject.addProperty("error_message", "Thank you for your interest! Our server is currently undergoing development to bring you an even better experience. Please check back later, and we'll have everything up and running for you soon. Your patience is greatly appreciated!")
+                    jsonObject.addProperty("error_message", "There is an error! Please check back later :)")
+
+                    onResponse(jsonObject)
+
+//                    throw RuntimeException(e)
                 }
             }
         } else {
