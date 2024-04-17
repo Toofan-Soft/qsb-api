@@ -20,9 +20,9 @@ internal object InternetUtils {
         }
     }
 
-    internal suspend fun isInternetAvailable(): Boolean {
-        return withContext(Dispatchers.IO) {
-            try {
+    internal fun isInternetAvailable(): Boolean {
+//        return withContext(Dispatchers.IO) {
+            return try {
                 val url = URL("http://www.google.com")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.connectTimeout = 3000 // Timeout set to 3 seconds
@@ -33,7 +33,7 @@ internal object InternetUtils {
             } catch (e: IOException) {
                 false
             }
-        }
+//        }
     }
 
 }
