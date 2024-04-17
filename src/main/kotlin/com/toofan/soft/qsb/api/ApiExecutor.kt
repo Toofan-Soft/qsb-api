@@ -7,7 +7,6 @@ import com.toofan.soft.qsb.api.session.Memory
 import com.toofan.soft.qsb.api.session.checkToken
 import com.toofan.soft.qsb.api.utils.InternetUtils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -174,92 +173,89 @@ object ApiExecutor {
         request: IRequest? = null,
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
-        if (InternetUtils.isInternetAvailable()) {
-            runBlocking {
-
-//            }
-//            withContext(Dispatchers.IO) {
-//            withContext(Dispatchers.IO) {
-                try {
-                    val url = if (route.method == Method.GET.value && request != null) {
-                        Logger.log(route.url, "request-parameters: ${request.parameters}")
-                        URL(route.url + "?" + request.parameters)
-                    } else {
-                        URL(route.url)
-                    }
-
-                    val connection = url.openConnection() as HttpURLConnection
-
-                    println("route.method: " + route.method)
-                    connection.requestMethod = route.method
-                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-                    if (route.isAuthorized) {
-                        connection.setRequestProperty("Authorization", "Bearer ${Memory.token}")
-                    }
-
-                    connection.doOutput = true
-
-                    // Set the request parameters
-                    request?.let {
-                        if (route.method != Method.GET.value) {
+//        if (InternetUtils.isInternetAvailable()) {
+            withContext(Dispatchers.IO) {
+                if (InternetUtils.isInternetAvailable()) {
+                    try {
+                        val url = if (route.method == Method.GET.value && request != null) {
                             Logger.log(route.url, "request-parameters: ${request.parameters}")
+                            URL(route.url + "?" + request.parameters)
+                        } else {
+                            URL(route.url)
+                        }
 
-                            connection.outputStream.use { os ->
-                                val input =
-                                    request.parameters.toByteArray(charset("utf-8"))
-                                os.write(input, 0, input.size)
+                        val connection = url.openConnection() as HttpURLConnection
+
+                        println("route.method: " + route.method)
+                        connection.requestMethod = route.method
+                        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+                        if (route.isAuthorized) {
+                            connection.setRequestProperty("Authorization", "Bearer ${Memory.token}")
+                        }
+
+                        connection.doOutput = true
+
+                        // Set the request parameters
+                        request?.let {
+                            if (route.method != Method.GET.value) {
+                                Logger.log(route.url, "request-parameters: ${request.parameters}")
+
+                                connection.outputStream.use { os ->
+                                    val input =
+                                        request.parameters.toByteArray(charset("utf-8"))
+                                    os.write(input, 0, input.size)
+                                }
                             }
                         }
-                    }
 
-                    val responseCode = connection.responseCode
-                    Logger.log(route.url, "response-code: $responseCode")
-
-
-
-                    if (responseCode != 200) {
+                        val responseCode = connection.responseCode
                         Logger.log(route.url, "response-code: $responseCode")
 
-                        throw RuntimeException("HttpResponseCode: $responseCode")
-                    } else {
-                        val informationString = StringBuilder()
-                        BufferedReader(InputStreamReader(connection.inputStream)).use { reader ->
-                            var line: String?
-                            while (reader.readLine().also { line = it } != null) {
-                                informationString.append(line)
+
+
+                        if (responseCode != 200) {
+                            Logger.log(route.url, "response-code: $responseCode")
+
+                            throw RuntimeException("HttpResponseCode: $responseCode")
+                        } else {
+                            val informationString = StringBuilder()
+                            BufferedReader(InputStreamReader(connection.inputStream)).use { reader ->
+                                var line: String?
+                                while (reader.readLine().also { line = it } != null) {
+                                    informationString.append(line)
+                                }
                             }
+
+                            Logger.log(route.url, "informationString: $informationString")
+
+                            // Use Gson for parsing JSON
+                            val gson = Gson()
+                            val jsonObject = gson.fromJson(informationString.toString(), JsonObject::class.java)
+
+                            jsonObject.checkToken()
+
+                            onResponse(jsonObject)
                         }
+                    } catch (e: Exception) {
+                        Logger.log(route.url, "exception: ${e.message}")
 
-                        Logger.log(route.url, "informationString: $informationString")
-
-                        // Use Gson for parsing JSON
-                        val gson = Gson()
-                        val jsonObject = gson.fromJson(informationString.toString(), JsonObject::class.java)
-
-                        jsonObject.checkToken()
+                        val jsonObject = JsonObject()
+                        jsonObject.addProperty("is_success", false)
+//                    jsonObject.addProperty("error_message", "Thank you for your interest! Our server is currently undergoing development to bring you an even better experience. Please check back later, and we'll have everything up and running for you soon. Your patience is greatly appreciated!")
+                        jsonObject.addProperty("error_message", "There is an error! Please check back later :)")
 
                         onResponse(jsonObject)
-                    }
-                } catch (e: Exception) {
-                    Logger.log(route.url, "exception: ${e.message}")
-
-                    val jsonObject = JsonObject()
-                    jsonObject.addProperty("is_success", false)
-//                    jsonObject.addProperty("error_message", "Thank you for your interest! Our server is currently undergoing development to bring you an even better experience. Please check back later, and we'll have everything up and running for you soon. Your patience is greatly appreciated!")
-                    jsonObject.addProperty("error_message", "There is an error! Please check back later :)")
-
-                    onResponse(jsonObject)
 
 //                    throw RuntimeException(e)
+                    }
+                } else {
+                    val jsonObject = JsonObject()
+                    jsonObject.addProperty("is_success", false)
+                    jsonObject.addProperty("error_message", "Internet is not available, check it then try again :)")
+
+                    onResponse(jsonObject)
                 }
             }
-        } else {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty("is_success", false)
-            jsonObject.addProperty("error_message", "Internet is not available, check it then try again :)")
-
-            onResponse(jsonObject)
-        }
     }
 
     suspend fun execute3(

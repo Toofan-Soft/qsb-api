@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object LoginRepo {
     @JvmStatic
@@ -16,14 +17,27 @@ object LoginRepo {
         data.invoke { email, password -> request = Request(email, password) }
 
         request?.let {
-            runBlocking {
-                ApiExecutor.execute(
-                    route = Route.User.Login,
-                    request = it
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+            try {
+                withContext(Dispatchers.IO) {
+                    ApiExecutor.execute(
+                        route = Route.User.Login,
+                        request = it
+                    ) {
+                        onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                    }
                 }
+            } catch (e: Exception) {
+                // Handle exceptions
             }
+
+//            runBlocking {
+//                ApiExecutor.execute(
+//                    route = Route.User.Login,
+//                    request = it
+//                ) {
+//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+//                }
+//            }
         }
     }
 
