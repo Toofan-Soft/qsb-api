@@ -7,7 +7,7 @@ import kotlinx.coroutines.runBlocking
 
 object ModifyCoursePartRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         data: (
             mandatory: Mandatory,
             optional: Optional

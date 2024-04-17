@@ -8,7 +8,7 @@ import kotlinx.coroutines.runBlocking
 
 object LogoutRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         onComplete: (Resource<Boolean>) -> Unit
     ) {
         runBlocking {

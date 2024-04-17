@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 
 object RetrievePaperExamFormQuestionsRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         data: (
             mandatory: Mandatory
         ) -> Unit,

@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 
 object RetrieveBasicUniversityInfoRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
         runBlocking {

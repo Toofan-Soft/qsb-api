@@ -1,9 +1,13 @@
-package com.toofan.soft.qsb.api.repos.user
+package com.toofan.soft.qsb.api.repos.template
 
-import com.toofan.soft.qsb.api.*
+import com.google.gson.JsonObject
+import com.toofan.soft.qsb.api.Field
+import com.toofan.soft.qsb.api.IRequest
+import com.toofan.soft.qsb.api.Resource
+import com.toofan.soft.qsb.api.Response
 import kotlinx.coroutines.runBlocking
 
-object LoginRepo {
+object LoginRepo1 {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -17,12 +21,11 @@ object LoginRepo {
 
         request?.let {
             runBlocking {
-                ApiExecutor.execute(
-                    route = Route.User.Login,
-                    request = it
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
-                }
+                val jsonObject = JsonObject()
+                jsonObject.addProperty("is_success", false)
+                jsonObject.addProperty("error_message", "Internet is not available, check it then try again :)")
+
+                onComplete(Response.map(jsonObject).getResource() as Resource<Boolean>)
             }
         }
     }

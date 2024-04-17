@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 
 object RetrieveCourseStatusRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         runBlocking {

@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 
 object RetrievePracticeExamsAndroidRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         data: (
             optional: Optional
         ) -> Unit,

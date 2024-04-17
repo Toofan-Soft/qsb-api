@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 
 object RetrieveDepartmentLecturerCurrentCoursePartsRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         data: (
             mandatory: Mandatory
         ) -> Unit,

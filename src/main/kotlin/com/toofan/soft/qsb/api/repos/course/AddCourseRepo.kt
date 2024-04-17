@@ -5,7 +5,7 @@ import kotlinx.coroutines.runBlocking
 
 object AddCourseRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         data: (
             mandatory: Mandatory
         ) -> Unit,

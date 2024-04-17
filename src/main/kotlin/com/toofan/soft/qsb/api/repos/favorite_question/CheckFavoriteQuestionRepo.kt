@@ -6,7 +6,7 @@ import kotlinx.coroutines.runBlocking
 
 object CheckFavoriteQuestionRepo {
     @JvmStatic
-    fun execute(
+    suspend fun execute(
         data: (
             mandatory: Mandatory,
             optional: Optional
