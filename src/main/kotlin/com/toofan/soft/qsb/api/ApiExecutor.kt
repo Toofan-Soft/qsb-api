@@ -7,6 +7,7 @@ import com.toofan.soft.qsb.api.session.Memory
 import com.toofan.soft.qsb.api.session.checkToken
 import com.toofan.soft.qsb.api.utils.InternetUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -174,7 +175,11 @@ object ApiExecutor {
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
         if (InternetUtils.isInternetAvailable()) {
-            withContext(Dispatchers.IO) {
+            runBlocking {
+
+//            }
+//            withContext(Dispatchers.IO) {
+//            withContext(Dispatchers.IO) {
                 try {
                     val url = if (route.method == Method.GET.value && request != null) {
                         Logger.log(route.url, "request-parameters: ${request.parameters}")
