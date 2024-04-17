@@ -18,14 +18,11 @@ object LoginRepo {
             data.invoke { email, password -> request = Request(email, password) }
 
             request?.let {
-
-                request?.let {
-                    ApiExecutor.execute(
-                        route = Route.User.Login,
-                        request = it
-                    ) {
-                        onComplete(Response.map(it).getResource() as Resource<Boolean>)
-                    }
+                ApiExecutor.execute(
+                    route = Route.User.Login,
+                    request = it
+                ) {
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }
         }
