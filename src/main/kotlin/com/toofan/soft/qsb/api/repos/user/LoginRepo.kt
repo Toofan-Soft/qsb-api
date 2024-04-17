@@ -12,13 +12,14 @@ object LoginRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { email, password -> request = Request(email, password) }
+            data.invoke { email, password -> request = Request(email, password) }
 
-        request?.let {
-            try {
-                withContext(Dispatchers.IO) {
+            request?.let {
+
+                request?.let {
                     ApiExecutor.execute(
                         route = Route.User.Login,
                         request = it
@@ -26,18 +27,7 @@ object LoginRepo {
                         onComplete(Response.map(it).getResource() as Resource<Boolean>)
                     }
                 }
-            } catch (e: Exception) {
-                // Handle exceptions
             }
-
-//            runBlocking {
-//                ApiExecutor.execute(
-//                    route = Route.User.Login,
-//                    request = it
-//                ) {
-//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
-//                }
-//            }
         }
     }
 
