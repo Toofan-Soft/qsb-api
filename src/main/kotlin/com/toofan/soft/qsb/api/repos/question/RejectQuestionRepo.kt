@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.question
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RejectQuestionRepo {
     @JvmStatic
@@ -11,14 +13,14 @@ object RejectQuestionRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { id ->
-            request = Request(id)
-        }
+            data.invoke { id ->
+                request = Request(id)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Question.Reject,
                     request = it

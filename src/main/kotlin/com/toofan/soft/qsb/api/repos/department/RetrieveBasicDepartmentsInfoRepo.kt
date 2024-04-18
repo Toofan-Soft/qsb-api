@@ -2,7 +2,9 @@ package com.toofan.soft.qsb.api.repos.department
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RetrieveBasicDepartmentsInfoRepo {
     @JvmStatic
@@ -12,14 +14,14 @@ object RetrieveBasicDepartmentsInfoRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { collegeId ->
-            request = Request(collegeId)
-        }
+            data.invoke { collegeId ->
+                request = Request(collegeId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Department.RetrieveBasicInfoList
                 ) {

@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.course_part
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object RetrieveEditableCoursePartRepo {
     @JvmStatic
@@ -12,14 +13,14 @@ object RetrieveEditableCoursePartRepo {
         ) -> Unit,
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { id ->
-            request = Request(id)
-        }
+            data.invoke { id ->
+                request = Request(id)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.CoursePart.RetrieveEditable,
                     request = request

@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object AddPracticeExamRepo {
     @JvmStatic
@@ -13,24 +14,26 @@ object AddPracticeExamRepo {
         ) -> Unit,
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { departmentCoursePartId, conductMethodId, duration, languageId, difficultyLevelId, questionsTypes, topicsIds ->
-                val _questionsTypes: ArrayList<Request.Data> = arrayListOf()
+            data.invoke(
+                { departmentCoursePartId, conductMethodId, duration, languageId, difficultyLevelId, questionsTypes, topicsIds ->
+                    val _questionsTypes: ArrayList<Request.Data> = arrayListOf()
 
-                questionsTypes.invoke { typeId, questionsCount ->
-                    _questionsTypes.add(Request.Data(typeId, questionsCount))
-                }
+                    questionsTypes.invoke { typeId, questionsCount ->
+                        _questionsTypes.add(Request.Data(typeId, questionsCount))
+                    }
 
-                request = Request(departmentCoursePartId, conductMethodId, duration, languageId,
-                    difficultyLevelId, _questionsTypes, topicsIds)
-            },
-            { request!!.optional(it) }
-        )
+                    request = Request(
+                        departmentCoursePartId, conductMethodId, duration, languageId,
+                        difficultyLevelId, _questionsTypes, topicsIds
+                    )
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.PracticeOnlineExam.Add,
                     request = it

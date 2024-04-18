@@ -2,7 +2,9 @@ package com.toofan.soft.qsb.api.repos.course_lecturer
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RetrieveCourseLecturersRepo {
     @JvmStatic
@@ -13,17 +15,17 @@ object RetrieveCourseLecturersRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { coursePartId ->
-                request = Request(coursePartId)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { coursePartId ->
+                    request = Request(coursePartId)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.CourseLecture.RetrieveList
                 ) {

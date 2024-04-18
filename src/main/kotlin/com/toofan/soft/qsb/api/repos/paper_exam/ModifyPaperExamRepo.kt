@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object ModifyPaperExamRepo {
     @JvmStatic
@@ -12,17 +14,17 @@ object ModifyPaperExamRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { id ->
-                request = Request(id)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { id ->
+                    request = Request(id)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.PaperExam.Modify,
                     request = it

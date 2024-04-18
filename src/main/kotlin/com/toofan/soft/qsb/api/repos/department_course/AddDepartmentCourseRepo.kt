@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.department_course
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object AddDepartmentCourseRepo {
     @JvmStatic
@@ -11,14 +13,14 @@ object AddDepartmentCourseRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { departmentId, levelId, semesterId, courseId ->
-            request = Request(departmentId, levelId, semesterId, courseId)
-        }
+            data.invoke { departmentId, levelId, semesterId, courseId ->
+                request = Request(departmentId, levelId, semesterId, courseId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.DepartmentCourse.Add,
                     request = it

@@ -2,14 +2,16 @@ package com.toofan.soft.qsb.api.repos.user
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RetrieveProfileRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        runBlocking {
+        withContext(Dispatchers.IO) {
             ApiExecutor.execute(
                 route = Route.User.RetrieveProfile,
             ) {

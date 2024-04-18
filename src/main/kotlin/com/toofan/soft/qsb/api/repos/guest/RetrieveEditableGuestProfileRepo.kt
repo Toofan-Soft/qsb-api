@@ -2,21 +2,22 @@ package com.toofan.soft.qsb.api.repos.guest
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object RetrieveEditableGuestProfileRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-            runBlocking {
-                ApiExecutor.execute(
-                    route = Route.Guest.RetrieveEditable
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
-                }
+        withContext(Dispatchers.IO) {
+            ApiExecutor.execute(
+                route = Route.Guest.RetrieveEditable
+            ) {
+                onComplete(Response.map(it).getResource() as Resource<Response.Data>)
             }
         }
+    }
 
     data class Response(
         @Field("is_success")

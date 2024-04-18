@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.student_online_exam
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object SaveOnlineExamQuestionAnswerRepo {
     @JvmStatic
@@ -11,27 +12,27 @@ object SaveOnlineExamQuestionAnswerRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { examId, questionId, answer ->
-            var _answer: Request.Data? = null
+            data.invoke { examId, questionId, answer ->
+                var _answer: Request.Data? = null
 
-            answer.invoke(
-                {
-                    _answer = Request.Data.TrueFalse(it)
-                },
-                {
-                    _answer = Request.Data.MultiChoice(it)
+                answer.invoke(
+                    {
+                        _answer = Request.Data.TrueFalse(it)
+                    },
+                    {
+                        _answer = Request.Data.MultiChoice(it)
+                    }
+                )
+
+                _answer?.let {
+                    request = Request(examId, questionId, it)
                 }
-            )
-
-            _answer?.let {
-                request = Request(examId, questionId, it)
             }
-        }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.StudentOnlineExam.SaveQuestionAnswer
                 ) {

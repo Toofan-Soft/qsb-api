@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.department_course
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object DeleteDepartmentCourseRepo {
     @JvmStatic
@@ -11,14 +13,14 @@ object DeleteDepartmentCourseRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { id ->
-            request = Request(id)
-        }
+            data.invoke { id ->
+                request = Request(id)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.DepartmentCourse.Delete,
                     request = it

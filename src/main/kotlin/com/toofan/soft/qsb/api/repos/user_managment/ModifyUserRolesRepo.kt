@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object ModifyUserRolesRepo {
     @JvmStatic
@@ -11,14 +12,14 @@ object ModifyUserRolesRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { id, rolesIds ->
-            request = Request(id, rolesIds)
-        }
+            data.invoke { id, rolesIds ->
+                request = Request(id, rolesIds)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.UserManagement.ModifyRoleList,
                     request = it

@@ -2,7 +2,9 @@ package com.toofan.soft.qsb.api.repos.department_course_part
 
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object ModifyDepartmentCoursePartRepo {
     @JvmStatic
@@ -12,14 +14,14 @@ object ModifyDepartmentCoursePartRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { id ->
-            request = Request(id)
-        }
+            data.invoke { id ->
+                request = Request(id)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.DepartmentCoursePart.Modify,
                     request = it

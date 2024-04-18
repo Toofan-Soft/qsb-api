@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object RetrieveOnlineExamsRepo {
     @JvmStatic
@@ -13,17 +14,17 @@ object RetrieveOnlineExamsRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { departmentCoursePartId ->
-                request = Request(departmentCoursePartId)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { departmentCoursePartId ->
+                    request = Request(departmentCoursePartId)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.LecturerOnlineExam.RetrieveList
                 ) {

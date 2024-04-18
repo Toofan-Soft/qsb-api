@@ -2,8 +2,9 @@ package com.toofan.soft.qsb.api.repos.filter
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RetrieveRolesRepo {
     @JvmStatic
@@ -13,14 +14,14 @@ object RetrieveRolesRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { ownerTypeId ->
-            request = Request(ownerTypeId)
-        }
+            data.invoke { ownerTypeId ->
+                request = Request(ownerTypeId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Filter.RetrieveRoleList
                 ) {

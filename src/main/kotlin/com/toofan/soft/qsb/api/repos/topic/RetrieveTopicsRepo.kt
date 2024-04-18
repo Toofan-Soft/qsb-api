@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.topic
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object RetrieveTopicsRepo {
     @JvmStatic
@@ -12,14 +13,14 @@ object RetrieveTopicsRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { chapterId ->
-            request = Request(chapterId)
-        }
+            data.invoke { chapterId ->
+                request = Request(chapterId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Topic.RetrieveList
                 ) {

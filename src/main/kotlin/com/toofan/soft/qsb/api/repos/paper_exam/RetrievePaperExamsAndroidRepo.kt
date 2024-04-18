@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object RetrievePaperExamsAndroidRepo {
     @JvmStatic
@@ -12,17 +13,15 @@ object RetrievePaperExamsAndroidRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            val request = Request()
 
-        data.invoke { request!!.optional(it) }
+            data.invoke { request.optional(it) }
 
-        request?.let {
-            runBlocking {
-                ApiExecutor.execute(
-                    route = Route.PaperExam.RetrieveAndroidList
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
-                }
+            ApiExecutor.execute(
+                route = Route.PaperExam.RetrieveAndroidList
+            ) {
+                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }
     }

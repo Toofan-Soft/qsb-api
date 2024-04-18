@@ -2,7 +2,9 @@ package com.toofan.soft.qsb.api.repos.filter
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RetrieveEmployeesOfJobRepo {
     @JvmStatic
@@ -12,14 +14,14 @@ object RetrieveEmployeesOfJobRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { jobTypeId ->
-            request = Request(jobTypeId)
-        }
+            data.invoke { jobTypeId ->
+                request = Request(jobTypeId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Filter.RetrieveEmployeeOfJobList
                 ) {

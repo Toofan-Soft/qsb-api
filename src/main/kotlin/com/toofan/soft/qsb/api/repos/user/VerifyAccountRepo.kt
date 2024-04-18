@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object VerifyAccountRepo {
     @JvmStatic
@@ -11,14 +12,14 @@ object VerifyAccountRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { code ->
-            request = Request(code)
-        }
+            data.invoke { code ->
+                request = Request(code)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.User.Verify,
                     request = it

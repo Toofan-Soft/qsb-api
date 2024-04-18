@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RequestAccountRecoveryRepo {
     @JvmStatic
@@ -11,14 +13,14 @@ object RequestAccountRecoveryRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { email ->
-            request = Request(email)
-        }
+            data.invoke { email ->
+                request = Request(email)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.User.RequestAccountRecovery,
                     request = it

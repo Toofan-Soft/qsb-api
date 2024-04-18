@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.course_student
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object ModifyCourseStudentRepo {
     @JvmStatic
@@ -11,14 +12,14 @@ object ModifyCourseStudentRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { departmentCourseId, studentId, academicYear ->
-            request = Request(departmentCourseId, studentId, academicYear)
-        }
+            data.invoke { departmentCourseId, studentId, academicYear ->
+                request = Request(departmentCourseId, studentId, academicYear)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.CourseStudent.Modify,
                     request = it

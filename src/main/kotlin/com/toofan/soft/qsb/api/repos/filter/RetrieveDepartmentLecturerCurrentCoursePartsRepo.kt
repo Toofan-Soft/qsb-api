@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.filter
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object RetrieveDepartmentLecturerCurrentCoursePartsRepo {
     @JvmStatic
@@ -12,14 +13,14 @@ object RetrieveDepartmentLecturerCurrentCoursePartsRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { departmentCourseId ->
-            request = Request(departmentCourseId)
-        }
+            data.invoke { departmentCourseId ->
+                request = Request(departmentCourseId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Filter.RetrieveDepartmentLecturerCurrentCoursePartList
                 ) {

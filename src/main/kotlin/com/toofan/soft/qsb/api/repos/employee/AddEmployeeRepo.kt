@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.employee
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object AddEmployeeRepo {
     @JvmStatic
@@ -12,17 +14,17 @@ object AddEmployeeRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { arabicName, englishName, genderId, qualificationId, jobTypeId ->
-                request = Request(arabicName, englishName, genderId, qualificationId, jobTypeId)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { arabicName, englishName, genderId, qualificationId, jobTypeId ->
+                    request = Request(arabicName, englishName, genderId, qualificationId, jobTypeId)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Employee.Add,
                     request = it

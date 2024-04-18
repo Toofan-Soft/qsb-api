@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.topic
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object AddTopicRepo {
     @JvmStatic
@@ -12,17 +14,17 @@ object AddTopicRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { chapterId, arabicTitle, englishTitle ->
-                request = Request(chapterId, arabicTitle, englishTitle)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { chapterId, arabicTitle, englishTitle ->
+                    request = Request(chapterId, arabicTitle, englishTitle)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Topic.Add,
                     request = it

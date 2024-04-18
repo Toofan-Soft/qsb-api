@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.course_lecturer
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object AddCourseLecturerRepo {
     @JvmStatic
@@ -11,14 +12,14 @@ object AddCourseLecturerRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { departmentCoursePartId, lecturerId ->
-            request = Request(departmentCoursePartId, lecturerId)
-        }
+            data.invoke { departmentCoursePartId, lecturerId ->
+                request = Request(departmentCoursePartId, lecturerId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.CourseLecture.Add,
                     request = it

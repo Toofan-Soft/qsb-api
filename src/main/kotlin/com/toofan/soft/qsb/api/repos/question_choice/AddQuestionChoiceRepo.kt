@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.question_choice
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object AddQuestionChoiceRepo {
     @JvmStatic
@@ -12,17 +13,17 @@ object AddQuestionChoiceRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { questionId, content, isTrue ->
-                request = Request(questionId, content, isTrue)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { questionId, content, isTrue ->
+                    request = Request(questionId, content, isTrue)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.QuestionChoice.Add,
                     request = it

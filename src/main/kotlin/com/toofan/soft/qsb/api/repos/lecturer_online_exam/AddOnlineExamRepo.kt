@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object AddOnlineExamRepo {
     @JvmStatic
@@ -13,27 +14,29 @@ object AddOnlineExamRepo {
         ) -> Unit,
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { departmentCoursePartId, conductMethodId, typeId, datetime, duration,
-              datetimeNotificationDatetime, resultNotificationDatetime, languageId, difficultyLevelId,
-              formsCount, formConfigurationMethodId, formNameMethodId, questionsTypes, topicsIds ->
-                val _questionsTypes: ArrayList<Request.Data> = arrayListOf()
+            data.invoke(
+                { departmentCoursePartId, conductMethodId, typeId, datetime, duration,
+                  datetimeNotificationDatetime, resultNotificationDatetime, languageId, difficultyLevelId,
+                  formsCount, formConfigurationMethodId, formNameMethodId, questionsTypes, topicsIds ->
+                    val _questionsTypes: ArrayList<Request.Data> = arrayListOf()
 
-                questionsTypes.invoke { typeId, questionsCount, questionScore ->
-                    _questionsTypes.add(Request.Data(typeId, questionsCount, questionScore))
-                }
+                    questionsTypes.invoke { typeId, questionsCount, questionScore ->
+                        _questionsTypes.add(Request.Data(typeId, questionsCount, questionScore))
+                    }
 
-                request = Request(departmentCoursePartId, conductMethodId, typeId, datetime, duration,
-                    datetimeNotificationDatetime, resultNotificationDatetime, languageId, difficultyLevelId,
-                    formsCount, formConfigurationMethodId, formNameMethodId, _questionsTypes, topicsIds)
-            },
-            { request!!.optional(it) }
-        )
+                    request = Request(
+                        departmentCoursePartId, conductMethodId, typeId, datetime, duration,
+                        datetimeNotificationDatetime, resultNotificationDatetime, languageId, difficultyLevelId,
+                        formsCount, formConfigurationMethodId, formNameMethodId, _questionsTypes, topicsIds
+                    )
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.LecturerOnlineExam.Add,
                     request = it

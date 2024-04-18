@@ -1,7 +1,6 @@
 package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.services.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -23,7 +22,6 @@ object LoginRepo {
                     route = Route.User.Login,
                     request = it
                 ) {
-                    Logger.log("json_object", it.toString())
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }
             }

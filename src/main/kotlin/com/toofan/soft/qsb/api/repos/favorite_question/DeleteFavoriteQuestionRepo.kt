@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.favorite_question
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object DeleteFavoriteQuestionRepo {
     @JvmStatic
@@ -12,17 +14,17 @@ object DeleteFavoriteQuestionRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { questionId ->
-                request = Request(questionId)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { questionId ->
+                    request = Request(questionId)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.FavoriteQuestion.Delete,
                     request = it

@@ -2,14 +2,16 @@ package com.toofan.soft.qsb.api.repos.course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RetrieveCoursesRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        runBlocking {
+        withContext(Dispatchers.IO) {
             ApiExecutor.execute(
                 route = Route.Course.RetrieveList
             ) {

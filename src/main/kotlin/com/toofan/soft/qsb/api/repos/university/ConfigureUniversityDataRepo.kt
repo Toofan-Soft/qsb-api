@@ -1,7 +1,8 @@
 package com.toofan.soft.qsb.api.repos.university
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object ConfigureUniversityDataRepo {
     @JvmStatic
@@ -12,17 +13,17 @@ object ConfigureUniversityDataRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke(
-            { arabicName, englishName, logo ->
-                request = Request(arabicName, englishName, logo)
-            },
-            { request!!.optional(it) }
-        )
+            data.invoke(
+                { arabicName, englishName, logo ->
+                    request = Request(arabicName, englishName, logo)
+                },
+                { request!!.optional(it) }
+            )
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.University.Configure,
                     request = it

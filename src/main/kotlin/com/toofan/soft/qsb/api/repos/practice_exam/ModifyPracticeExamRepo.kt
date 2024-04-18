@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object ModifyPracticeExamRepo {
     @JvmStatic
@@ -11,14 +13,14 @@ object ModifyPracticeExamRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { id, title ->
-            request = Request(id, title)
-        }
+            data.invoke { id, title ->
+                request = Request(id, title)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.PracticeOnlineExam.Modify,
                     request = it

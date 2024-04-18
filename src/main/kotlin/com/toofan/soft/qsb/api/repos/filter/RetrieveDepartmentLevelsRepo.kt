@@ -2,7 +2,9 @@ package com.toofan.soft.qsb.api.repos.filter
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 object RetrieveDepartmentLevelsRepo {
     @JvmStatic
@@ -12,14 +14,14 @@ object RetrieveDepartmentLevelsRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        var request: Request? = null
+        withContext(Dispatchers.IO) {
+            var request: Request? = null
 
-        data.invoke { departmentId ->
-            request = Request(departmentId)
-        }
+            data.invoke { departmentId ->
+                request = Request(departmentId)
+            }
 
-        request?.let {
-            runBlocking {
+            request?.let {
                 ApiExecutor.execute(
                     route = Route.Filter.RetrieveDepartmentLevelList
                 ) {
