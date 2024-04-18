@@ -47,7 +47,7 @@ internal object InternetUtils {
     internal fun isInternetAvailable(): Boolean {
         return try {
 //            val url = URL("https://www.geeksforgeeks.org/")
-            val url = URL("http://www.google.com")
+            val url = URL("https://www.google.com")
             val connection: URLConnection = url.openConnection()
             connection.connect()
             println("Connection Successful")
