@@ -1,5 +1,6 @@
 package com.toofan.soft.qsb.api.utils
 
+import com.toofan.soft.qsb.api.services.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -52,6 +53,7 @@ internal object InternetUtils {
             println("Connection Successful")
             true
         } catch (e: Exception) {
+            Logger.log("internet exception", e.toString())
             println("Internet Not Connected")
             false
         }
