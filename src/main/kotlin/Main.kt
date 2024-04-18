@@ -1,21 +1,38 @@
-import com.toofan.soft.qsb.api.repos.user.LoginRepo
-import kotlinx.coroutines.runBlocking
+internal object checking_internet_connectivity {
+    @Throws(Exception::class)
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val process = Runtime.getRuntime().exec("ping www.geeksforgeeks.org")
+        val x = process.waitFor()
+        if (x == 0) {
+            println(
+                "Connection Successful, "
+                        + "Output was " + x
+            )
+        } else {
+            println(
+                "Internet Not Connected, "
+                        + "Output was " + x
+            )
+        }
+    }
+}
 
 fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
-    runBlocking {
-        LoginRepo.execute(
-            data = { mandatory ->
-                mandatory.invoke("", "")
-            },
-            onComplete = {
-
-            }
-        )
-    }
+//    runBlocking {
+//        LoginRepo.execute(
+//            data = { mandatory ->
+//                mandatory.invoke("", "")
+//            },
+//            onComplete = {
+//
+//            }
+//        )
+//    }
 
 //    RetrieveCollegeRepo.execute(
 //        data = {

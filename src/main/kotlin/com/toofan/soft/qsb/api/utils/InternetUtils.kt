@@ -20,9 +20,9 @@ internal object InternetUtils {
         }
     }
 
-    internal fun isInternetAvailable(): Boolean {
-//        return withContext(Dispatchers.IO) {
-            return try {
+    internal suspend fun isInternetAvailable2(): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
                 val url = URL("http://www.google.com")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.connectTimeout = 3000 // Timeout set to 3 seconds
@@ -33,7 +33,13 @@ internal object InternetUtils {
             } catch (e: IOException) {
                 false
             }
-//        }
+        }
+    }
+
+    internal fun isInternetAvailable(): Boolean {
+        val process = Runtime.getRuntime().exec("ping www.geeksforgeeks.org")
+        val x = process.waitFor()
+        return (x == 0)
     }
 
 }
