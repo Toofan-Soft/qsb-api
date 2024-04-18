@@ -1,6 +1,5 @@
 package com.toofan.soft.qsb.api.utils
 
-import com.toofan.soft.qsb.api.services.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -46,15 +45,11 @@ internal object InternetUtils {
 
     internal fun isInternetAvailable(): Boolean {
         return try {
-//            val url = URL("https://www.geeksforgeeks.org/")
             val url = URL("https://www.google.com")
             val connection: URLConnection = url.openConnection()
             connection.connect()
-            println("Connection Successful")
             true
         } catch (e: Exception) {
-            Logger.log("internet exception", e.toString())
-            println("Internet Not Connected")
             false
         }
     }

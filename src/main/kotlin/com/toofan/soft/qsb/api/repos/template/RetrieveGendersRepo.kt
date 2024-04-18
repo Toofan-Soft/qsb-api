@@ -1,46 +1,33 @@
-package com.toofan.soft.qsb.api.repos.chapter
+package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.utils.InternetUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-object RetrieveAvailableChaptersRepo {
+object RetrieveGendersRepo {
     @JvmStatic
     suspend fun execute(
-        data: (
-            mandatory: Mandatory
-        ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         withContext(Dispatchers.IO) {
-            var request: Request? = null
-
-            data.invoke { coursePartId ->
-                request = Request(coursePartId)
-            }
-
-            request?.let {
-                ApiExecutor.execute(
-                    route = Route.Chapter.RetrieveAvailableList
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
+            onComplete(
+                if (InternetUtils.isInternetAvailable()) {
+                    Resource.Success(
+                        data = listOf(
+                            Response.Data(1, "Male"),
+                            Response.Data(2, "Female"),
+                        )
+                    )
+                } else {
+                    Resource.Error(
+                        message = "Internet is not available, check it then try again :)"
+                    )
                 }
-            }
+            )
         }
     }
-
-    fun interface Mandatory {
-        operator fun invoke(
-            coursePartId: Int
-        )
-    }
-
-    data class Request(
-        @Field("course_part_id")
-        private val _coursePartId: Int
-    ) : IRequest
-
 
     data class Response(
         @Field("is_success")
@@ -54,10 +41,8 @@ object RetrieveAvailableChaptersRepo {
         data class Data(
             @Field("id")
             val id: Int = 0,
-            @Field("arabic_title")
-            val arabicTitle: String = "",
-            @Field("english_title")
-            val englishTitle: String = ""
+            @Field("name")
+            val name: String = ""
         )
 
         companion object {
