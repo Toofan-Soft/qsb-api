@@ -6,6 +6,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.InetAddress
 import java.net.URL
+import java.net.URLConnection
 
 internal object InternetUtils {
     internal suspend fun isInternetAvailable1(): Boolean {
@@ -36,10 +37,24 @@ internal object InternetUtils {
         }
     }
 
-    internal fun isInternetAvailable(): Boolean {
+    internal fun isInternetAvailable3(): Boolean {
         val process = Runtime.getRuntime().exec("ping www.geeksforgeeks.org")
         val x = process.waitFor()
         return (x == 0)
+    }
+
+    internal fun isInternetAvailable(): Boolean {
+        return try {
+//            val url = URL("https://www.geeksforgeeks.org/")
+            val url = URL("http://www.google.com")
+            val connection: URLConnection = url.openConnection()
+            connection.connect()
+            println("Connection Successful")
+            true
+        } catch (e: Exception) {
+            println("Internet Not Connected")
+            false
+        }
     }
 
 }
