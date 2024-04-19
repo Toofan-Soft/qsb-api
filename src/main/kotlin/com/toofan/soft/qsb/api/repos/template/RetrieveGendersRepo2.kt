@@ -3,18 +3,17 @@ package com.toofan.soft.qsb.api.repos.template
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.utils.InternetUtils
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-object RetrieveGendersRepo {
+object RetrieveGendersRepo2 {
     @JvmStatic
     suspend fun execute(
+        dispatcher: CoroutineDispatcher,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
-
-        }
-//        withContext(Dispatchers.IO) {
+        println("dispatcher: $dispatcher")
+        withContext(dispatcher) {
             onComplete(
                 if (InternetUtils.isInternetAvailable()) {
                     Resource.Success(
@@ -29,7 +28,7 @@ object RetrieveGendersRepo {
                     )
                 }
             )
-//        }
+        }
     }
 
     data class Response(
