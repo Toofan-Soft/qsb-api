@@ -1,3 +1,5 @@
+package com.toofan.soft.qsb.api
+
 fun main(args: Array<String>) {
     println("Hello World!")
 
