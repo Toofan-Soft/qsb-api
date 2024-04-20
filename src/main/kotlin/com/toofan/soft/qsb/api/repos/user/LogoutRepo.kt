@@ -5,14 +5,15 @@ import com.toofan.soft.qsb.api.Resource
 import com.toofan.soft.qsb.api.Response
 import com.toofan.soft.qsb.api.Route
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object LogoutRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        withContext(Dispatchers.IO)  {
+        CoroutineScope(Dispatchers.IO).launch  {
             ApiExecutor.execute(
                 route = Route.User.Logout
             ) {

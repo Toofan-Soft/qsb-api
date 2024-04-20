@@ -3,26 +3,29 @@ package com.toofan.soft.qsb.api.repos.template
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.utils.InternetUtils
+import kotlinx.coroutines.runBlocking
 
 object RetrieveGendersRepo1 {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        onComplete(
-            if (InternetUtils.isInternetAvailable()) {
-                Resource.Success(
-                    data = listOf(
-                        Response.Data(1, "Male"),
-                        Response.Data(2, "Female"),
+        runBlocking {
+            onComplete(
+                if (InternetUtils.isInternetAvailable()) {
+                    Resource.Success(
+                        data = listOf(
+                            Response.Data(1, "Male"),
+                            Response.Data(2, "Female"),
+                        )
                     )
-                )
-            } else {
-                Resource.Error(
-                    message = "Internet is not available, check it then try again :)"
-                )
-            }
-        )
+                } else {
+                    Resource.Error(
+                        message = "Internet is not available, check it then try again :)"
+                    )
+                }
+            )
+        }
     }
 
     data class Response(

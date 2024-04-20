@@ -3,8 +3,8 @@ package com.toofan.soft.qsb.api.repos.topic
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object RetrieveTopicDescriptionRepo {
     @JvmStatic
@@ -14,7 +14,7 @@ object RetrieveTopicDescriptionRepo {
         ) -> Unit,
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             var request: Request? = null
 
             data.invoke { id ->

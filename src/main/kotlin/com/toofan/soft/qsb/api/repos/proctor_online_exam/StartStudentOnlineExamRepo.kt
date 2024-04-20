@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object StartStudentOnlineExamRepo {
     @JvmStatic
@@ -12,7 +13,7 @@ object StartStudentOnlineExamRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             var request: Request? = null
 
             data.invoke { examId, studentId ->

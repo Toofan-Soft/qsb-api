@@ -2,8 +2,8 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object ModifyPracticeExamRepo {
     @JvmStatic
@@ -13,7 +13,7 @@ object ModifyPracticeExamRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             var request: Request? = null
 
             data.invoke { id, title ->

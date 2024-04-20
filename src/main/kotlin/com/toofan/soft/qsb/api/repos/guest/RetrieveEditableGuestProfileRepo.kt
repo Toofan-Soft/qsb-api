@@ -3,14 +3,15 @@ package com.toofan.soft.qsb.api.repos.guest
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object RetrieveEditableGuestProfileRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             ApiExecutor.execute(
                 route = Route.Guest.RetrieveEditable
             ) {

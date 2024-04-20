@@ -2,9 +2,9 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 object RetrieveOnlineExamQuestionsRepo {
     @JvmStatic
@@ -14,7 +14,7 @@ object RetrieveOnlineExamQuestionsRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             var request: Request? = null
 
             data.invoke { examId ->
@@ -22,12 +22,10 @@ object RetrieveOnlineExamQuestionsRepo {
             }
 
             request?.let {
-                runBlocking {
-                    ApiExecutor.execute(
-                        route = Route.StudentOnlineExam.RetrieveQuestionList
-                    ) {
-                        onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
-                    }
+                ApiExecutor.execute(
+                    route = Route.StudentOnlineExam.RetrieveQuestionList
+                ) {
+                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }
             }
         }

@@ -3,8 +3,8 @@ package com.toofan.soft.qsb.api.repos.department_course_part
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object AddDepartmentCoursePartRepo {
     @JvmStatic
@@ -14,7 +14,7 @@ object AddDepartmentCoursePartRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             var request: Request? = null
 
             data.invoke { departmentCourseId, coursePartId ->

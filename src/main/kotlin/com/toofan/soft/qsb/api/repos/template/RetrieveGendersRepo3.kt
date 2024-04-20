@@ -1,22 +1,31 @@
-package com.toofan.soft.qsb.api.repos.filter
+package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.utils.InternetUtils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-object RetrieveEmployeesRepo {
+object RetrieveGendersRepo3 {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            ApiExecutor.execute(
-                route = Route.Filter.RetrieveEmployeeList
-            ) {
-                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
-            }
+        withContext(Dispatchers.IO) {
+            onComplete(
+                if (InternetUtils.isInternetAvailable()) {
+                    Resource.Success(
+                        data = listOf(
+                            Response.Data(1, "Male"),
+                            Response.Data(2, "Female"),
+                        )
+                    )
+                } else {
+                    Resource.Error(
+                        message = "Internet is not available, check it then try again :)"
+                    )
+                }
+            )
         }
     }
 

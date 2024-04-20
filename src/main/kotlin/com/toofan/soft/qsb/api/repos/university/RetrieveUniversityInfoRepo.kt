@@ -3,15 +3,15 @@ package com.toofan.soft.qsb.api.repos.university
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object RetrieveUniversityInfoRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             ApiExecutor.execute(
                 route = Route.University.Retrieve
             ) {

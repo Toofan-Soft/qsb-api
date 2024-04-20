@@ -4,17 +4,14 @@ import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.utils.InternetUtils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.runBlocking
 
 object RetrieveGendersRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
-
-        }
-//        withContext(Dispatchers.IO) {
+        runBlocking(Dispatchers.IO) {
             onComplete(
                 if (InternetUtils.isInternetAvailable()) {
                     Resource.Success(
@@ -29,7 +26,7 @@ object RetrieveGendersRepo {
                     )
                 }
             )
-//        }
+        }
     }
 
     data class Response(

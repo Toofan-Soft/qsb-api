@@ -1,9 +1,25 @@
 package com.toofan.soft.qsb.api
 
+import com.toofan.soft.qsb.api.repos.template.RetrieveGendersRepo2
+import kotlinx.coroutines.runBlocking
+
 fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
+
+    runBlocking {
+        RetrieveGendersRepo2.execute {
+            when (it) {
+                is Resource.Success -> {
+                    println(it.data)
+                }
+                is Resource.Error -> {
+                    println(it.message)
+                }
+            }
+        }
+    }
 
 //    runBlocking {
 //        LoginRepo.execute(

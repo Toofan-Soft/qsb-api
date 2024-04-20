@@ -1,7 +1,9 @@
 package com.toofan.soft.qsb.api.repos.template
 
+import com.toofan.soft.qsb.api.ApiExecutor
+import com.toofan.soft.qsb.api.Field
+import com.toofan.soft.qsb.api.IRequest
 import com.toofan.soft.qsb.api.Route
-import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.runBlocking
 
 object LoginRepo {

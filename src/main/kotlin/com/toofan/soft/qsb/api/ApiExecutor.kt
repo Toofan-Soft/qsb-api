@@ -7,6 +7,8 @@ import com.toofan.soft.qsb.api.session.Memory
 import com.toofan.soft.qsb.api.session.checkToken
 import com.toofan.soft.qsb.api.utils.InternetUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -19,7 +21,7 @@ object ApiExecutor {
         request: IRequest? = null,
         onComplete: (jsonObject: JsonObject) -> Unit = { }
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val url = URL(route.url)
                 val connection = url.openConnection() as HttpURLConnection
@@ -105,7 +107,7 @@ object ApiExecutor {
         request: IRequest? = null,
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val url = URL(route.url)
                 val connection = url.openConnection() as HttpURLConnection
@@ -174,7 +176,7 @@ object ApiExecutor {
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
 //        if (InternetUtils.isInternetAvailable()) {
-            withContext(Dispatchers.IO) {
+            CoroutineScope(Dispatchers.IO).launch {
                 if (InternetUtils.isInternetAvailable()) {
                     try {
                         val url = if (route.method == Method.GET.value && request != null) {

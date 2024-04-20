@@ -3,7 +3,8 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object RetrieveOnlineExamsAndroidRepo {
     @JvmStatic
@@ -13,7 +14,7 @@ object RetrieveOnlineExamsAndroidRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             val request = Request()
 
             data.invoke { request.optional(it) }

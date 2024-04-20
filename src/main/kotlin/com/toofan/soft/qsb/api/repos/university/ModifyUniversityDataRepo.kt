@@ -2,7 +2,8 @@ package com.toofan.soft.qsb.api.repos.university
 
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object ModifyUniversityDataRepo {
     @JvmStatic
@@ -12,7 +13,7 @@ object ModifyUniversityDataRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             val request = Request()
 
             data.invoke { request.optional(it) }

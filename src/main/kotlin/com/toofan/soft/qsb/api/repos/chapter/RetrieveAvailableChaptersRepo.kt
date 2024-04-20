@@ -3,7 +3,8 @@ package com.toofan.soft.qsb.api.repos.chapter
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object RetrieveAvailableChaptersRepo {
     @JvmStatic
@@ -13,7 +14,7 @@ object RetrieveAvailableChaptersRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        withContext(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch {
             var request: Request? = null
 
             data.invoke { coursePartId ->
