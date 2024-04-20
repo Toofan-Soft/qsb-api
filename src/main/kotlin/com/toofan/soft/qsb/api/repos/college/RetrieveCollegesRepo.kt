@@ -2,16 +2,13 @@ package com.toofan.soft.qsb.api.repos.college
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveCollegesRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             ApiExecutor.execute(
                 route = Route.College.RetrieveList
             ) {

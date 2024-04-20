@@ -14,7 +14,7 @@ object RetrievePaperExamsAndroidRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             val request = Request()
 
             data.invoke { request.optional(it) }

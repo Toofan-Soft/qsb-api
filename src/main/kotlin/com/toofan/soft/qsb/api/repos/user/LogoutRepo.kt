@@ -13,7 +13,7 @@ object LogoutRepo {
     suspend fun execute(
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch  {
+        Coroutine.launch  {
             ApiExecutor.execute(
                 route = Route.User.Logout
             ) {

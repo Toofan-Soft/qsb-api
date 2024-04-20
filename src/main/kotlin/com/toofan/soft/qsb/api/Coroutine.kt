@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 internal object Coroutine {
     suspend fun launch(
@@ -28,4 +25,9 @@ internal object Coroutine {
 }
 
 fun main() {
+    runBlocking {
+        Coroutine.launch {
+
+        }
+    }
 }

@@ -12,7 +12,7 @@ object RetrieveGendersRepo2 {
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             onComplete(
                 if (InternetUtils.isInternetAvailable()) {
                     Resource.Success(

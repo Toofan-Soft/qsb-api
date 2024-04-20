@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.college
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveCollegeRepo {
     @JvmStatic
@@ -14,7 +11,7 @@ object RetrieveCollegeRepo {
         ) -> Unit,
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             var request: Request? = null
 
             data.invoke { id ->

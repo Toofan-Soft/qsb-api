@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.course_student
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveUnlinkedCourseStudentsRepo {
     @JvmStatic
@@ -14,7 +11,7 @@ object RetrieveUnlinkedCourseStudentsRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             var request: Request? = null
 
             data.invoke { departmentCourseId ->

@@ -15,7 +15,7 @@ object RetrievePaperExamsRepo {
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             var request: Request? = null
 
             data.invoke(

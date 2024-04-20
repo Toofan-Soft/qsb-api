@@ -15,7 +15,7 @@ object AddPaperExamRepo {
         ) -> Unit,
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             var request: Request? = null
 
             data.invoke(

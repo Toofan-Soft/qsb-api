@@ -13,7 +13,7 @@ object ModifyUniversityDataRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             val request = Request()
 
             data.invoke { request.optional(it) }

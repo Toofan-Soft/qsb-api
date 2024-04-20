@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.college
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object AddCollegeRepo {
     @JvmStatic
@@ -14,7 +11,7 @@ object AddCollegeRepo {
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             var request: Request? = null
 
             data.invoke(

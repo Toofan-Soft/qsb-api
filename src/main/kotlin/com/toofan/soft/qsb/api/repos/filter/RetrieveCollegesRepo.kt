@@ -11,7 +11,7 @@ object RetrieveCollegesRepo {
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             ApiExecutor.execute(
                 route = Route.Filter.RetrieveCollegeList
             ) {

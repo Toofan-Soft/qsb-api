@@ -11,7 +11,7 @@ object RetrieveEditableGuestProfileRepo {
     suspend fun execute(
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
+        Coroutine.launch {
             ApiExecutor.execute(
                 route = Route.Guest.RetrieveEditable
             ) {
