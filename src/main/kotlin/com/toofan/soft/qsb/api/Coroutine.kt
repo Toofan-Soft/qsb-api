@@ -18,6 +18,9 @@ internal object Coroutine {
     }
 
     private fun isDesktop(): Boolean {
+        val os = System.getProperty("os.name")
+        println("os: $os")
+
         return System.getProperty("os.name").lowercase().contains("windows") ||
                 System.getProperty("os.name").lowercase().contains("mac") ||
                 System.getProperty("os.name").lowercase().contains("linux")
