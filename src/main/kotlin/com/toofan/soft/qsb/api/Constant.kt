@@ -299,10 +299,10 @@ sealed class Route(
         object RetrieveEditable: LecturerOnlineExam("retrieve-editable", Method.GET)
         object RetrieveList: LecturerOnlineExam("retrieve-list", Method.GET)
         object RetrieveAndroidList: LecturerOnlineExam("retrieve-android-list", Method.GET)
-        object RetrieveChapterList: LecturerOnlineExam("retrieve-list", Method.GET)
-        object RetrieveChapterTopicList: LecturerOnlineExam("retrieve-list", Method.GET)
-        object RetrieveFormList: LecturerOnlineExam("retrieve-list", Method.GET)
-        object RetrieveFormQuestionList: LecturerOnlineExam("retrieve-list", Method.GET)
+        object RetrieveChapterList: LecturerOnlineExam("retrieve-chapter-list", Method.GET)
+        object RetrieveChapterTopicList: LecturerOnlineExam("retrieve-chapter-topic-list", Method.GET)
+        object RetrieveFormList: LecturerOnlineExam("retrieve-form-list", Method.GET)
+        object RetrieveFormQuestionList: LecturerOnlineExam("retrieve-form-question-list", Method.GET)
         object ChangeStatus: LecturerOnlineExam("change-status", Method.PUT)
     }
 
@@ -333,7 +333,6 @@ sealed class Route(
         // check for its method
         object FinishStudent: ProctorOnlineExam("finish-student", Method.PUT)
         // check for its method
-        object Delete: ProctorOnlineExam("delete", Method.DELETE)
         object Retrieve: ProctorOnlineExam("retrieve", Method.GET)
         object RetrieveList: ProctorOnlineExam("retrieve-list", Method.GET)
         object RetrieveStudentList: ProctorOnlineExam("retrieve-student-list", Method.GET)
