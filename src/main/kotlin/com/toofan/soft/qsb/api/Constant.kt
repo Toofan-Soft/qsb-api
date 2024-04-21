@@ -352,10 +352,10 @@ sealed class Route(
         object RetrieveEditable: PaperExam("retrieve-editable", Method.GET)
         object RetrieveList: PaperExam("retrieve-list", Method.GET)
         object RetrieveAndroidList: PaperExam("retrieve-android-list", Method.GET)
-        object RetrieveChapterList: PaperExam("retrieve-list", Method.GET)
-        object RetrieveChapterTopicList: PaperExam("retrieve-list", Method.GET)
-        object RetrieveFormList: PaperExam("retrieve-list", Method.GET)
-        object RetrieveFormQuestionList: PaperExam("retrieve-list", Method.GET)
+        object RetrieveChapterList: PaperExam("retrieve-chapter-list", Method.GET)
+        object RetrieveChapterTopicList: PaperExam("retrieve-chapter-topic-list", Method.GET)
+        object RetrieveFormList: PaperExam("retrieve-form-list", Method.GET)
+        object RetrieveFormQuestionList: PaperExam("retrieve-form-question-list", Method.GET)
         object Export: PaperExam("export", Method.GET)
         // check for its method
     }
@@ -386,7 +386,7 @@ sealed class Route(
         name: String,
         method: Method,
         isAuthorized: Boolean = false
-    ): Route("favorite-question-exam/$name", method, isAuthorized) {
+    ): Route("favorite-question/$name", method, isAuthorized) {
         object Add: FavoriteQuestion("add", Method.POST)
         object Delete: FavoriteQuestion("delete", Method.DELETE)
         object Retrieve: FavoriteQuestion("retrieve", Method.GET)
