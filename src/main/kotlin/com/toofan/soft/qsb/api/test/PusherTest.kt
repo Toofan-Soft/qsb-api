@@ -56,6 +56,5 @@ private fun listen() {
         println("Pusher: Received event with data: $event")
 
         println("Pusher.Data: ${event.data}")
-//        println("Pusher.Data: ${event.data}")
     }
 }

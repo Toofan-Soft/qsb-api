@@ -56,7 +56,8 @@ object ApiExecutor {
                         val responseCode = connection.responseCode
                         Logger.log(route.url, "response-code: $responseCode")
 
-                        if (responseCode != 200) {
+//                        if (responseCode != 200) {
+                        if (responseCode !in 200..202) {
                             throw RuntimeException("HttpResponseCode: $responseCode, ${connection.responseMessage}")
                         } else {
                             val informationString = StringBuilder()
