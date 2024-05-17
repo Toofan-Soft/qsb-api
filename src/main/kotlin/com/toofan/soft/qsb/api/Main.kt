@@ -1,33 +1,33 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import com.toofan.soft.qsb.api.repos.enums.RetrieveGendersRepo
 
 suspend fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
-    LoginRepo.execute(
-        data = {
-            it.invoke("user@gmail.com", "123456kk")
-        },
-        onComplete = {
-            println("complete")
-        }
-    )
+//    LoginRepo.execute(
+//        data = {
+//            it.invoke("user@gmail.com", "123456kk")
+//        },
+//        onComplete = {
+//            println("complete")
+//        }
+//    )
 
 //    RetrieveGendersRepo2.execute {
-//    RetrieveGendersRepo.execute {
-//        when (it) {
-//            is Resource.Success -> {
-//                println("sdads")
-//                println(it.data)
-//            }
-//            is Resource.Error -> {
-//                println(it.message)
-//            }
-//        }
-//    }
+    RetrieveGendersRepo.execute {
+        when (it) {
+            is Resource.Success -> {
+                println("sdads")
+                println(it.data)
+            }
+            is Resource.Error -> {
+                println(it.message)
+            }
+        }
+    }
 
 
 //    runBlocking {
