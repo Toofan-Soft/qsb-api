@@ -17,7 +17,6 @@ object ApiExecutor {
         request: IRequest? = null,
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
-//        kotlinx.coroutines.GlobalScope.launch {
 //        Coroutine.launch {
             if (InternetUtils.isInternetAvailable()) {
                 try {
@@ -37,20 +36,6 @@ object ApiExecutor {
                         connection.setRequestProperty("Authorization", "Bearer ${Memory.token}")
                     }
 
-//                    connection.doOutput = true
-
-                    // Set the request parameters
-//                    request?.let {
-//                        if (route.method != Method.GET.value) {
-//                            Logger.log(route.url, "request-parameters: ${request.parameters}")
-//
-//                            connection.outputStream.use { os ->
-//                                val input =
-//                                    request.parameters.toByteArray(charset("utf-8"))
-//                                os.write(input, 0, input.size)
-//                            }
-//                        }
-//                    }
                     if (route.method != Method.GET.value) {
                         connection.doOutput = true
 

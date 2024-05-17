@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.department
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveDepartmentsRepo {
     @JvmStatic
@@ -62,7 +59,7 @@ object RetrieveDepartmentsRepo {
             val levelCount: Int = 0,
             @Field("logo_url")
             val logoUrl: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

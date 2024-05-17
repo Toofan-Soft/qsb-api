@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrievePracticeExamResultRepo {
     @JvmStatic
@@ -64,7 +61,7 @@ object RetrievePracticeExamResultRepo {
             val appreciation: String = "",
             @Field("score_rate")
             val scoreRate: Int = 0
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

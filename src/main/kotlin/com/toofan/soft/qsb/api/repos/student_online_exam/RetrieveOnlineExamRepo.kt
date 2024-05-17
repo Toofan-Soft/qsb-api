@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveOnlineExamRepo {
     @JvmStatic
@@ -82,7 +79,7 @@ object RetrieveOnlineExamRepo {
             val generalNote: String = "",
             @Field("special_note")
             val specialNote: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

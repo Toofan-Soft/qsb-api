@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveQuestionRepo {
     @JvmStatic
@@ -71,13 +68,13 @@ object RetrieveQuestionRepo {
             val status: Status = Status(),
             @Field("answer")
             val answer: Answer
-        ) {
+        ) : IResponse {
             data class Status(
                 @Field("is_requested")
                 val isRequested: Boolean = false,
                 @Field("is_accepted")
                 val isAccepted: Boolean = false
-            )
+            ) : IResponse
 
             sealed interface Answer {
                 data class TrueFalse(

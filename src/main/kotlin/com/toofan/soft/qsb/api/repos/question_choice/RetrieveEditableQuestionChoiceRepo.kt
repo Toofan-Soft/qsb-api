@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.question_choice
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveEditableQuestionChoiceRepo {
     @JvmStatic
@@ -59,7 +56,7 @@ object RetrieveEditableQuestionChoiceRepo {
             val isTrue: Boolean = false,
             @Field("attachment_url")
             val attachmentUrl: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

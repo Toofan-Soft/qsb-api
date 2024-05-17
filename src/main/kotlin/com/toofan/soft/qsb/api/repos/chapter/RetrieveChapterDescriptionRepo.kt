@@ -52,7 +52,7 @@ object RetrieveChapterDescriptionRepo {
         data class Data(
             @Field("description")
             val description: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

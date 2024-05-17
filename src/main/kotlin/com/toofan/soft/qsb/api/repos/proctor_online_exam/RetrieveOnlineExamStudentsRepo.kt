@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveOnlineExamStudentsRepo {
     @JvmStatic
@@ -76,7 +73,7 @@ object RetrieveOnlineExamStudentsRepo {
             val isStarted: Boolean = false,
             val isFinished: Boolean? = null,
             val isSuspended: Boolean? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

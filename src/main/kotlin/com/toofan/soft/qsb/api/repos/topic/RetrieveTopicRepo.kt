@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.topic
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveTopicRepo {
     @JvmStatic
@@ -59,7 +56,7 @@ object RetrieveTopicRepo {
             val englishTitle: String = "",
             @Field("description")
             val description: String? = null,
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

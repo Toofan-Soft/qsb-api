@@ -54,7 +54,7 @@ object RetrieveEditableCourseRepo {
             val arabicName: String = "",
             @Field("english_name")
             val englishName: String = "",
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.department_course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveEditableDepartmentCourseRepo {
     @JvmStatic
@@ -56,7 +53,7 @@ object RetrieveEditableDepartmentCourseRepo {
             val levelId: Int = 0,
             @Field("semester_id")
             val semesterId: Int = 0
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

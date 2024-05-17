@@ -8,12 +8,11 @@ object RetrieveGendersRepo {
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-//        withContext(Dispatchers.IO) {
         Coroutine.launch {
             ApiExecutor.execute(
                 route = Route.Enum.RetrieveGenderList
             ) {
-//                println(Response.map(it).data.size.toString())
+                println(Response.map(it).data.size.toString())
                 onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }

@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
     @JvmStatic
@@ -63,7 +60,7 @@ object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
             val englishTitle: String = "",
             @Field("is_selected")
             val isSelected: Boolean = false
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

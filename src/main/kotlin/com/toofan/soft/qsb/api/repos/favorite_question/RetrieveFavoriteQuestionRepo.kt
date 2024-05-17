@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.favorite_question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveFavoriteQuestionRepo {
     @JvmStatic
@@ -76,7 +73,7 @@ object RetrieveFavoriteQuestionRepo {
             val typeName: String = "",
             @Field("question")
             val question: Data? = null,
-        ) {
+        ) : IResponse {
             sealed interface Data {
                 data class TrueFalse(
                     @Field("id")

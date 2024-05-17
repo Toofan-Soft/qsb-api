@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.student
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveEditableStudentRepo {
     @JvmStatic
@@ -68,7 +65,7 @@ object RetrieveEditableStudentRepo {
             val birthdate: Long? = null,
             @Field("image_url")
             val imageUrl: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

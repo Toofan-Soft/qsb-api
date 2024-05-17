@@ -62,7 +62,7 @@ object RetrieveUnlinkedCourseStudentsRepo {
             val name: String = "",
             @Field("image_url")
             val imageUrl: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveDepartmentCoursePartChapterTopicsRepo {
     @JvmStatic
@@ -61,7 +58,7 @@ object RetrieveDepartmentCoursePartChapterTopicsRepo {
             val arabicTitle: String = "",
             @Field("english_title")
             val englishTitle: String = ""
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

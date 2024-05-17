@@ -76,7 +76,7 @@ object RetrieveCourseLecturersRepo {
             val lecturerName: String = "",
             @Field("academic_year")
             val academicYear: Int? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

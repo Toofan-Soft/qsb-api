@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.student
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveStudentsRepo {
     @JvmStatic
@@ -64,8 +61,8 @@ object RetrieveStudentsRepo {
             @Field("gender_name")
             val genderName: String = "",
             @Field("image_url")
-            val _imageUrl: String? = null
-        )
+            val imageUrl: String? = null
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

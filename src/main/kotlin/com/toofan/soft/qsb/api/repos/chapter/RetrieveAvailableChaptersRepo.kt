@@ -56,7 +56,7 @@ object RetrieveAvailableChaptersRepo {
             val arabicTitle: String = "",
             @Field("english_title")
             val englishTitle: String = ""
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

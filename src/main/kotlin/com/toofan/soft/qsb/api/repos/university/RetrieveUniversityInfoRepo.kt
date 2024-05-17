@@ -51,7 +51,7 @@ object RetrieveUniversityInfoRepo {
             val facebook: String? = null,
             @Field("telegram")
             val telegram: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

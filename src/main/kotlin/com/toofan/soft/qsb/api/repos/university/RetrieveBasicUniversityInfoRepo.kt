@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.university
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveBasicUniversityInfoRepo {
     @JvmStatic
@@ -36,7 +33,7 @@ object RetrieveBasicUniversityInfoRepo {
             val englishName: String = "",
             @Field("logo_url")
             val logoUrl: String = ""
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

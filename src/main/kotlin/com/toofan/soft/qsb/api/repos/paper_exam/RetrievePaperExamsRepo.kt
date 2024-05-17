@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrievePaperExamsRepo {
     @JvmStatic
@@ -80,7 +77,7 @@ object RetrievePaperExamsRepo {
             val lecturerName: String = "",
             @Field("type_name")
             val typeName: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

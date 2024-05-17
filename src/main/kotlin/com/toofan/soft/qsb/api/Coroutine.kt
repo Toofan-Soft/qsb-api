@@ -3,7 +3,6 @@ package com.toofan.soft.qsb.api
 import kotlinx.coroutines.*
 
 internal object Coroutine {
-//    fun launch(
     suspend fun launch(
         block: suspend CoroutineScope.() -> Unit
     ) {
@@ -12,10 +11,7 @@ internal object Coroutine {
         println("isDesktop: $isDesktop")
         println("isAndroid: $isAndroid")
 
-//        if (isDesktop()) CoroutineScope(Dispatchers.IO).launch(block = block)
         if (isDesktop) CoroutineScope(Dispatchers.IO).launch(block = block)
-//        if (isDesktop) withContext(Dispatchers.IO, block)
-//        else if (isAndroid) withContext(Dispatchers.IO, block)
         else if (isAndroid) withContext(Dispatchers.IO, block)
         else withContext(Dispatchers.IO, block)
     }

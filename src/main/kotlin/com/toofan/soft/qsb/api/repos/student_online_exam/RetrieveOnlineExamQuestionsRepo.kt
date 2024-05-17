@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 object RetrieveOnlineExamQuestionsRepo {
     @JvmStatic
@@ -56,7 +53,7 @@ object RetrieveOnlineExamQuestionsRepo {
             val typeName: String = "",
             @Field("questions")
             val questions: List<Data> = emptyList()
-        ) {
+        ) : IResponse {
             sealed interface Data {
                 data class TrueFalse(
                     @Field("id")

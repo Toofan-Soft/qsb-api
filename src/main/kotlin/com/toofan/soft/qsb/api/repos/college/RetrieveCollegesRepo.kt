@@ -39,7 +39,7 @@ object RetrieveCollegesRepo {
             val email: String? = null,
             @Field("logo_url")
             val logoUrl: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

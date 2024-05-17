@@ -75,14 +75,14 @@ object RetrieveCourseLecturerRepo {
             @Field("qualification_name")
             val qualificationName: String = "",
             @Field("email")
-            val email: Int? = null,
+            val email: String? = null,
             @Field("phone")
-            val phone: Int? = null,
+            val phone: Long? = null,
             @Field("specialization")
             val specialization: Int? = null,
             @Field("image_url")
             val imageUrl: Int? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

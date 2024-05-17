@@ -63,7 +63,7 @@ object RetrieveUserRepo {
             val roles: List<Data> = emptyList(),
             @Field("image_url")
             val imageUrl: String? = null
-        ) {
+        ) : IResponse {
             data class Data(
                 @Field("id")
                 val id: Int = 0,
@@ -73,7 +73,7 @@ object RetrieveUserRepo {
                 val isSelected: Boolean = false,
                 @Field("is_mandatory")
                 val isMandatory: Boolean = false
-            )
+            ) : IResponse
         }
 
         companion object {

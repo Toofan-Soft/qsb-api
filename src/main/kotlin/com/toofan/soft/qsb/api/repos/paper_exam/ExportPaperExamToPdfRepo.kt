@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object ExportPaperExamToPdfRepo {
     @JvmStatic
@@ -104,7 +101,7 @@ object ExportPaperExamToPdfRepo {
 //            val questionsTypes: List<Data>,
 //            @Field("special_note")
 //            val specialNote: String? = null
-//        ) {
+//        ) : IResponse {
 //            data class Data(
 //                @Field("type_name")
 //                val typeName: String,
@@ -112,7 +109,7 @@ object ExportPaperExamToPdfRepo {
 //                val questionsCount: Int,
 //                @Field("question_score")
 //                val questionScore: Float,
-//            )
+//            ) : IResponse
 //        }
 //
 //        companion object {

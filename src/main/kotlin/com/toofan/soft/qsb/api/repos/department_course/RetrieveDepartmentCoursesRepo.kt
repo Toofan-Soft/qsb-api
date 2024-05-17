@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.department_course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveDepartmentCoursesRepo {
     @JvmStatic
@@ -60,7 +57,7 @@ object RetrieveDepartmentCoursesRepo {
             val levelName: String = "",
             @Field("semester_name")
             val semesterName: String = ""
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

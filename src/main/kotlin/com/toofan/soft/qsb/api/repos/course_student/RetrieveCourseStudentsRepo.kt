@@ -79,7 +79,7 @@ object RetrieveCourseStudentsRepo {
             val statusName: String? = null,
             @Field("image_url")
             val imageUrl: String? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

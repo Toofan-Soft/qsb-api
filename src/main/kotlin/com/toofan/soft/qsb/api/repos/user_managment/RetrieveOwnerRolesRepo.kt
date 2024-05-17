@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveOwnerRolesRepo {
     @JvmStatic
@@ -58,7 +55,7 @@ object RetrieveOwnerRolesRepo {
             val name: String = "",
             @Field("is_mandatory")
             val isMandatory: Boolean = false
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.favorite_question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object CheckFavoriteQuestionRepo {
     @JvmStatic
@@ -71,7 +68,7 @@ object CheckFavoriteQuestionRepo {
         data class Data(
             @Field("is_favorite")
             val isFavorite: Boolean
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

@@ -58,7 +58,7 @@ object RetrieveCoursePartsRepo {
             val statusName: String = "",
             @Field("description")
             val description: String? = null,
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

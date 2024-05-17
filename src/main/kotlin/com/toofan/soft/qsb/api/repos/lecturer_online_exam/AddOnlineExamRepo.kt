@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object AddOnlineExamRepo {
     @JvmStatic
@@ -147,7 +144,7 @@ object AddOnlineExamRepo {
         data class Data(
             @Field("id")
             val id: Int = 0
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveAvailableDepartmentCoursePartChaptersRepo {
     @JvmStatic
@@ -60,7 +57,7 @@ object RetrieveAvailableDepartmentCoursePartChaptersRepo {
             val englishTitle: String = "",
             @Field("selection_status")
             val selectionStatus: Data = Data()
-        ) {
+        ) : IResponse {
             data class Data(
                 @Field("is_nune")
                 val isNune: Boolean = false,
@@ -68,7 +65,7 @@ object RetrieveAvailableDepartmentCoursePartChaptersRepo {
                 val isHalf: Boolean = false,
                 @Field("is_full")
                 val isFull: Boolean = false
-            )
+            ) : IResponse
         }
 
         companion object {

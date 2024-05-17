@@ -58,7 +58,7 @@ object RetrieveEditableChapterRepo {
             val statusId: Int = 0,
             @Field("description")
             val description: String? = null,
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

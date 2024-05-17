@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.favorite_question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveFavoriteQuestionsRepo {
     @JvmStatic
@@ -62,7 +59,7 @@ object RetrieveFavoriteQuestionsRepo {
             val datetime: Long = 0,
             @Field("combination_id")
             val combinationId: Int? = null
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {

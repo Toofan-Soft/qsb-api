@@ -54,7 +54,7 @@ object RetrieveEditableCourseStudentRepo {
         data class Data(
             @Field("academic_year")
             val academicYear: Int = 0
-        )
+        ) : IResponse
 
         companion object {
             private fun getInstance(): Response {
