@@ -1,15 +1,16 @@
-package com.toofan.soft.qsb.api.repos.enums
+package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-object RetrieveGendersRepo {
+object RetrieveGenders1Repo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
-//        withContext(Dispatchers.IO) {
-        Coroutine.launch {
+        withContext(Dispatchers.IO) {
             ApiExecutor.execute(
                 route = Route.Enum.RetrieveGenderList
             ) {

@@ -15,6 +15,7 @@ internal object Coroutine {
 //        if (isDesktop()) CoroutineScope(Dispatchers.IO).launch(block = block)
         if (isDesktop) CoroutineScope(Dispatchers.IO).launch(block = block)
 //        if (isDesktop) withContext(Dispatchers.IO, block)
+//        else if (isAndroid) withContext(Dispatchers.IO, block)
         else if (isAndroid) withContext(Dispatchers.IO, block)
         else withContext(Dispatchers.IO, block)
     }

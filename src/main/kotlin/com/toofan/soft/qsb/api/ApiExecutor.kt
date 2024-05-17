@@ -17,87 +17,95 @@ object ApiExecutor {
         request: IRequest? = null,
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
-//        if (InternetUtils.isInternetAvailable()) {
-//            CoroutineScope(Dispatchers.IO).launch {
-            Coroutine.launch {
-                if (InternetUtils.isInternetAvailable()) {
-                    try {
-                        val url = if (route.method == Method.GET.value && request != null) {
-                            Logger.log(route.url, "request-parameters: ${request.parameters}")
-                            URL(route.url + "?" + request.parameters)
-                        } else {
-                            URL(route.url)
-                        }
+//        kotlinx.coroutines.GlobalScope.launch {
+//        Coroutine.launch {
+            if (InternetUtils.isInternetAvailable()) {
+                try {
+                    val url = if (route.method == Method.GET.value && request != null) {
+                        Logger.log(route.url, "request-parameters: ${request.parameters}")
+                        URL(route.url + "?" + request.parameters)
+                    } else {
+                        URL(route.url)
+                    }
 
-                        val connection = url.openConnection() as HttpURLConnection
+                    val connection = url.openConnection() as HttpURLConnection
 
-                        println("route.method: " + route.method)
-                        connection.requestMethod = route.method
-                        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-                        if (route.isAuthorized) {
-                            connection.setRequestProperty("Authorization", "Bearer ${Memory.token}")
-                        }
+                    println("route.method: " + route.method)
+                    connection.requestMethod = route.method
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+                    if (route.isAuthorized) {
+                        connection.setRequestProperty("Authorization", "Bearer ${Memory.token}")
+                    }
 
+//                    connection.doOutput = true
+
+                    // Set the request parameters
+//                    request?.let {
+//                        if (route.method != Method.GET.value) {
+//                            Logger.log(route.url, "request-parameters: ${request.parameters}")
+//
+//                            connection.outputStream.use { os ->
+//                                val input =
+//                                    request.parameters.toByteArray(charset("utf-8"))
+//                                os.write(input, 0, input.size)
+//                            }
+//                        }
+//                    }
+                    if (route.method != Method.GET.value) {
                         connection.doOutput = true
 
-                        // Set the request parameters
                         request?.let {
-                            if (route.method != Method.GET.value) {
-                                Logger.log(route.url, "request-parameters: ${request.parameters}")
+                            Logger.log(route.url, "request-parameters: ${request.parameters}")
+                            connection.outputStream.use { os ->
+                                val input =
+                                    request.parameters.toByteArray(charset("utf-8"))
+                                os.write(input, 0, input.size)
+                            }
+                        }
+                    }
 
-                                connection.outputStream.use { os ->
-                                    val input =
-                                        request.parameters.toByteArray(charset("utf-8"))
-                                    os.write(input, 0, input.size)
-                                }
+                    val responseCode = connection.responseCode
+                    Logger.log(route.url, "response-code: $responseCode")
+
+                    if (responseCode !in 200..299) {
+                        throw RuntimeException("HttpResponseCode: $responseCode, ${connection.responseMessage}")
+                    } else {
+                        val informationString = StringBuilder()
+                        BufferedReader(InputStreamReader(connection.inputStream)).use { reader ->
+                            var line: String?
+                            while (reader.readLine().also { line = it } != null) {
+                                informationString.append(line)
                             }
                         }
 
-                        val responseCode = connection.responseCode
-                        Logger.log(route.url, "response-code: $responseCode")
+                        Logger.log(route.url, "informationString: $informationString")
 
-//                        if (responseCode != 200) {
-                        if (responseCode !in 200..202) {
-                            throw RuntimeException("HttpResponseCode: $responseCode, ${connection.responseMessage}")
-                        } else {
-                            val informationString = StringBuilder()
-                            BufferedReader(InputStreamReader(connection.inputStream)).use { reader ->
-                                var line: String?
-                                while (reader.readLine().also { line = it } != null) {
-                                    informationString.append(line)
-                                }
-                            }
+                        // Use Gson for parsing JSON
+                        val gson = Gson()
+                        val jsonObject = gson.fromJson(informationString.toString(), JsonObject::class.java)
+                        jsonObject.addProperty("is_success", true)
 
-                            Logger.log(route.url, "informationString: $informationString")
-
-                            // Use Gson for parsing JSON
-                            val gson = Gson()
-                            val jsonObject = gson.fromJson(informationString.toString(), JsonObject::class.java)
-                            jsonObject.addProperty("is_success", true)
-
-                            jsonObject.checkToken()
-
-                            onResponse(jsonObject)
-                        }
-                    } catch (e: Exception) {
-                        Logger.log(route.url, "exception: ${e.message}")
-
-                        val jsonObject = JsonObject()
-                        jsonObject.addProperty("is_success", false)
-//                    jsonObject.addProperty("error_message", "Thank you for your interest! Our server is currently undergoing development to bring you an even better experience. Please check back later, and we'll have everything up and running for you soon. Your patience is greatly appreciated!")
-                        jsonObject.addProperty("error_message", "There is an error! Please check back later :)")
+                        jsonObject.checkToken()
 
                         onResponse(jsonObject)
-
-//                    throw RuntimeException(e)
                     }
-                } else {
+                } catch (e: Exception) {
+                    Logger.log(route.url, "exception: ${e.message}")
+
                     val jsonObject = JsonObject()
                     jsonObject.addProperty("is_success", false)
-                    jsonObject.addProperty("error_message", "Internet is not available, check it then try again :)")
+//                    jsonObject.addProperty("error_message", "Thank you for your interest! Our server is currently undergoing development to bring you an even better experience. Please check back later, and we'll have everything up and running for you soon. Your patience is greatly appreciated!")
+                    jsonObject.addProperty("error_message", "There is an error! Please check back later :)")
 
                     onResponse(jsonObject)
                 }
+            } else {
+                val jsonObject = JsonObject()
+                jsonObject.addProperty("is_success", false)
+                jsonObject.addProperty("error_message", "Internet is not available, check it then try again :)")
+
+                onResponse(jsonObject)
             }
+//        }
     }
 }

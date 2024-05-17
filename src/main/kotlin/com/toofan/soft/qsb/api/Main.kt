@@ -1,5 +1,7 @@
 package com.toofan.soft.qsb.api
 
+import com.toofan.soft.qsb.api.repos.enums.RetrieveGendersRepo
+
 suspend fun main(args: Array<String>) {
     println("Hello World!")
 
@@ -15,16 +17,18 @@ suspend fun main(args: Array<String>) {
 //    )
 
 //    RetrieveGendersRepo2.execute {
-//    RetrieveGendersRepo.execute {
-//        when (it) {
-//            is Resource.Success -> {
-//                println("sdads")
-//                println(it.data)
-//            }
-//            is Resource.Error -> {
-//                println(it.message)
-//            }
-//        }
+//    runBlocking {
+        RetrieveGendersRepo.execute {
+            when (it) {
+                is Resource.Success -> {
+                    println("sdads")
+                    println(it.data)
+                }
+                is Resource.Error -> {
+                    println(it.message)
+                }
+            }
+        }
 //    }
 
 
