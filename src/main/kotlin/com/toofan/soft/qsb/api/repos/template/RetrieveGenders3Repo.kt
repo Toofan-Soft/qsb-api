@@ -2,21 +2,17 @@ package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveGenders3Repo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit,
-        scope: CoroutineScope
     ) {
-        scope.launch {
-            ApiExecutor.execute(
-                route = Route.Enum.RetrieveGenderList
-            ) {
-                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
-            }
+        ApiExecutor.execute(
+            route = Route.Enum.RetrieveGenderList
+        ) {
+//                println(Response.map(it).data.size.toString())
+            onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
         }
     }
 

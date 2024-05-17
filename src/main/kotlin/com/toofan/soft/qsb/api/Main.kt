@@ -1,6 +1,8 @@
 package com.toofan.soft.qsb.api
 
 import com.toofan.soft.qsb.api.repos.enums.RetrieveGendersRepo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 suspend fun main(args: Array<String>) {
     println("Hello World!")
@@ -18,6 +20,7 @@ suspend fun main(args: Array<String>) {
 
 //    RetrieveGendersRepo2.execute {
 //    runBlocking {
+    withContext(Dispatchers.IO) {
         RetrieveGendersRepo.execute {
             when (it) {
                 is Resource.Success -> {
@@ -29,6 +32,7 @@ suspend fun main(args: Array<String>) {
                 }
             }
         }
+    }
 //    }
 
 
