@@ -1,35 +1,42 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.template.RetrieveGendersRepo2
-import kotlinx.coroutines.runBlocking
+import com.toofan.soft.qsb.api.repos.guest.AddGuestRepo
 
-fun main(args: Array<String>) {
+suspend fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
-    runBlocking {
-        RetrieveGendersRepo2.execute {
-            when (it) {
-                is Resource.Success -> {
-                    println(it.data)
-                }
-                is Resource.Error -> {
-                    println(it.message)
-                }
-            }
-        }
-    }
+//    RetrieveGendersRepo2.execute {
+//    RetrieveGendersRepo.execute {
+//        when (it) {
+//            is Resource.Success -> {
+//                println("sdads")
+//                println(it.data)
+//            }
+//            is Resource.Error -> {
+//                println(it.message)
+//            }
+//        }
+//    }
+
 
 //    runBlocking {
-//        LoginRepo.execute(
-//            data = { mandatory ->
-//                mandatory.invoke("", "")
-//            },
-//            onComplete = {
-//
-//            }
-//        )
+        AddGuestRepo.execute(
+            data = { mandatory, optional ->
+                mandatory.invoke("m7devoo", 1, "m7devoo12345678@gmail.com", "m7devoo123")
+            },
+            onComplete = {
+                when (it) {
+                    is Resource.Success -> {
+                        println(it.data)
+                    }
+                    is Resource.Error -> {
+                        println(it.message)
+                    }
+                }
+            }
+        )
 //    }
 
 //    RetrieveCollegeRepo.execute(

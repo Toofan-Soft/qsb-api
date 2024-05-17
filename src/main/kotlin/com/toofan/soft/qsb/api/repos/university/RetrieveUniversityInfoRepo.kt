@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.university
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveUniversityInfoRepo {
     @JvmStatic
@@ -43,17 +40,17 @@ object RetrieveUniversityInfoRepo {
             @Field("address")
             val address: String? = null,
             @Field("description")
-            private val _description: String? = null,
+            val description: String? = null,
             @Field("web")
-            private val _web: String? = null,
+            val web: String? = null,
             @Field("youtube")
-            private val _youtube: String? = null,
+            val youtube: String? = null,
             @Field("x_platform")
-            private val _xPlatform: String? = null,
+            val xPlatform: String? = null,
             @Field("facebook")
-            private val _facebook: String? = null,
+            val facebook: String? = null,
             @Field("telegram")
-            private val _telegram: String? = null
+            val telegram: String? = null
         )
 
         companion object {

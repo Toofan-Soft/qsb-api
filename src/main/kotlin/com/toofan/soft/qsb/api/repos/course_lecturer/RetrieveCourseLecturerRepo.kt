@@ -50,38 +50,38 @@ object RetrieveCourseLecturerRepo {
 
         data class Data(
             @Field("college_name")
-            private val _collegeName: String = "",
+            val collegeName: String = "",
             @Field("department_name")
-            private val _departmentName: String = "",
+            val departmentName: String = "",
             @Field("level_name")
-            private val _levelName: String = "",
+            val levelName: String = "",
             @Field("semester_name")
-            private val _semesterName: String = "",
+            val semesterName: String = "",
             @Field("course_name")
-            private val _courseName: String = "",
+            val courseName: String = "",
             @Field("course_part_name")
-            private val _coursePartName: String = "",
+            val coursePartName: String = "",
             @Field("academic_year")
-            private val _academicYear: Int = 0,
+            val academicYear: Int = 0,
             @Field("lectures_count")
-            private val _lecturesCount: Int? = null,
+            val lecturesCount: Int? = null,
             @Field("lecture_duration")
-            private val _lectureDuration: Int? = null,
+            val lectureDuration: Int? = null,
             @Field("score")
-            private val _score: Int? = null,
+            val score: Int? = null,
 
             @Field("lecturer_name")
-            private val _lecturerName: String = "",
+            val lecturerName: String = "",
             @Field("qualification_name")
-            private val _qualificationName: String = "",
+            val qualificationName: String = "",
             @Field("email")
-            private val _email: Int? = null,
+            val email: Int? = null,
             @Field("phone")
-            private val _phone: Int? = null,
+            val phone: Int? = null,
             @Field("specialization")
-            private val _specialization: Int? = null,
+            val specialization: Int? = null,
             @Field("image_url")
-            private val _imageUrl: Int? = null,
+            val imageUrl: Int? = null
         )
 
         companion object {

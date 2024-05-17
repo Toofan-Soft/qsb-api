@@ -3,9 +3,9 @@ package com.toofan.soft.qsb.api
 private object Constant {
 //    private const val URL = "http://26.21.87.97:8000/"
 //    private const val URL = "http://192.168.1.104:8000/"
-//    private const val URL = "http://192.168.1.6:8000/"
-//    private const val URL = "http://localhose:8000/"
-    private const val URL = "http://127.0.0.1:8000/"
+//    private const val URL = "http://localehost:8000/"
+//    private const val URL = "http://127.0.0.1:8000/"
+    private const val URL = "http://192.168.1.16:8000/"
     const val HOME = URL + "api"
 }
 

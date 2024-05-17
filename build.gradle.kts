@@ -17,6 +17,11 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("com.google.code.gson:gson:2.8.9")
+
+    implementation("io.socket:socket.io-client:1.0.0")
+
+    // https://mvnrepository.com/artifact/com.pusher/pusher-java-client
+    implementation("com.pusher:pusher-java-client:2.4.4")
 }
 
 tasks.test {

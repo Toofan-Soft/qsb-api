@@ -69,13 +69,13 @@ object RetrieveCourseLecturersRepo {
             @Field("course_lecturer_id")
             val courseLecturerId: Int = 0,
             @Field("college_name")
-            private val _collegeName: String = "",
+            val collegeName: String = "",
             @Field("department_name")
-            private val _departmentName: String = "",
+            val departmentName: String = "",
             @Field("lecturer_name")
-            private val _lecturerName: String = "",
+            val lecturerName: String = "",
             @Field("academic_year")
-            private val _academicYear: Int? = null
+            val academicYear: Int? = null
         )
 
         companion object {

@@ -1,8 +1,12 @@
 package com.toofan.soft.qsb.api
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 internal object Coroutine {
+//    fun launch(
     suspend fun launch(
         block: suspend CoroutineScope.() -> Unit
     ) {
@@ -10,7 +14,8 @@ internal object Coroutine {
         println("isDesktop: $isDesktop")
 
 //        if (isDesktop()) CoroutineScope(Dispatchers.IO).launch(block = block)
-        if (isDesktop) CoroutineScope(Dispatchers.IO).launch(block = block)
+//        if (isDesktop) CoroutineScope(Dispatchers.IO).launch(block = block)
+        if (isDesktop) withContext(Dispatchers.IO, block)
         else withContext(Dispatchers.IO, block)
     }
 

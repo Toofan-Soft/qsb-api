@@ -53,7 +53,7 @@ object RetrieveEditableCourseStudentRepo {
 
         data class Data(
             @Field("academic_year")
-            private val _academicYear: Int = 0
+            val academicYear: Int = 0
         )
 
         companion object {

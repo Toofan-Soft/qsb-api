@@ -59,9 +59,9 @@ object RetrieveUnlinkedCourseStudentsRepo {
             @Field("academic_id")
             val academicId: Int = 0,
             @Field("name")
-            private val _name: String = "",
+            val name: String = "",
             @Field("image_url")
-            private val _imageUrl: String? = null
+            val imageUrl: String? = null
         )
 
         companion object {

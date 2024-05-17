@@ -1,25 +1,25 @@
 package com.toofan.soft.qsb.api.repos.department_course_part
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object AddDepartmentCoursePartRepo {
     @JvmStatic
     suspend fun execute(
         data: (
-            mandatory: Mandatory
+            mandatory: Mandatory,
+            optional: Optional
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { departmentCourseId, coursePartId ->
+            data.invoke(
+                { departmentCourseId, coursePartId ->
                 request = Request(departmentCourseId, coursePartId)
-            }
+                },
+                { request!!.optional(it) }
+            )
 
             request?.let {
                 ApiExecutor.execute(
@@ -37,6 +37,10 @@ object AddDepartmentCoursePartRepo {
             departmentCourseId: Int,
             coursePartId: Int
         )
+    }
+
+    fun interface Optional {
+        operator fun invoke(block: Request.() -> Unit)
     }
 
     data class Request(
@@ -58,7 +62,7 @@ object AddDepartmentCoursePartRepo {
         val lectureDuration = loggableProperty(_lectureDuration)
         val note = loggableProperty(_note)
 
-        fun optional(block: AddQuestionRepo.Request.() -> Unit): AddQuestionRepo.Request {
+        fun optional(block: Request.() -> Unit): Request {
             return build(block)
         }
     }

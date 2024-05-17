@@ -2,9 +2,6 @@ package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object RetrieveUserRepo {
     @JvmStatic
@@ -63,7 +60,7 @@ object RetrieveUserRepo {
             @Field("owner_name")
             val ownerName: String = "",
             @Field("roles")
-            val roles: Data = Data(),
+            val roles: List<Data> = emptyList(),
             @Field("image_url")
             val imageUrl: String? = null
         ) {

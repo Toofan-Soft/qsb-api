@@ -104,3 +104,13 @@ fun IRequest.string(): String {
     }
     return "${this.javaClass.name}($string)"
 }
+
+
+
+//    fun interface Optional<T> {
+//        operator fun invoke(block: T.() -> Unit)
+//    }
+//
+//    fun<T: IRequest> optional(block: T.() -> Unit): T {
+//        return build(block)
+//    }

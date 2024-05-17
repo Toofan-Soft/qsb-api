@@ -74,11 +74,11 @@ object RetrieveCourseStudentsRepo {
             @Field("academic_id")
             val academicId: Int = 0,
             @Field("name")
-            private val _name: String = "",
+            val name: String = "",
             @Field("status_name")
-            private val _statusName: String? = null,
+            val statusName: String? = null,
             @Field("image_url")
-            private val _imageUrl: String? = null
+            val imageUrl: String? = null
         )
 
         companion object {

@@ -3,16 +3,31 @@ package com.toofan.soft.qsb.api.repos.template
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.utils.InternetUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 object RetrieveGendersRepo2 {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
+        println("bbbbbbb")
         Coroutine.launch {
+            println("aaaaaaa")
+
+//            val resource = withContext(Dispatchers.IO) {
+//                if (InternetUtils.isInternetAvailable()) {
+//                    Resource.Success(
+//                        data = listOf(
+//                            Response.Data(1, "Male"),
+//                            Response.Data(2, "Female"),
+//                        )
+//                    )
+//                } else {
+//                    Resource.Error(
+//                        message = "Internet is not available, check it then try again :)"
+//                    )
+//                }
+//            }
+
             onComplete(
                 if (InternetUtils.isInternetAvailable()) {
                     Resource.Success(
@@ -27,6 +42,9 @@ object RetrieveGendersRepo2 {
                     )
                 }
             )
+
+//            onComplete(resource)
+            println("aaaaaaa2")
         }
     }
 
