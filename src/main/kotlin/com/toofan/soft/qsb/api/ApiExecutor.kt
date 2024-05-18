@@ -17,7 +17,7 @@ object ApiExecutor {
         request: IRequest? = null,
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
-//        Coroutine.launch {
+        Coroutine.launch {
             if (InternetUtils.isInternetAvailable()) {
                 try {
                     val url = if (route.method == Method.GET.value && request != null) {
@@ -91,6 +91,6 @@ object ApiExecutor {
 
                 onResponse(jsonObject)
             }
-//        }
+        }
     }
 }
