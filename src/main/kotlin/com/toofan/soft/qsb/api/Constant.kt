@@ -1,12 +1,15 @@
 package com.toofan.soft.qsb.api
 
 private object Constant {
-//    private const val URL = "http://26.21.87.97:8000/"
-//    private const val URL = "http://192.168.1.104:8000/"
-//    private const val URL = "http://localehost:8000/"
-//    private const val URL = "http://127.0.0.1:8000/"
-    private const val URL = "http://192.168.1.21:8000/"
+    private const val URL = "http://localehost:8000/"
     const val HOME = URL + "api"
+}
+
+object Api {
+    internal var HOME = Constant.HOME
+    fun init(ip: String) {
+        HOME = "http://$ip:8000/api"
+    }
 }
 
 sealed class Route(
@@ -14,7 +17,8 @@ sealed class Route(
     private val _method: Method,
     private val _isAuthorized: Boolean
 ) {
-    internal val url get() = "${Constant.HOME}/$_path"
+//    internal val url get() = "${Constant.HOME}/$_path"
+    internal val url get() = "${Api.HOME}/$_path"
     internal val method get() = _method.value
     internal val isAuthorized get() = _isAuthorized
 

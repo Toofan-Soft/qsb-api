@@ -7,7 +7,6 @@ suspend fun main(args: Array<String>) {
 
     println("Program arguments: ${args.joinToString()}")
 
-
     LoginRepo.execute(
         data = {
             it.invoke("user@gmail.com", "123456kk")
