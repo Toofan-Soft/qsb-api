@@ -7,6 +7,8 @@ private object Constant {
 
 object Api {
     internal var HOME = Constant.HOME
+    
+    @JvmStatic
     fun init(ip: String) {
         HOME = "http://$ip:8000/api"
     }
