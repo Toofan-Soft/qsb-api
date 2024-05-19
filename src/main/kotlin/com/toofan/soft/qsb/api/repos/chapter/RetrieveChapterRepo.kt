@@ -20,7 +20,8 @@ object RetrieveChapterRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Chapter.Retrieve
+                    route = Route.Chapter.Retrieve,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }

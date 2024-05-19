@@ -16,10 +16,13 @@ object RetrieveOnlineExamsAndroidRepo {
 
             data.invoke { request.optional(it) }
 
-            ApiExecutor.execute(
-                route = Route.LecturerOnlineExam.RetrieveAndroidList
-            ) {
-                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
+            request.let {
+                ApiExecutor.execute(
+                    route = Route.LecturerOnlineExam.RetrieveAndroidList,
+                    request = it
+                ) {
+                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
+                }
             }
         }
     }

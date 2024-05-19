@@ -24,7 +24,8 @@ object RetrieveCourseStudentsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.CourseStudent.RetrieveList
+                    route = Route.CourseStudent.RetrieveList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

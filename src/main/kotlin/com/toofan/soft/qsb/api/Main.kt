@@ -1,20 +1,38 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import com.toofan.soft.qsb.api.repos.department.RetrieveBasicDepartmentsInfoRepo
+import kotlinx.coroutines.runBlocking
 
 suspend fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
-    LoginRepo.execute(
-        data = {
-            it.invoke("user@gmail.com", "123456kk")
-        },
-        onComplete = {
-            println("complete")
-        }
-    )
+    runBlocking {
+        Api.init("192.168.1.9")
+//        LoginRepo.execute(
+//            data = {
+//                it.invoke("user@gmail.com", "1234567a")
+//            },
+//            onComplete = {
+//                println("complete")
+//            }
+//        )
+
+        RetrieveBasicDepartmentsInfoRepo.execute(
+//        RetrieveDepartmentsRepo.execute(
+            data = { mandatory ->
+                mandatory.invoke(1)
+            },
+            onComplete = {
+                println("complete")
+                it.data?.forEach {
+                    println(it.name)
+                }
+            }
+        )
+    }
+
 
 //    RetrieveGendersRepo2.execute {
 //    runBlocking {

@@ -21,7 +21,7 @@ object RetrieveCollegeRepo {
             request?.let {
                 ApiExecutor.execute(
                     route = Route.College.Retrieve,
-                    request = request
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }

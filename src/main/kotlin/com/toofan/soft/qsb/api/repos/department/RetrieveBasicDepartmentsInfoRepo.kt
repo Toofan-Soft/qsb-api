@@ -20,7 +20,8 @@ object RetrieveBasicDepartmentsInfoRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Department.RetrieveBasicInfoList
+                    route = Route.Department.RetrieveBasicInfoList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

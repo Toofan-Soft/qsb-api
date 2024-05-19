@@ -20,7 +20,8 @@ object RetrieveFavoriteQuestionsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.FavoriteQuestion.RetrieveList
+                    route = Route.FavoriteQuestion.RetrieveList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

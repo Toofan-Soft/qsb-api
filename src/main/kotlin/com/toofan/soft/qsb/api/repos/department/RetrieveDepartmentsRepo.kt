@@ -20,7 +20,8 @@ object RetrieveDepartmentsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Department.RetrieveList
+                    route = Route.Department.RetrieveList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

@@ -23,7 +23,8 @@ object ExportPaperExamToPdfRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PaperExam.Export
+                    route = Route.PaperExam.Export,
+                    request = it
                 ) {
 //                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }

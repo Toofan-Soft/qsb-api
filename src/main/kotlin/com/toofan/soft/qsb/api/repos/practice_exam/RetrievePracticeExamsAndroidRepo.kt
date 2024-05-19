@@ -21,7 +21,8 @@ object RetrievePracticeExamsAndroidRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.RetrieveAndroidList
+                    route = Route.PracticeOnlineExam.RetrieveAndroidList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

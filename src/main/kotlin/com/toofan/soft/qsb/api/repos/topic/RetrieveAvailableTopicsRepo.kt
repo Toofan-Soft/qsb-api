@@ -20,7 +20,8 @@ object RetrieveAvailableTopicsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Topic.RetrieveAvailableList
+                    route = Route.Topic.RetrieveAvailableList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

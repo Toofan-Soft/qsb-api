@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.university
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object ModifyUniversityDataRepo {
     @JvmStatic
@@ -18,11 +15,13 @@ object ModifyUniversityDataRepo {
 
             data.invoke { request.optional(it) }
 
-            ApiExecutor.execute(
-                route = Route.University.Modify,
-                request = request
-            ) {
-                onComplete(Response.map(it).getResource() as Resource<Boolean>)
+            request.let {
+                ApiExecutor.execute(
+                    route = Route.University.Modify,
+                    request = request
+                ) {
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                }
             }
         }
     }

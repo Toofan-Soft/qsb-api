@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object SavePracticeExamQuestionAnswerRepo {
     @JvmStatic
@@ -35,7 +32,8 @@ object SavePracticeExamQuestionAnswerRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.SaveQuestionAnswer
+                    route = Route.PracticeOnlineExam.SaveQuestionAnswer,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)
                 }

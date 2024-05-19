@@ -24,7 +24,8 @@ object RetrieveQuestionsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Question.RetrieveList
+                    route = Route.Question.RetrieveList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

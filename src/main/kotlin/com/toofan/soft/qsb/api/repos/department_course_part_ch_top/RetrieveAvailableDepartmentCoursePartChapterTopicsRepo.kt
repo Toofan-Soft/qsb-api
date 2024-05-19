@@ -20,7 +20,8 @@ object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.DepartmentCoursePartChapterAndTopic.RetrieveAvailableTopicList
+                    route = Route.DepartmentCoursePartChapterAndTopic.RetrieveAvailableTopicList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

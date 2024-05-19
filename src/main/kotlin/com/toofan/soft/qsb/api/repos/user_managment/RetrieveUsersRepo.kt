@@ -20,7 +20,8 @@ object RetrieveUsersRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.UserManagement.RetrieveList
+                    route = Route.UserManagement.RetrieveList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

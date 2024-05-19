@@ -20,7 +20,8 @@ object RetrieveRolesRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Filter.RetrieveRoleList
+                    route = Route.Filter.RetrieveRoleList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

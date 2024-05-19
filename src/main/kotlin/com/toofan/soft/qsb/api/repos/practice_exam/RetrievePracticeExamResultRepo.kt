@@ -20,7 +20,8 @@ object RetrievePracticeExamResultRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.RetrieveResult
+                    route = Route.PracticeOnlineExam.RetrieveResult,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }

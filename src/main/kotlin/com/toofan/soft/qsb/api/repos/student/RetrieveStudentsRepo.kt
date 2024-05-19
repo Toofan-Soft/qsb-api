@@ -20,7 +20,8 @@ object RetrieveStudentsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Student.RetrieveList
+                    route = Route.Student.RetrieveList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

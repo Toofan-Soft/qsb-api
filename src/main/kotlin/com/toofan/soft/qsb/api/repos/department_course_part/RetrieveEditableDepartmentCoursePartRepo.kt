@@ -20,7 +20,8 @@ object RetrieveEditableDepartmentCoursePartRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.DepartmentCoursePart.RetrieveEditable
+                    route = Route.DepartmentCoursePart.RetrieveEditable,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }

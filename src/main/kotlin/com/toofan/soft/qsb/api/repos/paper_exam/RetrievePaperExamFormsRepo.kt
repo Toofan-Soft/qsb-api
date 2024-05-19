@@ -20,7 +20,8 @@ object RetrievePaperExamFormsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PaperExam.RetrieveFormList
+                    route = Route.PaperExam.RetrieveFormList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

@@ -20,7 +20,8 @@ object RetrieveEmployeesOfJobRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Filter.RetrieveEmployeeOfJobList
+                    route = Route.Filter.RetrieveEmployeeOfJobList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

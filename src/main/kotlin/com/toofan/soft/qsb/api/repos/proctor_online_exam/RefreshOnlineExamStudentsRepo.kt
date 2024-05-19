@@ -20,7 +20,8 @@ object RefreshOnlineExamStudentsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.ProctorOnlineExam.RefreshStudentList
+                    route = Route.ProctorOnlineExam.RefreshStudentList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

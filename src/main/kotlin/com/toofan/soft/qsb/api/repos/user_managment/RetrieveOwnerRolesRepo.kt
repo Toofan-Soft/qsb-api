@@ -20,7 +20,8 @@ object RetrieveOwnerRolesRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.UserManagement.RetrieveOwnerRoleList
+                    route = Route.UserManagement.RetrieveOwnerRoleList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

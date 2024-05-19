@@ -17,7 +17,7 @@ object ApiExecutor {
         request: IRequest? = null,
         onResponse: (jsonObject: JsonObject) -> Unit = {}
     ) {
-        Coroutine.launch {
+//        Coroutine.launch {
             if (InternetUtils.isInternetAvailable()) {
                 try {
                     val url = if (route.method == Method.GET.value && request != null) {
@@ -66,6 +66,7 @@ object ApiExecutor {
                         Logger.log(route.url, "informationString: $informationString")
 
                         // Use Gson for parsing JSON
+
                         val gson = Gson()
                         val jsonObject = gson.fromJson(informationString.toString(), JsonObject::class.java)
                         jsonObject.addProperty("is_success", true)
@@ -75,6 +76,10 @@ object ApiExecutor {
                         onResponse(jsonObject)
                     }
                 } catch (e: Exception) {
+                    Logger.log(route.url, "exception:\n")
+                    for (stackTraceElement in e.stackTrace.iterator()) {
+                        println(stackTraceElement.toString())
+                    }
                     Logger.log(route.url, "exception: ${e.message}")
 
                     val jsonObject = JsonObject()
@@ -92,5 +97,5 @@ object ApiExecutor {
                 onResponse(jsonObject)
             }
         }
-    }
+//    }
 }

@@ -20,7 +20,8 @@ object RetrieveEditableQuestionChoiceRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.QuestionChoice.RetrieveEditable
+                    route = Route.QuestionChoice.RetrieveEditable,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }

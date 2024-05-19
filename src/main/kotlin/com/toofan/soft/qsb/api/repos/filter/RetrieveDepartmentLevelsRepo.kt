@@ -20,7 +20,8 @@ object RetrieveDepartmentLevelsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Filter.RetrieveDepartmentLevelList
+                    route = Route.Filter.RetrieveDepartmentLevelList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

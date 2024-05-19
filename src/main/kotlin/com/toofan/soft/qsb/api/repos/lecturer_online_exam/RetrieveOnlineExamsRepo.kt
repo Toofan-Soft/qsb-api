@@ -24,7 +24,8 @@ object RetrieveOnlineExamsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.LecturerOnlineExam.RetrieveList
+                    route = Route.LecturerOnlineExam.RetrieveList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

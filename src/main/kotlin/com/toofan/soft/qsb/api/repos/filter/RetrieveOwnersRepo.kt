@@ -20,7 +20,8 @@ object RetrieveOwnersRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Filter.RetrieveOwnerList
+                    route = Route.Filter.RetrieveOwnerList,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }

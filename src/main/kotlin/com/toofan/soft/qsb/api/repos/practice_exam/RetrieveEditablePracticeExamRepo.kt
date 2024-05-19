@@ -20,7 +20,8 @@ object RetrieveEditablePracticeExamRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.RetrieveEditable
+                    route = Route.PracticeOnlineExam.RetrieveEditable,
+                    request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
