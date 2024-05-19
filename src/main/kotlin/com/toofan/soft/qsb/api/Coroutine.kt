@@ -2,7 +2,9 @@ package com.toofan.soft.qsb.api
 
 import kotlinx.coroutines.*
 
-internal object Coroutine {
+//internal object Coroutine {
+object Coroutine {
+    @JvmStatic
     suspend fun launch(
         block: suspend CoroutineScope.() -> Unit
     ) {
