@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.services
 
 object PdfHelper {
     /* Data:
+    *   .
     *   . university
     *   . college
     *   . department
@@ -12,20 +13,20 @@ object PdfHelper {
     *   . exam type
     *   . date
     *   . duration
-    *   . form?
-    *   .
+    *
     *   . lecturer
     *   . score
-    *   .
-    *   . questions
-    *       . content
-    *       . attachment?
-    *       . choices
+    *
+    *   . forms
+    *       . form name?
+    *       . questions
     *           . content
     *           . attachment?
-    *           .
-    *           .
-    *       .
+    *           . is true?
+    *           . choices?
+    *               . content
+    *               . attachment?
+    *               . is true?
     *   .
     * */
 

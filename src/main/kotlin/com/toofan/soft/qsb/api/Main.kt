@@ -1,36 +1,104 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.department.RetrieveBasicDepartmentsInfoRepo
+import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
 
-suspend fun main(args: Array<String>) {
+fun main() {
+    runBlocking {
+        Api.init("192.168.1.18")
+        AddQuestionRepo.execute(
+            data = { mandatory, optional ->
+//                mandatory.invoke(
+//                    1,
+//                    0,
+//                    1,
+//                    1,
+//                    1,
+//                    20,
+//                    "content",
+//                    choice = {
+//                        it.invoke(-1, "", false, null)
+//                        it.invoke(-2, "", true, null)
+//                        it.invoke(1, "", true, null)
+//                    }
+//                )
+
+                mandatory.invoke(
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    20,
+                    "content",
+                    choice = {
+                        it.invoke(null, "content 1", true, null)
+                        it.invoke(null, "content 2", true, null)
+                        it.invoke(null, "content 3", false, null)
+                    }
+                )
+//                optional.invoke {
+//                    title("title")
+//                }
+            },
+            onComplete = {
+                when (it) {
+                    is Resource.Success -> {
+                        println("Success :)")
+                    }
+                    is Resource.Error -> {
+                        println("Error: " + it.message)
+                    }
+                }
+            }
+        )
+    }
+}
+
+suspend fun main1(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
     runBlocking {
-        Api.init("192.168.1.9")
-//        LoginRepo.execute(
-//            data = {
-//                it.invoke("user@gmail.com", "1234567a")
+//        Api.init("192.168.1.9")
+        LoginRepo.execute(
+            data = {
+                it.invoke("user9@gmail.com", "123456aa")
+            },
+            onComplete = {
+                println("complete")
+                runBlocking {
+                    RetrieveProfileRepo.execute {
+                        println("complete")
+                    }
+                }
+            }
+        )
+
+//        AddGuestRepo.execute(
+//            data = { mandatory, optional ->
+//                mandatory.invoke("user5", 1, "user5@gmail.com", "123456aa")
 //            },
 //            onComplete = {
 //                println("complete")
 //            }
 //        )
 
-        RetrieveBasicDepartmentsInfoRepo.execute(
-//        RetrieveDepartmentsRepo.execute(
-            data = { mandatory ->
-                mandatory.invoke(1)
-            },
-            onComplete = {
-                println("complete")
-                it.data?.forEach {
-                    println(it.name)
-                }
-            }
-        )
+//        RetrieveBasicDepartmentsInfoRepo.execute(
+////        RetrieveDepartmentsRepo.execute(
+//            data = { mandatory ->
+//                mandatory.invoke(1)
+//            },
+//            onComplete = {
+//                println("complete")
+//                it.data?.forEach {
+//                    println(it.name)
+//                }
+//            }
+//        )
     }
 
 

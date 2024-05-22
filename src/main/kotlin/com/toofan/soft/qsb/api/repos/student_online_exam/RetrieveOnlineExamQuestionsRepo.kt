@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.helper.QuestionHelper
 
 object RetrieveOnlineExamQuestionsRepo {
     @JvmStatic
@@ -48,43 +49,80 @@ object RetrieveOnlineExamQuestionsRepo {
         @Field("data")
         val data: List<Data> = emptyList()
     ) : IResponse {
-
         data class Data(
             @Field("type_name")
             val typeName: String = "",
             @Field("questions")
             val questions: List<Data> = emptyList()
         ) : IResponse {
-            sealed interface Data {
-                data class TrueFalse(
+            data class Data(
+                @Field("id")
+                val id: Int = 0,
+                @Field("content")
+                val content: String = "",
+                @Field("attachment_url")
+                val attachmentUrl: String? = null,
+                @Field("choices")
+                private val choices: List<Data>? = null
+            ) : IResponse {
+                data class Data(
                     @Field("id")
                     val id: Int = 0,
                     @Field("content")
                     val content: String = "",
                     @Field("attachment_url")
                     val attachmentUrl: String? = null
-                ) : Data
+                ) : IResponse
 
-                data class MultiChoice(
-                    @Field("id")
-                    val id: Int = 0,
-                    @Field("content")
-                    val content: String = "",
-                    @Field("attachment_url")
-                    val attachmentUrl: String? = null,
-                    @Field("choices")
-                    val choices: List<Data> = emptyList()
-                ) : Data {
-                    data class Data(
-                        @Field("id")
-                        val id: Int = 0,
-                        @Field("content")
-                        val content: String = "",
-                        @Field("attachment_url")
-                        val attachmentUrl: String? = null
-                    )
+                fun getChoices(): List<QuestionHelper.Data.Data> {
+                    return choices?.map {
+                        QuestionHelper.Data.Data(
+                            id = it.id,
+                            content = it.content,
+                            attachmentUrl = it.attachmentUrl
+                        )
+                    }
+                        ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
                 }
             }
+
+
+//        data class Data(
+//            @Field("type_name")
+//            val typeName: String = "",
+//            @Field("questions")
+//            val questions: List<Data> = emptyList()
+//        ) : IResponse {
+//            sealed interface Data {
+//                data class TrueFalse(
+//                    @Field("id")
+//                    val id: Int = 0,
+//                    @Field("content")
+//                    val content: String = "",
+//                    @Field("attachment_url")
+//                    val attachmentUrl: String? = null
+//                ) : Data
+//
+//                data class MultiChoice(
+//                    @Field("id")
+//                    val id: Int = 0,
+//                    @Field("content")
+//                    val content: String = "",
+//                    @Field("attachment_url")
+//                    val attachmentUrl: String? = null,
+//                    @Field("choices")
+//                    val choices: List<Data> = emptyList()
+//                ) : Data {
+//                    data class Data(
+//                        @Field("id")
+//                        val id: Int = 0,
+//                        @Field("content")
+//                        val content: String = "",
+//                        @Field("attachment_url")
+//                        val attachmentUrl: String? = null
+//                    )
+//                }
+//            }
         }
 
         companion object {

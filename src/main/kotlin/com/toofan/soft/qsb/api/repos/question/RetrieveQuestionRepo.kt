@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.helper.QuestionHelper
 
 object RetrieveQuestionRepo {
     @JvmStatic
@@ -67,8 +68,10 @@ object RetrieveQuestionRepo {
             val title: String? = null,
             @Field("status")
             val status: Status = Status(),
-            @Field("answer")
-            val answer: Answer
+            @Field("is_true")
+            private val isTrue: Boolean? = null,
+            @Field("choices")
+            private val choices: List<Data>? = null
         ) : IResponse {
             data class Status(
                 @Field("is_requested")
@@ -77,29 +80,88 @@ object RetrieveQuestionRepo {
                 val isAccepted: Boolean = false
             ) : IResponse
 
-            sealed interface Answer {
-                data class TrueFalse(
-                    @Field("is_true")
-                    val isTrue: Boolean = false
-                ) : Answer
+            data class Data(
+                @Field("id")
+                val id: Int = 0,
+                @Field("content")
+                val content: String = "",
+                @Field("is_true")
+                val isTrue: Boolean = false,
+                @Field("attachment_url")
+                val attachmentUrl: String? = null
+            ) : IResponse
 
-                data class Choices(
-                    @Field("choices")
-                    val choices: List<Choice> = emptyList()
-                ) : Answer
-
-                data class Choice(
-                    @Field("id")
-                    val id: Int = 0,
-                    @Field("content")
-                    val content: String = "",
-                    @Field("is_true")
-                    val isTrue: Boolean = false,
-                    @Field("attachment_url")
-                    val attachmentUrl: String? = null
-                )
+            fun getChoices(): List<QuestionHelper.Data.Data> {
+                return if (isTrue != null && choices == null) {
+                    listOf(
+                        QuestionHelper.Data.Data.Type.CORRECT.toData().copy(isTrue = isTrue),
+                        QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isTrue = !isTrue)
+                    )
+                } else if (isTrue == null && choices != null) {
+                    choices.map {
+                        QuestionHelper.Data.Data(
+                            id = it.id,
+                            content = it.content,
+                            isTrue = it.isTrue,
+                            attachmentUrl = it.attachmentUrl
+                        )
+                    }
+                } else {
+                    emptyList()
+                }
             }
         }
+
+//        data class Data(
+//            @Field("difficulty_level_name")
+//            val difficultyLevelName: String = "",
+//            @Field("accessibility_status_Name")
+//            val accessibilityStatusName: String = "",
+//            @Field("language_Name")
+//            val languageName: String = "",
+//            @Field("estimated_answer_time")
+//            val estimatedAnswerTime: Int = 0,
+//            @Field("content")
+//            val content: String = "",
+//            @Field("attachment_url")
+//            val attachmentUrl: String? = null,
+//            @Field("title")
+//            val title: String? = null,
+//            @Field("status")
+//            val status: Status = Status(),
+//            @Field("answer")
+//            val answer: Answer
+//        ) : IResponse {
+//            data class Status(
+//                @Field("is_requested")
+//                val isRequested: Boolean = false,
+//                @Field("is_accepted")
+//                val isAccepted: Boolean = false
+//            ) : IResponse
+//
+//            sealed interface Answer {
+//                data class TrueFalse(
+//                    @Field("is_true")
+//                    val isTrue: Boolean = false
+//                ) : Answer
+//
+//                data class Choices(
+//                    @Field("choices")
+//                    val choices: List<Choice> = emptyList()
+//                ) : Answer
+//
+//                data class Choice(
+//                    @Field("id")
+//                    val id: Int = 0,
+//                    @Field("content")
+//                    val content: String = "",
+//                    @Field("is_true")
+//                    val isTrue: Boolean = false,
+//                    @Field("attachment_url")
+//                    val attachmentUrl: String? = null
+//                )
+//            }
+//        }
 
         companion object {
             private fun getInstance(): Response {

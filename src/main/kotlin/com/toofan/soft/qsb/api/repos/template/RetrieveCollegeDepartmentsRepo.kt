@@ -2,7 +2,6 @@ package com.toofan.soft.qsb.api.repos.template
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.Field
 import kotlinx.coroutines.runBlocking
 
 object RetrieveCollegeDepartmentsRepo {
@@ -19,7 +18,6 @@ object RetrieveCollegeDepartmentsRepo {
             request = Request(id)
         }
 
-        println("parameters: ${request!!.parameters}")
 
         request?.let {
             runBlocking {

@@ -1,6 +1,7 @@
 package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.helper.QuestionHelper
 
 object SavePracticeExamQuestionAnswerRepo {
     @JvmStatic
@@ -12,31 +13,47 @@ object SavePracticeExamQuestionAnswerRepo {
     ) {
         Coroutine.launch {
             var request: Request? = null
+            var error: String? = null
 
-            data.invoke { examId, questionId, answer ->
-                var _answer: Request.Data? = null
+            var _choiceId: Int? =  null
+            var _isCorrect: Boolean? = null
 
-                answer.invoke(
-                    {
-                        _answer = Request.Data.TrueFalse(it)
-                    },
-                    {
-                        _answer = Request.Data.MultiChoice(it)
+            data.invoke { examId, questionId, choiceId ->
+                request = Request(examId, questionId)
+
+                when (QuestionHelper.Data.Data.Type.of(choiceId)) {
+                    QuestionHelper.Data.Data.Type.CORRECT -> {
+                        _isCorrect = true
                     }
-                )
+                    QuestionHelper.Data.Data.Type.INCORRECT -> {
+                        _isCorrect = false
+                    }
+                    null -> {
+                        _choiceId = choiceId
+                    }
+                }
 
-                _answer?.let {
-                    request = Request(examId, questionId, it)
+                if (_choiceId == null && _isCorrect != null) {
+                    request!!.isTrue(_isCorrect)
+                } else if (_choiceId != null && _isCorrect == null) {
+                    request!!.choiceId(_choiceId)
+                } else {
+                    // handle error
+                    error = "Choices Error!"
                 }
             }
 
-            request?.let {
-                ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.SaveQuestionAnswer,
-                    request = it
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+            if (error == null) {
+                request?.let {
+                    ApiExecutor.execute(
+                        route = Route.PracticeOnlineExam.SaveQuestionAnswer,
+                        request = it
+                    ) {
+                        onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                    }
                 }
+            } else {
+                onComplete(Resource.Error(error))
             }
         }
     }
@@ -45,23 +62,8 @@ object SavePracticeExamQuestionAnswerRepo {
         operator fun invoke(
             examId: Int,
             questionId: Int,
-            answer: (
-                mandatory: TrueFalse,
-                multiChoice: MultiChoice
-            ) -> Unit
+            choiceId: Int
         )
-
-        fun interface TrueFalse {
-            operator fun invoke(
-                isTrue: Boolean
-            )
-        }
-
-        fun interface MultiChoice {
-            operator fun invoke(
-                choiceId: Int
-            )
-        }
     }
 
     data class Request(
@@ -69,19 +71,16 @@ object SavePracticeExamQuestionAnswerRepo {
         private val _examId: Int,
         @Field("question_id")
         private val _questionId: Int,
-        @Field("answer")
-        private val _answer: Data,
+        @Field("is_true")
+        private val _isTrue: OptionalVariable<Boolean> = OptionalVariable(),
+        @Field("choice_id")
+        private val _choiceId: OptionalVariable<Int> = OptionalVariable()
     ) : IRequest {
-        sealed interface Data {
-            data class TrueFalse(
-                @Field("is_true")
-                private val isTrue: Boolean
-            ) : Data
+        internal val isTrue = loggableProperty(_isTrue)
+        internal val choiceId = loggableProperty(_choiceId)
 
-            data class MultiChoice(
-                @Field("choice_id")
-                private val _choiceId: Int
-            ) : Data
+        fun optional(block: Request.() -> Unit): Request {
+            return build(block)
         }
     }
 }

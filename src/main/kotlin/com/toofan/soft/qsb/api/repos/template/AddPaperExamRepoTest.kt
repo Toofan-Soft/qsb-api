@@ -26,7 +26,6 @@ object AddPaperExamRepoTest {
             { request!!.optional(it) }
         )
 
-        println(request!!.parameters)
 
 //        request?.let {
 //            runBlocking {

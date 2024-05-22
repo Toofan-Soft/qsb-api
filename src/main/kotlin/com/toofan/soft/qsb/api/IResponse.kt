@@ -1,9 +1,10 @@
 package com.toofan.soft.qsb.api
 
-import com.google.gson.JsonArray
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.toofan.soft.qsb.api.repos.college.RetrieveBasicCollegesInfoRepo
+import com.toofan.soft.qsb.api.repos.favorite_question.RetrieveFavoriteQuestionRepo
 import com.toofan.soft.qsb.api.services.Logger
 import kotlinx.coroutines.runBlocking
 import java.lang.reflect.ParameterizedType
@@ -86,7 +87,7 @@ internal interface IResponse {
                 Long::class.java -> value.asLong
                 Float::class.java -> value.asFloat
                 Double::class.java -> value.asDouble
-                Boolean::class.java -> value.asBoolean
+                Boolean::class.java, java.lang.Boolean::class.java -> value.asBoolean
                 String::class.java -> if (value.isJsonNull) null else value.asString
                 List::class.java -> {
                     val listType = getListType(field)
@@ -96,7 +97,7 @@ internal interface IResponse {
                             Long::class.java -> value.asJsonArray.map { it.asLong }
                             Float::class.java -> value.asJsonArray.map { it.asFloat }
                             Double::class.java -> value.asJsonArray.map { it.asDouble }
-                            Boolean::class.java -> value.asJsonArray.map { it.asBoolean }
+                            Boolean::class.java, java.lang.Boolean::class.java -> value.asJsonArray.map { it.asBoolean }
                             String::class.java -> value.asJsonArray.map { it.asString }
                             else -> {
                                 if (IResponse::class.java.isAssignableFrom(listType)) {
@@ -148,50 +149,146 @@ internal interface IResponse {
     }
 }
 
+//
+//fun main() {
+//    val jsonObject = JsonObject()
+//    jsonObject.addProperty("is_success", true)
+//
+//    val data = listOf(
+//        mapOf("id" to 2147483647, "name" to "College 1", "logo_url" to "https://example.com/logo1.png"),
+//        mapOf("id" to 2, "name" to "College 2", "logo_url" to "https://example.com/logo2.png"),
+//        // Add more colleges as needed
+//    )
+//
+//    val dataArray = JsonArray()
+//    data.forEach { college ->
+//        val collegeObject = JsonObject()
+//        college.forEach { (key, value) ->
+//            collegeObject.addProperty(key, value.toString())
+//        }
+//        dataArray.add(collegeObject)
+//    }
+//
+////    data.first().let { college ->
+////        val collegeObject = JsonObject()
+////        college.forEach { (key, value) ->
+////            collegeObject.addProperty(key, value.toString())
+////        }
+////        jsonObject.add("data", collegeObject)
+////    }
+//
+////    (0..9).forEach {
+////        dataArray.add(it)
+////    }
+//
+//    jsonObject.add("data", dataArray)
+//
+////    val jsonString = Gson().toJson(jsonObject)
+////
+////    println(jsonString)
+////
+////    val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
+////    println("response: $response")
+//
+//    runBlocking {
+//        execute(
+//            jsonObject = jsonObject,
+//            onComplete = {
+//                when (it) {
+//                    is Resource.Success -> {
+//                        println("data: ${it.data}")
+//                    }
+//                    is Resource.Error -> {
+//                        println("message: ${it.message}")
+//                    }
+//                }
+//            }
+//        )
+//    }
+//}
+
+//suspend fun execute(
+//    jsonObject: JsonObject,
+//    onComplete: (Resource<List<RetrieveBasicCollegesInfoRepo.Response.Data>>) -> Unit
+//) {
+//    runBlocking {
+//        val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
+//
+//        println("response: $response")
+//
+//        val resource = response.getResource() as Resource<RetrieveBasicCollegesInfoRepo.Response.Data>
+//        println(resource.toString())
+//
+////        if (response.isSuccess) {
+////            onComplete(Resource.Success(response.data))
+////        } else {
+////            onComplete(Resource.Error(response.errorMessage))
+////        }
+//    }
+//}
+
+
+suspend fun execute(
+    jsonObject: JsonObject,
+    onComplete: (Resource<RetrieveFavoriteQuestionRepo.Response.Data>) -> Unit
+) {
+    runBlocking {
+        val response = RetrieveFavoriteQuestionRepo.Response.map(jsonObject)
+//        val response = RetrieveFavoriteQuestionRepo.Response.Data().getResponse(jsonObject) as RetrieveFavoriteQuestionRepo.Response.Data
+
+        println("response: $response")
+
+        if (response.isSuccess) {
+//            onComplete(Resource.Success(response.data))
+            val resource = response.getResource() as Resource<RetrieveFavoriteQuestionRepo.Response.Data>
+            println(resource.toString())
+
+            resource.data?.let {
+                it.getChoices().forEach {
+                    println(it.toString())
+                }
+            }
+
+        } else {
+            onComplete(Resource.Error(response.errorMessage))
+        }
+    }
+}
+
 
 fun main() {
     val jsonObject = JsonObject()
     jsonObject.addProperty("is_success", true)
 
-    val data = listOf(
-        mapOf("id" to 2147483647, "name" to "College 1", "logo_url" to "https://example.com/logo1.png"),
-        mapOf("id" to 2, "name" to "College 2", "logo_url" to "https://example.com/logo2.png"),
-        // Add more colleges as needed
-    )
+    val data = mapOf(
+            "chapter_name" to "ChapterName",
+            "topic_name" to "TopicName",
+            "type_name" to "TypeName",
+            "id" to 1,
+            "content" to "Content",
+            "is_true" to true,
+            "attachment_url" to null,
+            "choices" to null,
+//            "" to "",
+        )
 
-    val dataArray = JsonArray()
-    data.forEach { college ->
-        val collegeObject = JsonObject()
-        college.forEach { (key, value) ->
-            collegeObject.addProperty(key, value.toString())
-        }
-        dataArray.add(collegeObject)
-    }
+//    val gson = Gson()
+//    val jsonData = gson.toJsonTree(data)
 
-//    data.first().let { college ->
-//        val collegeObject = JsonObject()
-//        college.forEach { (key, value) ->
-//            collegeObject.addProperty(key, value.toString())
-//        }
-//        jsonObject.add("data", collegeObject)
-//    }
+    val gson = GsonBuilder().serializeNulls().create() // Enable serialization of null values
+    val jsonData = gson.toJsonTree(data)
 
-//    (0..9).forEach {
-//        dataArray.add(it)
-//    }
+    jsonObject.add("data", jsonData)
 
-    jsonObject.add("data", dataArray)
+//    val jsonElement = jsonObject["data"]
 
-//    val jsonString = Gson().toJson(jsonObject)
-//
-//    println(jsonString)
-//
-//    val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
-//    println("response: $response")
+    val jsonString = Gson().toJson(jsonObject)
+    println(jsonString)
 
     runBlocking {
         execute(
             jsonObject = jsonObject,
+//            jsonObject = jsonElement.asJsonObject,
             onComplete = {
                 when (it) {
                     is Resource.Success -> {
@@ -203,25 +300,5 @@ fun main() {
                 }
             }
         )
-    }
-}
-
-suspend fun execute(
-    jsonObject: JsonObject,
-    onComplete: (Resource<List<RetrieveBasicCollegesInfoRepo.Response.Data>>) -> Unit
-) {
-    runBlocking {
-        val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
-
-        println("response: $response")
-
-        val resource = response.getResource() as Resource<RetrieveBasicCollegesInfoRepo.Response.Data>
-        println(resource.toString())
-
-//        if (response.isSuccess) {
-//            onComplete(Resource.Success(response.data))
-//        } else {
-//            onComplete(Resource.Error(response.errorMessage))
-//        }
     }
 }

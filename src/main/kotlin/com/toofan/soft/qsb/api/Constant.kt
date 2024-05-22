@@ -1,7 +1,7 @@
 package com.toofan.soft.qsb.api
 
 private object Constant {
-    private const val URL = "http://localehost:8000/"
+    private const val URL = "http://localhost:8000/"
     const val HOME = URL + "api"
 }
 
@@ -52,12 +52,12 @@ sealed class Route(
     ): Route("user/$name", method, isAuthorized) {
         // check for method
         object Verify: User("verify", Method.POST)
-        object Login: User("login", Method.POST)
+        object Login: User("login", Method.GET)
         object Logout: User("logout", Method.POST)
         object ChangePassword: User("change-password", Method.PUT)
         object RequestAccountRecovery: User("request-account-recovery", Method.PUT)
         object ChangePasswordAfterAccountRecovery: User("change-password-after-account-recovery", Method.PUT)
-        object RetrieveProfile: User("retrieve-profile", Method.GET)
+        object RetrieveProfile: User("retrieve-profile", Method.GET, true)
     }
 
     sealed class University(
