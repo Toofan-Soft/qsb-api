@@ -5,7 +5,7 @@ import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
 
-fun main() {
+fun main1() {
     runBlocking {
         Api.init("192.168.1.18")
         AddQuestionRepo.execute(
@@ -57,16 +57,16 @@ fun main() {
     }
 }
 
-suspend fun main1(args: Array<String>) {
+fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
 
     runBlocking {
-//        Api.init("192.168.1.9")
+        Api.init("192.168.1.18")
         LoginRepo.execute(
             data = {
-                it.invoke("user9@gmail.com", "123456aa")
+                it.invoke("user@gmail.com", "123456kk")
             },
             onComplete = {
                 println("complete")

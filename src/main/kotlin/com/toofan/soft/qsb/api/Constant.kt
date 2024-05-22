@@ -52,7 +52,7 @@ sealed class Route(
     ): Route("user/$name", method, isAuthorized) {
         // check for method
         object Verify: User("verify", Method.POST)
-        object Login: User("login", Method.GET)
+        object Login: User("login", Method.POST)
         object Logout: User("logout", Method.POST)
         object ChangePassword: User("change-password", Method.PUT)
         object RequestAccountRecovery: User("request-account-recovery", Method.PUT)
