@@ -19,3 +19,7 @@ internal fun <T> loggableProperty(variable: OptionalVariable<T>): (T?) -> Unit {
         variable.update(newValue)
     }
 }
+
+fun interface Optional<T: IRequest> {
+    operator fun invoke(block: T.() -> Unit)
+}

@@ -1,11 +1,57 @@
 package com.toofan.soft.qsb.api
 
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
+import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
 
-fun main1() {
+fun main3() {
+    runBlocking {
+//        Api.init("192.168.1.18")
+        ModifyQuestionRepo.execute(
+            data = { optional ->
+                optional.invoke(
+                    {
+                        id(2)
+                    },
+                    choice = { optional ->
+                        optional.invoke {
+                            id(5)
+                            content("content")
+                        }
+                        optional.invoke {
+                            id(6)
+                            content("content6")
+                        }
+                        optional.invoke {
+                            id(-1)
+                            content("content6")
+                        }
+                    }
+                )
+//                optional.invoke {
+//                    choices.invoke()
+//                }
+//                optional.invoke {
+//                    title("title")
+//                }
+            },
+            onComplete = {
+                when (it) {
+                    is Resource.Success -> {
+                        println("Success :)")
+                    }
+                    is Resource.Error -> {
+                        println("Error: " + it.message)
+                    }
+                }
+            }
+        )
+    }
+}
+
+fun main() {
     runBlocking {
         Api.init("192.168.1.18")
         AddQuestionRepo.execute(
@@ -33,10 +79,13 @@ fun main1() {
                     1,
                     20,
                     "content",
-                    choice = {
-                        it.invoke(null, "content 1", true, null)
-                        it.invoke(null, "content 2", true, null)
-                        it.invoke(null, "content 3", false, null)
+                    choice = { mandatory, optional ->
+                        mandatory.invoke(null, "content 1", true)
+                        mandatory.invoke(null, "content 2", true)
+                        optional.invoke {
+                            attachment(ByteArray(5))
+                        }
+                        mandatory.invoke(null, "content 3", false)
                     }
                 )
 //                optional.invoke {
@@ -57,7 +106,7 @@ fun main1() {
     }
 }
 
-fun main(args: Array<String>) {
+fun main2(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")

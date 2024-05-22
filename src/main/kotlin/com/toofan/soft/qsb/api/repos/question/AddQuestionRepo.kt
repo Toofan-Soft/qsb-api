@@ -14,7 +14,7 @@ object AddQuestionRepo {
     ) {
         Coroutine.launch {
             var request: Request? = null
-            var error: String? = null
+            var hasError = false
 
             data.invoke(
                 { topicId, typeId, difficultyLevelId, accessibilityStatusId, languageId, estimatedAnswerTime, content, choice ->
@@ -28,74 +28,79 @@ object AddQuestionRepo {
                         content
                     )
 
-                    val _choices: ArrayList<Request.Data> = arrayListOf()
-                    var _isCorrect: Boolean? = null
-                    var _isIncorrect: Boolean? = null
+                    val choices: ArrayList<Request.Data> = arrayListOf()
+                    var choiceRequest: Request.Data? = null
 
-                    choice.invoke { id, content, isTrue, attachment ->
-                        when (QuestionHelper.Type.values().find { it.ordinal == typeId }) {
-                            QuestionHelper.Type.TRUE_FALSE -> {
-                                if (id != null) {
-                                    when (QuestionHelper.Data.Data.Type.of(id)) {
-                                        QuestionHelper.Data.Data.Type.CORRECT -> {
-                                            _isCorrect = isTrue
+                    var isCorrect: Boolean? = null
+                    var isIncorrect: Boolean? = null
+
+                    choice.invoke(
+                        { id, content, isTrue ->
+                            when (QuestionHelper.Type.values().find { it.ordinal == typeId }) {
+                                QuestionHelper.Type.TRUE_FALSE -> {
+                                    if (id != null) {
+                                        when (QuestionHelper.Data.Data.Type.of(id)) {
+                                            QuestionHelper.Data.Data.Type.CORRECT -> {
+                                                isCorrect = isTrue
+                                            }
+                                            QuestionHelper.Data.Data.Type.INCORRECT -> {
+                                                isIncorrect = isTrue
+                                            }
+                                            null -> {
+                                                hasError = true
+                                            }
                                         }
-                                        QuestionHelper.Data.Data.Type.INCORRECT -> {
-                                            _isIncorrect = isTrue
-                                        }
-                                        null -> {
-                                            error = "Choices Error!"
-                                        }
+                                    } else {
+                                        hasError = true
                                     }
-                                } else {
-                                    error = "Choices Error!"
+                                }
+                                QuestionHelper.Type.MULTI_CHOICE -> {
+                                    if (id == null) {
+                                        choiceRequest = Request.Data(content, isTrue)
+                                        choices.add(choiceRequest!!)
+                                    } else {
+                                        hasError = true
+                                    }
+                                }
+                                else -> {
+                                    hasError = true
                                 }
                             }
-                            QuestionHelper.Type.MULTI_CHOICE -> {
-                                if (id == null) {
-                                    Request.Data(content, isTrue).let {
-                                        attachment?.let { attachment ->
-                                            it.attachment(attachment)
-                                        }
-                                        _choices.add(it)
-                                    }
-                                } else {
-                                    error = "Choices Error!"
-                                }
-                            }
-                            else -> {
-                                error = "Choices Error!"
-                            }
-                        }
 
-                    }
+                        }, { choiceRequest!!.optional(it) }
+                    )
+
                     when (QuestionHelper.Type.values().find { it.ordinal == typeId }) {
                         QuestionHelper.Type.TRUE_FALSE -> {
-                            if (_choices.isEmpty() &&
-                                _isCorrect != null && _isIncorrect != null &&
-                                _isCorrect!! == !_isIncorrect!!) {
-                                request!!.isTrue(_isCorrect!!)
+                            if (choices.isEmpty() &&
+                                isCorrect != null && isIncorrect != null &&
+                                isCorrect!! == !isIncorrect!!) {
+                                request!!.isTrue(isCorrect!!)
                             } else {
                                 // handle error
-                                error = "Choices Error!"
+                                hasError = true
                             }
                         }
                         QuestionHelper.Type.MULTI_CHOICE -> {
-                            if (_choices.isNotEmpty()) {
-                                request!!.choices(_choices)
+                            if (choices.isNotEmpty() &&
+                                isCorrect == null && isIncorrect == null) {
+                                if (!hasError) {
+                                    request!!.choices(choices)
+                                }
                             } else {
-                                // choices can be empty...
+                                hasError = true
                             }
                         }
+
                         else -> {
-                            error = "Choices Error!"
+                            hasError = true
                         }
                     }
                 },
                 { request!!.optional(it) }
             )
 
-            if (error == null) {
+            if (!hasError) {
                 request?.let {
                     ApiExecutor.execute(
                         route = Route.Question.Add,
@@ -105,7 +110,7 @@ object AddQuestionRepo {
                     }
                 }
             } else {
-                onComplete(Resource.Error(error))
+                onComplete(Resource.Error("Choices Error!"))
             }
         }
     }
@@ -121,7 +126,8 @@ object AddQuestionRepo {
             content: String,
 
             choice: (
-                choice: Data
+                mandatory: Data,
+                optional: com.toofan.soft.qsb.api.Optional<Request.Data>
             ) -> Unit
         )
 
@@ -130,7 +136,6 @@ object AddQuestionRepo {
                 id: Int?,
                 content: String,
                 isTrue: Boolean,
-                attachment: ByteArray?
             )
         }
     }
@@ -178,7 +183,7 @@ object AddQuestionRepo {
         ) : IRequest {
             internal val attachment = loggableProperty(_attachment)
 
-            fun optional(block: Request.() -> Unit): Request {
+            fun optional(block: Data.() -> Unit): Data {
                 return build(block)
             }
         }

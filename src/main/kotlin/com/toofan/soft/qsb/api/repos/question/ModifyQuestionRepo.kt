@@ -1,53 +1,93 @@
 package com.toofan.soft.qsb.api.repos.question
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.toofan.soft.qsb.api.helper.QuestionHelper
 
 object ModifyQuestionRepo {
     @JvmStatic
     suspend fun execute(
         data: (
-            mandatory: Mandatory,
             optional: Optional
         ) -> Unit,
         onComplete: (Resource<Boolean>) -> Unit
     ) {
         Coroutine.launch {
-            var request: Request? = null
+            val request = Request()
+            var hasError = false
 
-            data.invoke(
-                { id ->
-                    request = Request(id)
-                },
-                { request!!.optional(it) }
-            )
+            data.invoke { optional, choice ->
+                request.optional(optional)
 
-            request?.let {
-                ApiExecutor.execute(
-                    route = Route.Question.Modify,
-                    request = it
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                val choices: ArrayList<Request.Data> = arrayListOf()
+
+                choice.invoke {
+                    Request.Data().also {
+                        choices.add(it)
+                    }.let(it)
                 }
+
+                val isTrueFalse = (choices.size == 2) && (choices.filter {
+                    it._id.value != null && QuestionHelper.Data.Data.Type.of(it._id.value!!) == QuestionHelper.Data.Data.Type.CORRECT
+                }.size == 1) && (choices.filter {
+                    it._id.value != null && QuestionHelper.Data.Data.Type.of(it._id.value!!) == QuestionHelper.Data.Data.Type.INCORRECT
+                }.size == 1)
+
+                val isMultiChoice = choices.all { it._id.value == null || QuestionHelper.Data.Data.Type.of(it._id.value!!) == null }
+
+                if (isTrueFalse && !isMultiChoice) {
+                    val isCorrect = choices.find {
+                        it._id.value != null && QuestionHelper.Data.Data.Type.of(it._id.value!!) == QuestionHelper.Data.Data.Type.CORRECT
+                    }?._isTrue?.value
+                    val isIncorrect = choices.find {
+                        it._id.value != null && QuestionHelper.Data.Data.Type.of(it._id.value!!) == QuestionHelper.Data.Data.Type.INCORRECT
+                    }?._isTrue?.value
+
+                    if (isCorrect != null && isIncorrect != null && isCorrect != isIncorrect) {
+                        request.isTrue(isCorrect)
+                    } else {
+                        hasError = true
+                    }
+                } else if (!isTrueFalse && isMultiChoice) {
+                    for (item in choices) {
+                        if ((item._id.value == null && (item._content.value == null || item._isTrue.value == null)) ||
+                            (item._id.value != null && (item._content.value == null && item._isTrue.value == null && item._attachment.value != null))) {
+                            hasError = true
+                        }
+                    }
+                    if (!hasError) {
+                        request.choices(choices)
+                    }
+                } else {
+                    hasError = true
+                }
+            }
+            if (!hasError) {
+                request.let {
+                    ApiExecutor.execute(
+                        route = Route.Question.Modify,
+                        request = it
+                    ) {
+                        onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                    }
+                }
+            } else {
+                onComplete(Resource.Error("Choices Error!"))
             }
         }
     }
 
-    fun interface Mandatory {
-        operator fun invoke(
-            id: Int
-        )
-    }
-
     fun interface Optional {
-        operator fun invoke(block: Request.() -> Unit)
+        operator fun invoke(
+            block: Request.() -> Unit,
+            choice: (
+                optional: com.toofan.soft.qsb.api.Optional<Request.Data>
+            ) -> Unit
+        )
     }
 
     data class Request(
         @Field("id")
-        private val _id: Int,
+        private val _id: OptionalVariable<Int> = OptionalVariable(),
         @Field("difficulty_level_id")
         private val _difficultyLevelId: OptionalVariable<Int> = OptionalVariable(),
         @Field("accessibility_status_id")
@@ -63,8 +103,11 @@ object ModifyQuestionRepo {
         @Field("title")
         private val _title: OptionalVariable<String> = OptionalVariable(),
         @Field("is_true")
-        private val _isTrue: OptionalVariable<Boolean> = OptionalVariable()
+        private val _isTrue: OptionalVariable<Boolean> = OptionalVariable(),
+        @Field("choices")
+        private val _choices: OptionalVariable<List<Data>> = OptionalVariable()
     ) : IRequest {
+        val id = loggableProperty(_id)
         val difficultyLevelId = loggableProperty(_difficultyLevelId)
         val accessibilityStatusId = loggableProperty(_accessibilityStatusId)
         val languageId = loggableProperty(_languageId)
@@ -73,6 +116,27 @@ object ModifyQuestionRepo {
         val attachment = loggableProperty(_attachment)
         val title = loggableProperty(_title)
         val isTrue = loggableProperty(_isTrue)
+        val choices = loggableProperty(_choices)
+
+        data class Data(
+            @Field("id")
+            internal val _id: OptionalVariable<Int> = OptionalVariable(),
+            @Field("content")
+            internal val _content: OptionalVariable<String> = OptionalVariable(),
+            @Field("is_true")
+            internal val _isTrue: OptionalVariable<Boolean> = OptionalVariable(),
+            @Field("attachment")
+            internal val _attachment: OptionalVariable<ByteArray> = OptionalVariable()
+        ) : IRequest {
+            val id = loggableProperty(_id)
+            val content = loggableProperty(_content)
+            val isTrue = loggableProperty(_isTrue)
+            val attachment = loggableProperty(_attachment)
+
+            fun optional(block: Data.() -> Unit): Data {
+                return build(block)
+            }
+        }
 
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
