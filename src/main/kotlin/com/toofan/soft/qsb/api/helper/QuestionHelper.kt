@@ -1,10 +1,9 @@
 package com.toofan.soft.qsb.api.helper
 
-// For add question
 object QuestionHelper {
     @JvmStatic
-    fun getQuestionTypeProperties(id: Int): Data {
-        Type.values().find { it.ordinal == id }?.let {
+    fun getQuestionTypeProperties(typeId: Int): Data {
+        Type.values().find { it.ordinal == typeId }?.let {
             return it.getData()
         }
         return Type.TRUE_FALSE.getData()

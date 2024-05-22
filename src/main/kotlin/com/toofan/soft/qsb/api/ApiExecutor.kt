@@ -3,8 +3,8 @@ package com.toofan.soft.qsb.api
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.services.Logger
-import com.toofan.soft.qsb.api.session.Memory
-import com.toofan.soft.qsb.api.session.checkToken
+import com.toofan.soft.qsb.api.session.Session
+import com.toofan.soft.qsb.api.session.checkSession
 import com.toofan.soft.qsb.api.utils.InternetUtils
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -33,8 +33,8 @@ object ApiExecutor {
                 connection.requestMethod = route.method
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
                 if (route.isAuthorized) {
-                    println("token...: " + Memory.token)
-                    connection.setRequestProperty("Authorization", "Bearer ${Memory.token}")
+                    println("token...: " + Session.token)
+                    connection.setRequestProperty("Authorization", "Bearer ${Session.token}")
                 }
 
                 if (route.method != Method.GET.value) {
@@ -70,7 +70,7 @@ object ApiExecutor {
                     val jsonObject = gson.fromJson(informationString.toString(), JsonObject::class.java)
                     jsonObject.addProperty("is_success", true)
 
-                    jsonObject.checkToken()
+                    jsonObject.checkSession()
 
                     onResponse(jsonObject)
                 }
