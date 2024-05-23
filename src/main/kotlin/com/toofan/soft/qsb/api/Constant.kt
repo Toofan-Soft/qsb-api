@@ -24,39 +24,18 @@ sealed class Route(
     internal val method get() = _method.value
     internal val isAuthorized get() = _isAuthorized
 
-    sealed class Template(
-        name: String,
-        method: Method,
-        isAuthorized: Boolean = false
-//    ): Route("colleges/$name", method, isAuthorized) {
-    ): Route("$name", method, isAuthorized) {
-//        object Retrieve: Template("retrieve-college/1", Method.GET)
-//        object Retrieve: Template("retrieve-college", Method.GET)
-        object Register: Template("register", Method.POST)
-        object Login: Template("login", Method.POST)
-        object UserInfo: Template("userinfo", Method.GET, true)
-        object Retrieve: Template("college", Method.GET)
-        object RetrieveColleges: Template("retrieve-colleges", Method.GET)
-        object RetrieveBasicInfoList: Template("retrieve-basic-colleges-info", Method.GET)
-//        object RetrieveCollege: Template("retrieve-college", Method.POST)
-        object RetrieveCollege: Template("retrieve-college", Method.GET)
-//        object RetrieveCollege: Template("retrieve-college2", Method.GET)
-//        object RetrieveCollege: Template("retrieve", Method.GET)
-    }
-
-
     sealed class User(
         name: String,
         method: Method,
         isAuthorized: Boolean = false
     ): Route("user/$name", method, isAuthorized) {
         // check for method
-        object Verify: User("verify", Method.POST)
-        object Login: User("login", Method.POST)
+        object Verify: User("verify", Method.POST, false)
+        object Login: User("login", Method.POST, false)
         object Logout: User("logout", Method.POST)
         object ChangePassword: User("change-password", Method.PUT)
-        object RequestAccountRecovery: User("request-account-recovery", Method.PUT)
-        object ChangePasswordAfterAccountRecovery: User("change-password-after-account-recovery", Method.PUT)
+        object RequestAccountRecovery: User("request-account-recovery", Method.PUT, false)
+        object ChangePasswordAfterAccountRecovery: User("change-password-after-account-recovery", Method.PUT, false)
         object RetrieveProfile: User("retrieve-profile", Method.GET, true)
     }
 
