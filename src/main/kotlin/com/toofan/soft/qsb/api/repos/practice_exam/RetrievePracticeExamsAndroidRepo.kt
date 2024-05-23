@@ -12,20 +12,18 @@ object RetrievePracticeExamsAndroidRepo {
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         Coroutine.launch {
-            var request: Request? = null
+            var request: Request? = Request()
 
             data.invoke {
                 request = Request()
                 request!!.optional(it)
             }
 
-            request?.let {
-                ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.RetrieveAndroidList,
-                    request = it
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
-                }
+            ApiExecutor.execute(
+                route = Route.PracticeOnlineExam.RetrieveAndroidList,
+                request = request
+            ) {
+                onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }
     }

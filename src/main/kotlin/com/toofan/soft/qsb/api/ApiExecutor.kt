@@ -19,7 +19,7 @@ object ApiExecutor {
     ) {
         if (InternetUtils.isInternetAvailable()) {
             try {
-                val url = if (route.method == Method.GET.value && request != null) {
+                val url = if (route.method == Method.GET.value && request != null && request.parametersGet.isNotEmpty()) {
                     Logger.log(route.url, "request-parameters: ${request.parametersGet}")
                     URL(route.url + "?" + request.parametersGet)
                 } else {

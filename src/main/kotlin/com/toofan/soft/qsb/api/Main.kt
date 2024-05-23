@@ -1,9 +1,9 @@
 package com.toofan.soft.qsb.api
 
+import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsAndroidRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
-import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
 
 fun main3() {
@@ -51,7 +51,7 @@ fun main3() {
     }
 }
 
-fun main() {
+fun main2() {
     runBlocking {
         Api.init("192.168.1.18")
         AddQuestionRepo.execute(
@@ -106,7 +106,7 @@ fun main() {
     }
 }
 
-fun main2(args: Array<String>) {
+fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
@@ -120,9 +120,15 @@ fun main2(args: Array<String>) {
             onComplete = {
                 println("complete")
                 runBlocking {
-                    RetrieveProfileRepo.execute {
-                        println("complete")
-                    }
+//                    RetrieveProfileRepo.execute {
+//                        println("complete")
+//                    }
+                    RetrievePracticeExamsAndroidRepo.execute(
+                        data = {},
+                        onComplete = {
+
+                        }
+                    )
                 }
             }
         )

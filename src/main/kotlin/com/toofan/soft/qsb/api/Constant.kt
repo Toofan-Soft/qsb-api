@@ -27,7 +27,7 @@ sealed class Route(
     sealed class User(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("user/$name", method, isAuthorized) {
         // check for method
         object Verify: User("verify", Method.POST, false)
@@ -42,7 +42,7 @@ sealed class Route(
     sealed class University(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("university/$name", method, isAuthorized) {
         object Configure: University("configure", Method.POST)
         object Modify: University("modify", Method.PUT)
@@ -53,7 +53,7 @@ sealed class Route(
     sealed class College(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("college/$name", method, isAuthorized) {
         object Add: College("add", Method.POST)
         object Modify: College("modify", Method.PUT)
@@ -66,7 +66,7 @@ sealed class Route(
     sealed class Department(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("department/$name", method, isAuthorized) {
         object Add: Department("add", Method.POST)
         object Modify: Department("modify", Method.PUT)
@@ -79,7 +79,7 @@ sealed class Route(
     sealed class Course(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("course/$name", method, isAuthorized) {
         object Add: Course("add", Method.POST)
         object Modify: Course("modify", Method.PUT)
@@ -91,7 +91,7 @@ sealed class Route(
     sealed class CoursePart(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("course-part/$name", method, isAuthorized) {
         object Add: CoursePart("add", Method.POST)
         object Modify: CoursePart("modify", Method.PUT)
@@ -103,7 +103,7 @@ sealed class Route(
     sealed class Chapter(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("chapter/$name", method, isAuthorized) {
         object Add: Chapter("add", Method.POST)
         object Modify: Chapter("modify", Method.PUT)
@@ -118,7 +118,7 @@ sealed class Route(
     sealed class Topic(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("topic/$name", method, isAuthorized) {
         object Add: Topic("add", Method.POST)
         object Modify: Topic("modify", Method.PUT)
@@ -132,7 +132,7 @@ sealed class Route(
     sealed class Question(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("question/$name", method, isAuthorized) {
         object Add: Question("add", Method.POST)
         object Modify: Question("modify", Method.PUT)
@@ -148,7 +148,7 @@ sealed class Route(
     sealed class QuestionChoice(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("question-choice/$name", method, isAuthorized) {
         object Add: QuestionChoice("add", Method.POST)
         object Modify: QuestionChoice("modify", Method.PUT)
@@ -159,7 +159,7 @@ sealed class Route(
     sealed class DepartmentCourse(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("department-course/$name", method, isAuthorized) {
         object Add: DepartmentCourse("add", Method.POST)
         object Modify: DepartmentCourse("modify", Method.PUT)
@@ -174,7 +174,7 @@ sealed class Route(
     sealed class DepartmentCoursePart(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("department-course-part/$name", method, isAuthorized) {
         object Add: DepartmentCoursePart("add", Method.POST)
         object Modify: DepartmentCoursePart("modify", Method.PUT)
@@ -185,7 +185,7 @@ sealed class Route(
     sealed class DepartmentCoursePartChapterAndTopic(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("department-course-part-chapter-and-topic/$name", method, isAuthorized) {
         object AddTopicList: DepartmentCoursePartChapterAndTopic("add-topic-list", Method.POST)
         object DeleteTopicList: DepartmentCoursePartChapterAndTopic("delete-topic-list", Method.DELETE)
@@ -198,7 +198,7 @@ sealed class Route(
     sealed class Employee(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("employee/$name", method, isAuthorized) {
         object Add: Employee("add", Method.POST)
         object Modify: Employee("modify", Method.PUT)
@@ -211,7 +211,7 @@ sealed class Route(
     sealed class CourseLecture(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("course-lecture/$name", method, isAuthorized) {
         object Add: CourseLecture("add", Method.POST)
         object Delete: CourseLecture("delete", Method.DELETE)
@@ -223,7 +223,7 @@ sealed class Route(
     sealed class Student(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("student/$name", method, isAuthorized) {
         object Add: Student("add", Method.POST)
         object Modify: Student("modify", Method.PUT)
@@ -236,7 +236,7 @@ sealed class Route(
     sealed class CourseStudent(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("course-student/$name", method, isAuthorized) {
         object AddList: CourseStudent("add-list", Method.POST)
         object Modify: CourseStudent("modify", Method.PUT)
@@ -251,7 +251,7 @@ sealed class Route(
     sealed class Guest(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("guest/$name", method, isAuthorized) {
         object Add: Guest("add", Method.POST)
         object Modify: Guest("modify", Method.PUT)
@@ -261,7 +261,7 @@ sealed class Route(
     sealed class UserManagement(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("user-management/$name", method, isAuthorized) {
         object Add: UserManagement("add", Method.POST)
         object ModifyRoleList: UserManagement("modify-role-list", Method.PUT)
@@ -275,7 +275,7 @@ sealed class Route(
     sealed class LecturerOnlineExam(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("lecturer-online-exam/$name", method, isAuthorized) {
         object Add: LecturerOnlineExam("add", Method.POST)
         object Modify: LecturerOnlineExam("modify", Method.PUT)
@@ -294,7 +294,7 @@ sealed class Route(
     sealed class StudentOnlineExam(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("student-online-exam/$name", method, isAuthorized) {
         object SaveQuestionAnswer: StudentOnlineExam("save-question-answer", Method.POST)
         // check if its method post
@@ -308,7 +308,7 @@ sealed class Route(
     sealed class ProctorOnlineExam(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("proctor-online-exam/$name", method, isAuthorized) {
         object StartStudent: ProctorOnlineExam("start-student", Method.POST)
         // check for its method
@@ -327,7 +327,7 @@ sealed class Route(
     sealed class PaperExam(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("paper-exam/$name", method, isAuthorized) {
         object Add: PaperExam("add", Method.POST)
         object Modify: PaperExam("modify", Method.PUT)
@@ -347,7 +347,7 @@ sealed class Route(
     sealed class PracticeOnlineExam(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("practice-exam/$name", method, isAuthorized) {
         object Add: PracticeOnlineExam("add", Method.POST)
         object Modify: PracticeOnlineExam("modify", Method.PUT)
@@ -369,7 +369,7 @@ sealed class Route(
     sealed class FavoriteQuestion(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("favorite-question/$name", method, isAuthorized) {
         object Add: FavoriteQuestion("add", Method.POST)
         object Delete: FavoriteQuestion("delete", Method.DELETE)
@@ -381,7 +381,7 @@ sealed class Route(
     sealed class Enum(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("enum/$name", method, isAuthorized) {
         object RetrieveCourseStatusList: Enum("retrieve-course-status-list", Method.GET)
         object RetrieveCoursePartList: Enum("retrieve-course-part-list", Method.GET)
@@ -394,7 +394,7 @@ sealed class Route(
         object RetrieveSemesterList: Enum("retrieve-semester-list", Method.GET)
         object RetrieveJobTypeList: Enum("retrieve-job-type-list", Method.GET)
         object RetrieveQualificationList: Enum("retrieve-qualification-list", Method.GET)
-        object RetrieveGenderList: Enum("retrieve-gender-list", Method.GET)
+        object RetrieveGenderList: Enum("retrieve-gender-list", Method.GET, false)
         object RetrieveCourseStudentStatusList: Enum("retrieve-course-student-status-list", Method.GET)
         object RetrieveOwnerTypeList: Enum("retrieve-owner-type-list", Method.GET)
         object RetrieveUserStatusList: Enum("retrieve-user-status-list", Method.GET)
@@ -410,7 +410,7 @@ sealed class Route(
     sealed class Filter(
         name: String,
         method: Method,
-        isAuthorized: Boolean = false
+        isAuthorized: Boolean = true
     ): Route("filter/$name", method, isAuthorized) {
         object RetrieveCourseList: Filter("retrieve-course-list", Method.GET)
         object RetrieveCoursePartList: Filter("retrieve-course-part-list", Method.GET)
