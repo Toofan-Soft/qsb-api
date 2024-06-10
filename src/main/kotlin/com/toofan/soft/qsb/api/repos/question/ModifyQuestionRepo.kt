@@ -115,8 +115,8 @@ object ModifyQuestionRepo {
         val content = loggableProperty(_content)
         val attachment = loggableProperty(_attachment)
         val title = loggableProperty(_title)
-        val isTrue = loggableProperty(_isTrue)
-        val choices = loggableProperty(_choices)
+        internal val isTrue = loggableProperty(_isTrue)
+        internal val choices = loggableProperty(_choices)
 
         data class Data(
             @Field("id")
