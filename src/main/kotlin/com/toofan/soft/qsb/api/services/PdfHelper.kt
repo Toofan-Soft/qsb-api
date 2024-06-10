@@ -4,6 +4,7 @@ object PdfHelper {
     /* Data:
     *   .
     *   . university
+    *   . university logo url
     *   . college
     *   . department
     *   . level
@@ -16,7 +17,9 @@ object PdfHelper {
     *
     *   . lecturer
     *   . score
-    *
+    *   .
+    *   . language
+    *   .
     *   . forms
     *       . form name?
     *       . questions

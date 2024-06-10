@@ -181,7 +181,7 @@ object AddQuestionRepo {
             @Field("attachment")
             private val _attachment: OptionalVariable<ByteArray> = OptionalVariable()
         ) : IRequest {
-            internal val attachment = loggableProperty(_attachment)
+            val attachment = loggableProperty(_attachment)
 
             fun optional(block: Data.() -> Unit): Data {
                 return build(block)

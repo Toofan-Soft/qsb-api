@@ -26,14 +26,13 @@ object ApiExecutor {
                     URL(route.url)
                 }
                 Logger.log("URL", url.toString())
+                Logger.log("Method" , route.method)
 
                 val connection = url.openConnection() as HttpURLConnection
 
-                println("route.method: " + route.method)
                 connection.requestMethod = route.method
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
                 if (route.isAuthorized) {
-                    println("token...: " + Session.token)
                     connection.setRequestProperty("Authorization", "Bearer ${Session.token}")
                 }
 
@@ -62,7 +61,7 @@ object ApiExecutor {
                         }
                     }
 
-                    Logger.log(route.url, "informationString: $informationString")
+                    Logger.log("Information", informationString)
 
                     // Use Gson for parsing JSON
 
@@ -76,10 +75,7 @@ object ApiExecutor {
                 }
             } catch (e: Exception) {
                 Logger.log(route.url, "exception:\n")
-                for (stackTraceElement in e.stackTrace.iterator()) {
-                    println(stackTraceElement.toString())
-                }
-                Logger.log(route.url, "exception: ${e.message}")
+                Logger.log("Exception", e.message)
 
                 val jsonObject = JsonObject()
                 jsonObject.addProperty("is_success", false)
