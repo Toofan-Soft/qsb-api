@@ -1,9 +1,8 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsAndroidRepo
+import com.toofan.soft.qsb.api.repos.college.RetrieveCollegeRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
-import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import kotlinx.coroutines.runBlocking
 
 fun main3() {
@@ -112,23 +111,59 @@ fun main(args: Array<String>) {
     println("Program arguments: ${args.joinToString()}")
 
     runBlocking {
-        Api.init("192.168.1.18")
-        LoginRepo.execute(
-            data = {
-                it.invoke("user@gmail.com", "123456kk")
-            },
-            onComplete = {
-                println("complete")
-                runBlocking {
+        Api.init("192.168.1.15")
+//        Api.init("127.0.0.1")
+//        LoginRepo.execute(
+//            data = {
+//                it.invoke("user9@gmail.com", "123456aa")
+//            },
+//            onComplete = {
+//                println("complete")
+//                runBlocking {
 //                    RetrieveProfileRepo.execute {
 //                        println("complete")
 //                    }
-                    RetrievePracticeExamsAndroidRepo.execute(
-                        data = {},
-                        onComplete = {
+////                    RetrievePracticeExamsAndroidRepo.execute(
+////                        data = {},
+////                        onComplete = {
+////
+////                        }
+////                    )
+//                }
+//            }
+//        )
 
-                        }
-                    )
+//        AddCollegeRepo.execute(
+//            data = { mandatory, optional ->
+//                mandatory.invoke("كلية 2", "College 2")
+//                optional.invoke {
+//                    email("college2@gmail.com")
+//                }
+//            },
+//            onComplete = {
+//                when (it) {
+//                    is Resource.Success -> {
+//                        println("Success#")
+//                    }
+//                    is Resource.Error -> {
+//                        println("Error: ${it.message}")
+//                    }
+//                }
+//            }
+//        )
+
+        RetrieveCollegeRepo.execute(
+            data = { mandatory ->
+                mandatory.invoke(19)
+            },
+            onComplete = {
+                when (it) {
+                    is Resource.Success -> {
+                        println("Success: ${it.data}")
+                    }
+                    is Resource.Error -> {
+                        println("Error: ${it.message}")
+                    }
                 }
             }
         )
