@@ -3,8 +3,8 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.helper.QuestionHelper
-import com.toofan.soft.qsb.api.services.pdf.Data
-import com.toofan.soft.qsb.api.services.pdf.PdfGenerator
+//import com.toofan.soft.qsb.api.services.pdf.Data
+//import com.toofan.soft.qsb.api.services.pdf.PdfGenerator
 
 object ExportPaperExamToPdfRepo {
     @JvmStatic
@@ -33,82 +33,82 @@ object ExportPaperExamToPdfRepo {
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             if (resource.data != null) {
-                                PdfGenerator.build(
-                                    Data(
-                                        resource.data.universityName,
-                                        resource.data.universityLogoUrl,
-                                        resource.data.collegeName,
-                                        resource.data.departmentName,
-                                        resource.data.levelName,
-                                        resource.data.semesterName,
-                                        resource.data.courseName,
-                                        resource.data.coursePartName,
-                                        resource.data.typeName,
-                                        resource.data.datetime.toString(),
-                                        resource.data.duration,
-                                        resource.data.lecturerName,
-                                        resource.data.score,
-                                        resource.data.languageId,
-                                        resource.data.notes,
-                                        resource.data.forms.map {
-                                            Data.Form(
-                                                name = it.name,
-                                                trueFalseQuestions = it.questions.filter {
-                                                    it.getChoices().all { it.id == 0 }
-                                                }.map {
-                                                    Data.Form.TrueFalse(
-                                                        it.content,
-                                                        it.attachmentUrl,
-                                                        it.isTrue
-                                                    )
-                                                },
-                                                multiChoicesQuestions = it.questions.filter {
-                                                    it.getChoices().all { it.id != 0 }
-                                                }.map {
-                                                    Data.Form.MultiChoices(
-                                                        it.content,
-                                                        it.attachmentUrl,
-                                                        it.getChoices().map {
-                                                            Data.Form.MultiChoices.Choice(
-                                                                it.content,
-                                                                it.attachmentUrl,
-                                                                it.isTrue
-                                                            )
-                                                        }
-                                                    )
-                                                }
-                                            )
-                                        }
-                                    ),
-                                    true,
-                                    request?._withMirror?.value ?: false,
-                                    request?._withAnswerMirror?.value ?: false
-                                ) { papers, mirrors, answerMirrors ->
-                                    onComplete(
-                                        Resource.Success(
-                                            Result.Data(
-                                                papers = (papers ?: emptyList()).map {
-                                                    Result.Data.Data(
-                                                        it.form,
-                                                        it.bytes
-                                                    )
-                                                },
-                                                mirrors = (mirrors ?: emptyList()).map {
-                                                    Result.Data.Data(
-                                                        it.form,
-                                                        it.bytes
-                                                    )
-                                                },
-                                                answerMirrors = (answerMirrors ?: emptyList()).map {
-                                                    Result.Data.Data(
-                                                        it.form,
-                                                        it.bytes
-                                                    )
-                                                }
-                                            )
-                                        )
-                                    )
-                                }
+//                                PdfGenerator.build(
+//                                    Data(
+//                                        resource.data.universityName,
+//                                        resource.data.universityLogoUrl,
+//                                        resource.data.collegeName,
+//                                        resource.data.departmentName,
+//                                        resource.data.levelName,
+//                                        resource.data.semesterName,
+//                                        resource.data.courseName,
+//                                        resource.data.coursePartName,
+//                                        resource.data.typeName,
+//                                        resource.data.datetime.toString(),
+//                                        resource.data.duration,
+//                                        resource.data.lecturerName,
+//                                        resource.data.score,
+//                                        resource.data.languageId,
+//                                        resource.data.notes,
+//                                        resource.data.forms.map {
+//                                            Data.Form(
+//                                                name = it.name,
+//                                                trueFalseQuestions = it.questions.filter {
+//                                                    it.getChoices().all { it.id == 0 }
+//                                                }.map {
+//                                                    Data.Form.TrueFalse(
+//                                                        it.content,
+//                                                        it.attachmentUrl,
+//                                                        it.isTrue
+//                                                    )
+//                                                },
+//                                                multiChoicesQuestions = it.questions.filter {
+//                                                    it.getChoices().all { it.id != 0 }
+//                                                }.map {
+//                                                    Data.Form.MultiChoices(
+//                                                        it.content,
+//                                                        it.attachmentUrl,
+//                                                        it.getChoices().map {
+//                                                            Data.Form.MultiChoices.Choice(
+//                                                                it.content,
+//                                                                it.attachmentUrl,
+//                                                                it.isTrue
+//                                                            )
+//                                                        }
+//                                                    )
+//                                                }
+//                                            )
+//                                        }
+//                                    ),
+//                                    true,
+//                                    request?._withMirror?.value ?: false,
+//                                    request?._withAnswerMirror?.value ?: false
+//                                ) { papers, mirrors, answerMirrors ->
+//                                    onComplete(
+//                                        Resource.Success(
+//                                            Result.Data(
+//                                                papers = (papers ?: emptyList()).map {
+//                                                    Result.Data.Data(
+//                                                        it.form,
+//                                                        it.bytes
+//                                                    )
+//                                                },
+//                                                mirrors = (mirrors ?: emptyList()).map {
+//                                                    Result.Data.Data(
+//                                                        it.form,
+//                                                        it.bytes
+//                                                    )
+//                                                },
+//                                                answerMirrors = (answerMirrors ?: emptyList()).map {
+//                                                    Result.Data.Data(
+//                                                        it.form,
+//                                                        it.bytes
+//                                                    )
+//                                                }
+//                                            )
+//                                        )
+//                                    )
+//                                }
                             } else {
                                 onComplete(
                                     Resource.Error("Error!")
