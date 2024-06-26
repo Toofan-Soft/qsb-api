@@ -22,6 +22,10 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.pusher/pusher-java-client
 //    implementation("com.pusher:pusher-java-client:2.4.4")
+
+
+    implementation("com.itextpdf:itextpdf:5.5.13.3")
+    implementation("com.itextpdf:itext7-core:8.0.3")
 }
 
 tasks.test {

@@ -1,6 +1,6 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.college.RetrieveCollegeRepo
+import com.toofan.soft.qsb.api.repos.chapter.RetrieveEditableChapterRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import kotlinx.coroutines.runBlocking
@@ -112,6 +112,17 @@ fun main(args: Array<String>) {
 
     runBlocking {
         Api.init("192.168.1.15")
+
+        RetrieveEditableChapterRepo.execute(
+            data = {
+                it.invoke(1)
+            },
+            onComplete = {
+                println("complete...")
+                println(it.data)
+            }
+        )
+
 //        Api.init("127.0.0.1")
 //        LoginRepo.execute(
 //            data = {
@@ -152,21 +163,21 @@ fun main(args: Array<String>) {
 //            }
 //        )
 
-        RetrieveCollegeRepo.execute(
-            data = { mandatory ->
-                mandatory.invoke(19)
-            },
-            onComplete = {
-                when (it) {
-                    is Resource.Success -> {
-                        println("Success: ${it.data}")
-                    }
-                    is Resource.Error -> {
-                        println("Error: ${it.message}")
-                    }
-                }
-            }
-        )
+//        RetrieveCollegeRepo.execute(
+//            data = { mandatory ->
+//                mandatory.invoke(19)
+//            },
+//            onComplete = {
+//                when (it) {
+//                    is Resource.Success -> {
+//                        println("Success: ${it.data}")
+//                    }
+//                    is Resource.Error -> {
+//                        println("Error: ${it.message}")
+//                    }
+//                }
+//            }
+//        )
 
 //        AddGuestRepo.execute(
 //            data = { mandatory, optional ->

@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.department
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object AddDepartmentRepo {
     @JvmStatic
@@ -55,8 +52,8 @@ object AddDepartmentRepo {
         private val _arabicName: String,
         @Field("english_name")
         private val _englishName: String,
-        @Field("level_count")
-        private val _levelCount: Int,
+        @Field("levels_count")
+        private val _levelsCount: Int,
         @Field("description")
         private val _description: OptionalVariable<String> = OptionalVariable(),
         @Field("logo")
