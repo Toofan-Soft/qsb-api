@@ -95,6 +95,11 @@ object AddQuestionRepo {
                                 }
                             } else {
                                 errorLine = 97
+                                
+                                if (choices.isEmpty()) errorLine = errorLine!! + 100
+                                if (isCorrect != null) errorLine = errorLine!! + 200
+                                if (isIncorrect != null) errorLine = errorLine!! + 300
+
                                 hasError = true
                             }
                         }
