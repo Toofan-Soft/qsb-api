@@ -84,7 +84,7 @@ internal interface IResponse {
             println("field type: ${field.type}")
             when (val targetType = field.type) {
                 Int::class.java -> value.asInt
-                Long::class.java -> value.asLong
+                Long::class.java, java.lang.Long::class.java -> value.asString.toLongOrNull()
                 Float::class.java -> value.asFloat
                 Double::class.java -> value.asDouble
                 Boolean::class.java, java.lang.Boolean::class.java -> value.asBoolean

@@ -55,7 +55,7 @@ object RetrieveDepartmentRepo {
             @Field("english_name")
             val englishName: String = "",
             @Field("level_count")
-            val levelCount: Int? = null,
+            val levelCount: Int = 0,
             @Field("description")
             val description: String? = null,
             @Field("logo_url")

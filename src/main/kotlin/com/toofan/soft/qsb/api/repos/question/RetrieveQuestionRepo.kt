@@ -54,9 +54,9 @@ object RetrieveQuestionRepo {
         data class Data(
             @Field("difficulty_level_name")
             val difficultyLevelName: String = "",
-            @Field("accessibility_status_Name")
+            @Field("accessibility_status_name")
             val accessibilityStatusName: String = "",
-            @Field("language_Name")
+            @Field("language_name")
             val languageName: String = "",
             @Field("estimated_answer_time")
             val estimatedAnswerTime: Int = 0,

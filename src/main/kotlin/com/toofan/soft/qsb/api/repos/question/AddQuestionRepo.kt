@@ -14,7 +14,6 @@ object AddQuestionRepo {
     ) {
         Coroutine.launch {
             var request: Request? = null
-            var errorLine: Int? = null
             var hasError = false
 
             data.invoke(
@@ -48,12 +47,10 @@ object AddQuestionRepo {
                                                 isIncorrect = isTrue
                                             }
                                             null -> {
-                                                errorLine = 51
                                                 hasError = true
                                             }
                                         }
                                     } else {
-                                        errorLine = 56
                                         hasError = true
                                     }
                                 }
@@ -62,12 +59,10 @@ object AddQuestionRepo {
                                         choiceRequest = Request.Data(content, isTrue)
                                         choices.add(choiceRequest!!)
                                     } else {
-                                        errorLine = 65
                                         hasError = true
                                     }
                                 }
                                 else -> {
-                                    errorLine = 70
                                     hasError = true
                                 }
                             }
@@ -83,7 +78,6 @@ object AddQuestionRepo {
                                 request!!.isTrue(isCorrect!!)
                             } else {
                                 // handle error
-                                errorLine = 86
                                 hasError = true
                             }
                         }
@@ -94,17 +88,10 @@ object AddQuestionRepo {
                                     request!!.choices(choices)
                                 }
                             } else {
-                                errorLine = 97
-                                
-                                if (choices.isEmpty()) errorLine = errorLine!! + 100
-                                if (isCorrect != null) errorLine = errorLine!! + 200
-                                if (isIncorrect != null) errorLine = errorLine!! + 300
-
                                 hasError = true
                             }
                         }
                         else -> {
-                            errorLine = 102
                             hasError = true
                         }
                     }
@@ -122,7 +109,7 @@ object AddQuestionRepo {
                     }
                 }
             } else {
-                onComplete(Resource.Error("Choices Error! L$errorLine"))
+                onComplete(Resource.Error("Choices Error!"))
             }
         }
     }

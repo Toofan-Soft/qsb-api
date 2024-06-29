@@ -58,7 +58,7 @@ object RetrieveEmployeeRepo {
             val genderName: String = "",
             @Field("qualification_name")
             val qualificationName: String = "",
-            @Field("job_type_Name")
+            @Field("job_type_name")
             val jobTypeName: String = "",
             @Field("email")
             val email: String? = null,

@@ -62,7 +62,7 @@ object RetrieveStudentRepo {
             val collegeName: String = "",
             @Field("department_name")
             val departmentName: String = "",
-            @Field("level_Name")
+            @Field("level_name")
             val levelName: String = "",
             @Field("email")
             val email: String? = null,

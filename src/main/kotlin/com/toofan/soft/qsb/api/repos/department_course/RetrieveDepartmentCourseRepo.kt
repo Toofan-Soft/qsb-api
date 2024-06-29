@@ -54,18 +54,18 @@ object RetrieveDepartmentCourseRepo {
             val collegeName: String = "",
             @Field("department_name")
             val departmentName: String = "",
-            @Field("course_name")
-            val courseName: String = "",
             @Field("level_name")
             val levelName: String = "",
             @Field("semester_Name")
             val semesterName: String = "",
+            @Field("course_name")
+            val courseName: String = "",
             @Field("course_parts")
             val courseParts: List<Data>  = emptyList()
         ) : IResponse {
             data class Data(
                 @Field("id")
-                val Id: Int = 0,
+                val id: Int = 0,
                 @Field("name")
                 val name: String = "",
                 @Field("score")

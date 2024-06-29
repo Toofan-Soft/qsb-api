@@ -68,7 +68,8 @@ interface IRequest {
                                                 parameters.append(value).append("&")
                                             } else {
                                                 val value = item?.toString()
-                                                parameters.append(it).append("=").append(value).append("&")
+                                                parameters.append(it).append("[]=").append(value).append("&")
+//                                                parameters.append(it).append("=").append(value).append("&")
                                             }
                                         }
                                     } else {
@@ -77,8 +78,22 @@ interface IRequest {
                                     }
                                 } else {}
                             } else {
-                                val value = f?.toString()
-                                parameters.append(it).append("=").append(value).append("&")
+                                if (f is List<*>) {
+                                    val list = f as List<*>
+                                    for (index in list.indices) {
+                                        val item = list[index]
+                                        if (item is IRequest) {
+                                            val value = item.parametersList("$it[$index]")
+                                            parameters.append(value).append("&")
+                                        } else {
+                                            val value = item?.toString()
+                                            parameters.append(it).append("[]=").append(value).append("&")
+                                        }
+                                    }
+                                } else {
+                                    val value = f?.toString()
+                                    parameters.append(it).append("=").append(value).append("&")
+                                }
                             }
                         }
                     } catch (e: IllegalAccessException) {

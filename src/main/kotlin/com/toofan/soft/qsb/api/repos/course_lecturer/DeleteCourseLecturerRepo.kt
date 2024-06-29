@@ -19,7 +19,7 @@ object DeleteCourseLecturerRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.CourseLecture.Delete,
+                    route = Route.CourseLecturer.Delete,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)

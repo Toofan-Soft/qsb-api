@@ -20,7 +20,7 @@ object RetrieveLecturerCoursesRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.CourseLecture.RetrieveLecturerCourseList,
+                    route = Route.CourseLecturer.RetrieveLecturerCourseList,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)

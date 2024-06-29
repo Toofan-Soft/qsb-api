@@ -1,54 +1,10 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.chapter.RetrieveEditableChapterRepo
+import com.toofan.soft.qsb.api.repos.course_student.AddCourseStudentsRepo
+import com.toofan.soft.qsb.api.repos.department_course.AddDepartmentCourseRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import kotlinx.coroutines.runBlocking
-
-fun main3() {
-    runBlocking {
-//        Api.init("192.168.1.18")
-        ModifyQuestionRepo.execute(
-            data = { optional ->
-                optional.invoke(
-                    {
-                        id(2)
-                    },
-                    choice = { optional ->
-                        optional.invoke {
-                            id(5)
-                            content("content")
-                        }
-                        optional.invoke {
-                            id(6)
-                            content("content6")
-                        }
-                        optional.invoke {
-                            id(-1)
-                            content("content6")
-                        }
-                    }
-                )
-//                optional.invoke {
-//                    choices.invoke()
-//                }
-//                optional.invoke {
-//                    title("title")
-//                }
-            },
-            onComplete = {
-                when (it) {
-                    is Resource.Success -> {
-                        println("Success :)")
-                    }
-                    is Resource.Error -> {
-                        println("Error: " + it.message)
-                    }
-                }
-            }
-        )
-    }
-}
 
 fun main2() {
     runBlocking {
@@ -105,6 +61,89 @@ fun main2() {
     }
 }
 
+fun main3() {
+    runBlocking {
+//        Api.init("192.168.1.18")
+        ModifyQuestionRepo.execute(
+            data = { optional ->
+                optional.invoke(
+                    {
+                        id(2)
+                    },
+                    choice = { optional ->
+                        optional.invoke {
+                            id(5)
+                            content("content")
+                        }
+                        optional.invoke {
+                            id(6)
+                            content("content6")
+                        }
+                        optional.invoke {
+                            id(-1)
+                            content("content6")
+                        }
+                    }
+                )
+//                optional.invoke {
+//                    choices.invoke()
+//                }
+//                optional.invoke {
+//                    title("title")
+//                }
+            },
+            onComplete = {
+                when (it) {
+                    is Resource.Success -> {
+                        println("Success :)")
+                    }
+                    is Resource.Error -> {
+                        println("Error: " + it.message)
+                    }
+                }
+            }
+        )
+    }
+}
+
+fun main4() {
+    runBlocking {
+        Api.init("192.168.1.18")
+        AddDepartmentCourseRepo.execute(
+            data = { mandatory, optional ->
+                mandatory.invoke(
+                    1,
+                    1,
+                    1,
+                    1,
+                )
+                optional.invoke {
+                    it.invoke {
+                        id(5)
+                        lecturesCount(8)
+                    }
+
+                    it.invoke {
+                        id(3)
+                        lecturesCount(2)
+                        lectureDuration(7)
+                    }
+                }
+            },
+            onComplete = {
+                when (it) {
+                    is Resource.Success -> {
+                        println("Success :)")
+                    }
+                    is Resource.Error -> {
+                        println("Error: " + it.message)
+                    }
+                }
+            }
+        )
+    }
+}
+
 fun main(args: Array<String>) {
     println("Hello World!")
 
@@ -113,9 +152,15 @@ fun main(args: Array<String>) {
     runBlocking {
         Api.init("192.168.1.15")
 
-        RetrieveEditableChapterRepo.execute(
+        AddCourseStudentsRepo.execute(
             data = {
-                it.invoke(1)
+                it.invoke(
+                    4,
+                    listOf(
+                        1,
+                        2
+                    )
+                )
             },
             onComplete = {
                 println("complete...")
@@ -126,7 +171,8 @@ fun main(args: Array<String>) {
 //        Api.init("127.0.0.1")
 //        LoginRepo.execute(
 //            data = {
-//                it.invoke("user9@gmail.com", "123456aa")
+////                it.invoke("user9@gmail.com", "123456aa")
+//                it.invoke("llll123456@gmail.com", "llll123456")
 //            },
 //            onComplete = {
 //                println("complete")

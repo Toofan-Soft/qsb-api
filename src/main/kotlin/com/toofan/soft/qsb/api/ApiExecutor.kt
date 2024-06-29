@@ -84,7 +84,7 @@ object ApiExecutor {
 
                 onResponse(jsonObject)
 
-                e.printStackTrace()
+//                e.printStackTrace()
             }
         } else {
             val jsonObject = JsonObject()

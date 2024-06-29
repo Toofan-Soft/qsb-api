@@ -208,16 +208,16 @@ sealed class Route(
         object RetrieveList: Employee("retrieve-list", Method.GET)
     }
 
-    sealed class CourseLecture(
+    sealed class CourseLecturer(
         name: String,
         method: Method,
         isAuthorized: Boolean = true
-    ): Route("course-lecture/$name", method, isAuthorized) {
-        object Add: CourseLecture("add", Method.POST)
-        object Delete: CourseLecture("delete", Method.DELETE)
-        object Retrieve: CourseLecture("retrieve", Method.GET)
-        object RetrieveList: CourseLecture("retrieve-list", Method.GET)
-        object RetrieveLecturerCourseList: CourseLecture("retrieve-lecturer-course-list", Method.GET)
+    ): Route("course-lecturer/$name", method, isAuthorized) {
+        object Add: CourseLecturer("add", Method.POST)
+        object Delete: CourseLecturer("delete", Method.DELETE)
+        object Retrieve: CourseLecturer("retrieve", Method.GET)
+        object RetrieveList: CourseLecturer("retrieve-list", Method.GET)
+        object RetrieveLecturerCourseList: CourseLecturer("retrieve-lecturer-course-list", Method.GET)
     }
 
     sealed class Student(

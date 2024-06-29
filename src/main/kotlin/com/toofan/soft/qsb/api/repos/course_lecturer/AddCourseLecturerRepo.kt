@@ -19,7 +19,7 @@ object AddCourseLecturerRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.CourseLecture.Add,
+                    route = Route.CourseLecturer.Add,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)
