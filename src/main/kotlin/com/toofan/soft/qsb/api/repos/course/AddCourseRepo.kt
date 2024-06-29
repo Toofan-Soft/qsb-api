@@ -1,5 +1,6 @@
 package com.toofan.soft.qsb.api.repos.course
 
+import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 
 object AddCourseRepo {
@@ -41,4 +42,19 @@ object AddCourseRepo {
         @Field("english_name")
         private val _englishName: String,
     ) : IRequest
+
+    data class Response(
+        @Field("id")
+        val id: Int = 0
+    ) : IResponse {
+        companion object {
+            private fun getInstance(): Response {
+                return Response()
+            }
+
+            fun map(data: JsonObject): Response {
+                return getInstance().getResponse(data) as Response
+            }
+        }
+    }
 }
