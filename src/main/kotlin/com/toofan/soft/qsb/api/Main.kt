@@ -1,16 +1,25 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.course_student.AddCourseStudentsRepo
-import com.toofan.soft.qsb.api.repos.department_course.AddDepartmentCourseRepo2
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import kotlinx.coroutines.runBlocking
 
-fun main2() {
+fun main() {
     runBlocking {
-        Api.init("192.168.1.18")
-        AddQuestionRepo.execute(
-            data = { mandatory, optional ->
+        Api.init("192.168.1.15")
+
+        LoginRepo.execute(
+            data = {
+//                it.invoke("user9@gmail.com", "123456aa")
+                it.invoke("llll123456@gmail.com", "llll123456")
+            },
+            onComplete = {
+                println("complete")
+
+                runBlocking {
+                    AddQuestionRepo.execute(
+                        data = { mandatory, optional ->
 //                mandatory.invoke(
 //                    1,
 //                    0,
@@ -25,36 +34,57 @@ fun main2() {
 //                        it.invoke(1, "", true, null)
 //                    }
 //                )
+//                            val htmlContent = "<html dir=\"rtl\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">Are You Male?</span></p></body></html>"
+//                                .trimIndent()
+//                            val encodedContent = URLEncoder.encode(htmlContent, "UTF-8")
 
-                mandatory.invoke(
-                    1,
-                    1,
-                    1,
-                    1,
-                    1,
-                    20,
-                    "content",
-                    choice = { mandatory, optional ->
-                        mandatory.invoke(null, "content 1", true)
-                        mandatory.invoke(null, "content 2", true)
-                        optional.invoke {
-                            attachment(ByteArray(5))
-                        }
-                        mandatory.invoke(null, "content 3", false)
-                    }
-                )
+
+                            mandatory.invoke(
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                20,
+//                                "content111",
+                                "<html dir=\"rtl\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">Are You Male?</span></p></body></html>",
+//                                encodedContent,
+                                choice = { mandatory, optional ->
+                                    mandatory.invoke(
+                                        null,
+                                        "<html dir=\"rtl\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">content 1</span></p></body></html>",
+                                        true
+                                    )
+                                    mandatory.invoke(
+                                        null,
+                                        "<html dir=\"rtl\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">content 2</span></p></body></html>",
+                                        true
+                                    )
+//                        optional.invoke {
+//                            attachment(ByteArray(5))
+//                        }
+                                    mandatory.invoke(
+                                        null,
+                                        "<html dir=\"rtl\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">content 3</span></p></body></html>",
+                                        false
+                                    )
+                                }
+                            )
 //                optional.invoke {
 //                    title("title")
 //                }
-            },
-            onComplete = {
-                when (it) {
-                    is Resource.Success -> {
-                        println("Success :)")
-                    }
-                    is Resource.Error -> {
-                        println("Error: " + it.message)
-                    }
+                        },
+                        onComplete = {
+                            when (it) {
+                                is Resource.Success -> {
+                                    println("Success :)")
+                                }
+                                is Resource.Error -> {
+                                    println("Error: " + it.message)
+                                }
+                            }
+                        }
+                    )
                 }
             }
         )
@@ -109,42 +139,42 @@ fun main3() {
 fun main4() {
     runBlocking {
         Api.init("192.168.1.18")
-        AddDepartmentCourseRepo2.execute(
-            data = { mandatory, optional ->
-                mandatory.invoke(
-                    1,
-                    1,
-                    1,
-                    1,
-                )
-                optional.invoke {
-                    it.invoke {
-                        id(5)
-                        lecturesCount(8)
-                    }
-
-                    it.invoke {
-                        id(3)
-                        lecturesCount(2)
-                        lectureDuration(7)
-                    }
-                }
-            },
-            onComplete = {
-                when (it) {
-                    is Resource.Success -> {
-                        println("Success :)")
-                    }
-                    is Resource.Error -> {
-                        println("Error: " + it.message)
-                    }
-                }
-            }
-        )
+//        AddDepartmentCourseRepo2.execute(
+//            data = { mandatory, optional ->
+//                mandatory.invoke(
+//                    1,
+//                    1,
+//                    1,
+//                    1,
+//                )
+//                optional.invoke {
+//                    it.invoke {
+//                        id(5)
+//                        lecturesCount(8)
+//                    }
+//
+//                    it.invoke {
+//                        id(3)
+//                        lecturesCount(2)
+//                        lectureDuration(7)
+//                    }
+//                }
+//            },
+//            onComplete = {
+//                when (it) {
+//                    is Resource.Success -> {
+//                        println("Success :)")
+//                    }
+//                    is Resource.Error -> {
+//                        println("Error: " + it.message)
+//                    }
+//                }
+//            }
+//        )
     }
 }
 
-fun main(args: Array<String>) {
+fun main1(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
@@ -152,21 +182,36 @@ fun main(args: Array<String>) {
     runBlocking {
         Api.init("192.168.1.15")
 
-        AddCourseStudentsRepo.execute(
+        LoginRepo.execute(
             data = {
-                it.invoke(
-                    4,
-                    listOf(
-                        1,
-                        2
-                    )
-                )
+//                it.invoke("user9@gmail.com", "123456aa")
+                it.invoke("llll123456@gmail.com", "llll123456")
             },
             onComplete = {
-                println("complete...")
-                println(it.data)
-            }
-        )
+                println("complete")
+
+                runBlocking {
+
+                    AddQuestionRepo.execute(
+                        data = { mandatory, optional ->
+                            mandatory.invoke(
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                20,
+                                "content=<html dir=\"rtl\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">Are You Male?</span></p></body></html>",
+                                choice = { mandatory, optional ->
+
+                                }
+                            )
+                        },
+                        onComplete = {
+                            println("complete...")
+                            println(it.data)
+                        }
+                    )
 
 //        Api.init("127.0.0.1")
 //        LoginRepo.execute(
@@ -246,6 +291,9 @@ fun main(args: Array<String>) {
 //                }
 //            }
 //        )
+                }
+            }
+        )
     }
 
 

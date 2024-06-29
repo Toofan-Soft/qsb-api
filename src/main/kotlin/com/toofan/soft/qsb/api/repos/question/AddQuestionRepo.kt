@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.question
 
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.helper.QuestionHelper
+import java.net.URLEncoder
 
 object AddQuestionRepo {
     @JvmStatic
@@ -85,7 +86,14 @@ object AddQuestionRepo {
                             if (choices.isNotEmpty() &&
                                 isCorrect == null && isIncorrect == null) {
                                 if (!hasError) {
-                                    request!!.choices(choices)
+                                    request!!.choices(
+                                        choices
+                                            .map {
+                                                it.copy(
+                                                    content = URLEncoder.encode(it.content.trimIndent(), "UTF-8")
+                                                )
+                                            }
+                                    )
                                 }
                             } else {
                                 hasError = true
@@ -101,11 +109,15 @@ object AddQuestionRepo {
 
             if (!hasError) {
                 request?.let {
-                    ApiExecutor.execute(
-                        route = Route.Question.Add,
-                        request = it
-                    ) {
-                        onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                    it.copy(
+                        _content = URLEncoder.encode(it._content.trimIndent(), "UTF-8")
+                    ).let {
+                        ApiExecutor.execute(
+                            route = Route.Question.Add,
+                            request = it
+                        ) {
+                            onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                        }
                     }
                 }
             } else {
@@ -157,7 +169,8 @@ object AddQuestionRepo {
         @Field("estimated_answer_time")
         private val _estimatedAnswerTime: Int,
         @Field("content")
-        private val _content: String,
+//        private val _content: String,
+        internal val _content: String,
         @Field("attachment")
         private val _attachment: OptionalVariable<ByteArray> = OptionalVariable(),
         @Field("title")
@@ -174,7 +187,7 @@ object AddQuestionRepo {
 
         data class Data(
             @Field("content")
-            private val content: String,
+            internal val content: String,
             @Field("is_true")
             private val isTrue: Boolean,
             @Field("attachment")

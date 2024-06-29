@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.question
 
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.helper.QuestionHelper
+import java.net.URLEncoder
 
 object ModifyQuestionRepo {
     @JvmStatic
@@ -55,7 +56,23 @@ object ModifyQuestionRepo {
                         }
                     }
                     if (!hasError) {
-                        request.choices(choices)
+                        request.choices(
+                            choices
+                                .map {
+                                    if (it._content.isUpdated) {
+                                        it.copy(
+                                            _content = it._content.copy(
+                                                _value = URLEncoder.encode(
+                                                    it._content.value!!.trimIndent(),
+                                                    "UTF-8"
+                                                )
+                                            )
+                                        )
+                                    } else {
+                                        it
+                                    }
+                                }
+                        )
                     }
                 } else {
                     hasError = true
@@ -64,11 +81,20 @@ object ModifyQuestionRepo {
 
             if (!hasError) {
                 request.let {
-                    ApiExecutor.execute(
-                        route = Route.Question.Modify,
-                        request = it
-                    ) {
-                        onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                    it.copy(
+                        _content = it._content.copy(
+                            _value = URLEncoder.encode(
+                                it._content.value!!.trimIndent(),
+                                "UTF-8"
+                            )
+                        )
+                    ).let {
+                        ApiExecutor.execute(
+                            route = Route.Question.Modify,
+                            request = it
+                        ) {
+                            onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                        }
                     }
                 }
             } else {
@@ -98,7 +124,7 @@ object ModifyQuestionRepo {
         @Field("estimated_answer_time")
         private val _estimatedAnswerTime: OptionalVariable<Int> = OptionalVariable(),
         @Field("content")
-        private val _content: OptionalVariable<String> = OptionalVariable(),
+        internal val _content: OptionalVariable<String> = OptionalVariable(),
         @Field("attachment")
         private val _attachment: OptionalVariable<ByteArray> = OptionalVariable(),
         @Field("title")
