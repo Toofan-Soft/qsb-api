@@ -1,7 +1,7 @@
 package com.toofan.soft.qsb.api
 
 import com.toofan.soft.qsb.api.repos.course_student.AddCourseStudentsRepo
-import com.toofan.soft.qsb.api.repos.department_course.AddDepartmentCourseRepo
+import com.toofan.soft.qsb.api.repos.department_course.AddDepartmentCourseRepo2
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import kotlinx.coroutines.runBlocking
@@ -109,7 +109,7 @@ fun main3() {
 fun main4() {
     runBlocking {
         Api.init("192.168.1.18")
-        AddDepartmentCourseRepo.execute(
+        AddDepartmentCourseRepo2.execute(
             data = { mandatory, optional ->
                 mandatory.invoke(
                     1,
