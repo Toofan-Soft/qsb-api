@@ -1,11 +1,12 @@
 package com.toofan.soft.qsb.api
 
+import com.toofan.soft.qsb.api.repos.lecturer_online_exam.AddOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import kotlinx.coroutines.runBlocking
 
-fun main() {
+fun main2() {
     runBlocking {
         Api.init("192.168.1.15")
 
@@ -174,7 +175,7 @@ fun main4() {
     }
 }
 
-fun main1(args: Array<String>) {
+fun main(args: Array<String>) {
     println("Hello World!")
 
     println("Program arguments: ${args.joinToString()}")
@@ -185,14 +186,14 @@ fun main1(args: Array<String>) {
         LoginRepo.execute(
             data = {
 //                it.invoke("user9@gmail.com", "123456aa")
-                it.invoke("llll123456@gmail.com", "llll123456")
+//                it.invoke("llll123456@gmail.com", "llll123456")
+                it.invoke("ssss1234@gmail.com", "ssss1234")
             },
             onComplete = {
                 println("complete")
-
                 runBlocking {
 
-                    AddQuestionRepo.execute(
+                    AddOnlineExamRepo.execute(
                         data = { mandatory, optional ->
                             mandatory.invoke(
                                 1,
@@ -201,10 +202,16 @@ fun main1(args: Array<String>) {
                                 1,
                                 1,
                                 20,
-                                "content=<html dir=\"rtl\"><head></head><body contenteditable=\"true\"><p><span style=\"font-family: &quot;&quot;;\">Are You Male?</span></p></body></html>",
-                                choice = { mandatory, optional ->
-
-                                }
+                                11111,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                {
+                                    it.invoke(1, 5, 1f)
+                                },
+                                listOf(3)
                             )
                         },
                         onComplete = {
