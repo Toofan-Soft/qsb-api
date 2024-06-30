@@ -1,6 +1,6 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.lecturer_online_exam.AddOnlineExamRepo
+import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamsRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
@@ -186,39 +186,49 @@ fun main(args: Array<String>) {
         LoginRepo.execute(
             data = {
 //                it.invoke("user9@gmail.com", "123456aa")
-//                it.invoke("llll123456@gmail.com", "llll123456")
-                it.invoke("ssss1234@gmail.com", "ssss1234")
+                it.invoke("llll123456@gmail.com", "llll123456")
+//                it.invoke("ssss1234@gmail.com", "ssss1234")
             },
             onComplete = {
                 println("complete")
                 runBlocking {
 
-                    AddOnlineExamRepo.execute(
+                    RetrieveOnlineExamsRepo.execute(
                         data = { mandatory, optional ->
-                            mandatory.invoke(
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                20,
-                                11111,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                {
-                                    it.invoke(1, 5, 1f)
-                                },
-                                listOf(3)
-                            )
+                            mandatory.invoke(2)
                         },
                         onComplete = {
                             println("complete...")
                             println(it.data)
                         }
                     )
+
+//                    AddOnlineExamRepo.execute(
+//                        data = { mandatory, optional ->
+//                            mandatory.invoke(
+//                                2,
+//                                0,
+//                                0,
+//                                1720126800000,
+//                                100,
+//                                1720126800000,
+//                                1720126800000,
+//                                0,
+//                                1,
+//                                1,
+//                                1,
+//                                1,
+//                                {
+//                                    it.invoke(1, 5, 1f)
+//                                },
+//                                listOf(3)
+//                            )
+//                        },
+//                        onComplete = {
+//                            println("complete...")
+//                            println(it.data)
+//                        }
+//                    )
 
 //        Api.init("127.0.0.1")
 //        LoginRepo.execute(

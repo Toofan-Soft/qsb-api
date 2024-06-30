@@ -70,13 +70,13 @@ object RetrieveOnlineExamsRepo {
 
         data class Data(
             @Field("id")
-            val id: Int,
+            val id: Int = 0,
             @Field("datetime")
-            val datetime: Long,
+            val datetime: Long = 0,
             @Field("forms_count")
-            val formsCount: Int,
+            val formsCount: Int = 0,
             @Field("score")
-            val score: Float,
+            val score: Float = 0f,
             @Field("status_name")
             val statusName: String? = null,
             @Field("type_name")
