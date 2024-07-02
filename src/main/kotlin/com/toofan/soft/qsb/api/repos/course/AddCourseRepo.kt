@@ -9,7 +9,7 @@ object AddCourseRepo {
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (Resource<Boolean>) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         Coroutine.launch {
             var request: Request? = null
@@ -23,7 +23,7 @@ object AddCourseRepo {
                     route = Route.Course.Add,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }
@@ -44,9 +44,19 @@ object AddCourseRepo {
     ) : IRequest
 
     data class Response(
-        @Field("id")
-        val id: Int = 0
+        @Field("is_success")
+        val isSuccess: Boolean = false,
+        @Field("error_message")
+        val errorMessage: String? = null,
+        @Field("data")
+        val data: Data? = null
     ) : IResponse {
+
+        data class Data(
+            @Field("id")
+            val id: Int = 0
+        ) : IResponse
+
         companion object {
             private fun getInstance(): Response {
                 return Response()
