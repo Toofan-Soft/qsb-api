@@ -1,6 +1,6 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamsRepo
+import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamsAndroidRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
@@ -193,9 +193,9 @@ fun main(args: Array<String>) {
                 println("complete")
                 runBlocking {
 
-                    RetrieveOnlineExamsRepo.execute(
-                        data = { mandatory, optional ->
-                            mandatory.invoke(2)
+                    RetrieveOnlineExamsAndroidRepo.execute(
+                        data = {
+//                            it.invoke
                         },
                         onComplete = {
                             println("complete...")

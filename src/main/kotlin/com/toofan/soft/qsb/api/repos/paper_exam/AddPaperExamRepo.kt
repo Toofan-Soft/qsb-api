@@ -116,7 +116,7 @@ object AddPaperExamRepo {
             private val _questionsCount: Int,
             @Field("question_score")
             private val _questionScore: Float,
-        )
+        ) : IRequest
 
         fun optional(block: Request.() -> Unit): Request {
             return build(block)

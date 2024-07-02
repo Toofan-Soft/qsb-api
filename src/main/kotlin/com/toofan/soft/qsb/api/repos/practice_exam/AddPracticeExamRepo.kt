@@ -92,7 +92,7 @@ object AddPracticeExamRepo {
             private val _typeId: Int,
             @Field("questions_count")
             private val _questionsCount: Int
-        )
+        ) : IRequest
 
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
