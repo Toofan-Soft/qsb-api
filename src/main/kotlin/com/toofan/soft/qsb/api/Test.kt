@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api
 
 import com.toofan.soft.qsb.api.repos.department.RetrieveDepartmentRepo
 import com.toofan.soft.qsb.api.repos.department_course.RetrieveDepartmentCourseRepo
+import com.toofan.soft.qsb.api.repos.filter.RetrieveDepartmentLecturerCurrentCoursesRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormQuestionsRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormsRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.ModifyPaperExamRepo
@@ -145,6 +146,19 @@ private suspend fun retrieveProfile() {
     )
 }
 
+
+private suspend fun retrieveDepartmentLecturerCurrentCourses() {
+    RetrieveDepartmentLecturerCurrentCoursesRepo.execute(
+        data = {
+            it.invoke(1)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
 fun main() {
     runBlocking {
         Api.init("192.168.1.15")
@@ -163,8 +177,9 @@ fun main() {
 //                    retrievePaperForms()
 //                    retrieveLecturerExamFormQuestions()
 //                    retrievePaperExamFormQuestions()
-                    retrieveDepartmentCourse()
+//                    retrieveDepartmentCourse()
 //                    retrieveProfile()
+                    retrieveDepartmentLecturerCurrentCourses()
                 }
             }
         )
