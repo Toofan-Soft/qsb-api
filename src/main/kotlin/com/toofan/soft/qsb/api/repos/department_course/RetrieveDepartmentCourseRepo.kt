@@ -56,7 +56,7 @@ object RetrieveDepartmentCourseRepo {
             val departmentName: String = "",
             @Field("level_name")
             val levelName: String = "",
-            @Field("semester_Name")
+            @Field("semester_name")
             val semesterName: String = "",
             @Field("course_name")
             val courseName: String = "",

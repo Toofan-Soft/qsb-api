@@ -2,22 +2,34 @@ package com.toofan.soft.qsb.api.repos.user
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.session.Auth
+import com.toofan.soft.qsb.api.session.Profile
+import com.toofan.soft.qsb.api.session.UserType
 
 object RetrieveProfileRepo {
     @JvmStatic
     suspend fun execute(
-        onComplete: (Resource<Response.Data>) -> Unit
+        onComplete: (Resource<Profile>) -> Unit
     ) {
         Coroutine.launch {
             ApiExecutor.execute(
                 route = Route.User.RetrieveProfile,
             ) {
-                onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+                when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
+                    is Resource.Success -> {
+                        resource.data?.let {
+                            onComplete(Resource.Success(it.getData()))
+                        }
+                    }
+                    is Resource.Error -> {
+                        onComplete(Resource.Error(resource.message))
+                    }
+                }
             }
         }
     }
 
-    data class Response(
+    internal data class Response(
         @Field("is_success")
         val isSuccess: Boolean = false,
         @Field("error_message")
@@ -25,58 +37,70 @@ object RetrieveProfileRepo {
         @Field("data")
         val data: Data? = null
     ) : IResponse {
+        internal data class Data(
+            @Field("name")
+            val name: String = "",
 
-        sealed interface Data {
-            data class Guest(
-                @Field("name")
-                val name: String = "",
-                @Field("email")
-                val email: String = "",
-                @Field("gender_name")
-                val genderName: String = "",
-                @Field("phone")
-                val phone: Long? = null,
-                @Field("image_url")
-                val imageUrl: String? = null
-            ) : Data
+            @Field("arabic_name")
+            val arabicName: String = "",
+            @Field("english_name")
+            val englishName: String = "",
+            @Field("email")
+            val email: String = "",
+            @Field("gender_name")
+            val genderName: String = "",
+            @Field("phone")
+            val phone: Long? = null,
+            @Field("image_url")
+            val imageUrl: String? = null,
+            @Field("birthdate")
+            val birthdate: Long? = null,
 
-            data class Employee (
-                @Field("arabic_name")
-                val arabicName: String = "",
-                @Field("english_name")
-                val englishName: String = "",
-                @Field("email")
-                val email: String = "",
-                @Field("gender_name")
-                val genderName: String = "",
-                @Field("qualification_name")
-                val qualificationName: String = "",
-                @Field("job_type_name")
-                val jobTypeName: String = "",
-                @Field("phone")
-                val phone: Long? = null,
-                @Field("image_url")
-                val imageUrl: String? = null,
-                @Field("specialization")
-                val specialization: String? = null
-            ) : Data
-
-            data class Student(
-                @Field("arabic_name")
-                val arabicName: String = "",
-                @Field("english_name")
-                val englishName: String = "",
-                @Field("email")
-                val email: String = "",
-                @Field("gender_name")
-                val genderName: String = "",
-                @Field("phone")
-                val phone: Long? = null,
-                @Field("image_url")
-                val imageUrl: String? = null,
-                @Field("birthdate")
-                val birthdate: Long? = null
-            ) : Data
+            @Field("qualification_name")
+            val qualificationName: String = "",
+            @Field("job_type_name")
+            val jobTypeName: String = "",
+            @Field("specialization")
+            val specialization: String? = null
+        ) : IResponse {
+            fun getData(): Profile? {
+                return when (Auth.user) {
+                    UserType.GUEST -> {
+                        Profile.Guest(
+                            name,
+                            email,
+                            genderName,
+                            phone,
+                            imageUrl
+                        )
+                    }
+                    UserType.STUDENT -> {
+                        Profile.Student(
+                            arabicName,
+                            englishName,
+                            email,
+                            genderName,
+                            phone,
+                            imageUrl,
+                            birthdate
+                        )
+                    }
+                    UserType.LECTURER, UserType.EMPLOYEE -> {
+                        Profile.Employee(
+                            arabicName,
+                            englishName,
+                            email,
+                            genderName,
+                            qualificationName,
+                            jobTypeName,
+                            phone,
+                            imageUrl,
+                            specialization
+                        )
+                    }
+                    null -> null
+                }
+            }
         }
 
         companion object {

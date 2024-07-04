@@ -236,7 +236,7 @@ fun main(args: Array<String>) {
                                 2,
                                 0,
                                 1720126800000,
-                                100,
+                                900,
                                 0,
                                 1,
                                 "asdsa",
@@ -246,7 +246,7 @@ fun main(args: Array<String>) {
                                 {
                                     it.invoke(1, 10, 10f)
                                 },
-                                listOf(4)
+                                listOf(3)
                             )
                         },
                         onComplete = {

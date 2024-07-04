@@ -8,5 +8,8 @@ internal annotation class Field(
      *
      * @return the name
      */
-    val value: String,
+//    val value: String,
+    val _value: String
 )
+
+internal val Field.value get() = _value.lowercase()
