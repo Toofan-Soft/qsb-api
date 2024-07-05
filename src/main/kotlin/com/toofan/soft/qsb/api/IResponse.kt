@@ -83,7 +83,7 @@ internal interface IResponse {
         return value?.let {
             println("field type: ${field.type}")
             when (val targetType = field.type) {
-                Int::class.java -> value.asInt
+                Int::class.java, java.lang.Integer::class.java -> value.asString.toIntOrNull()
                 Long::class.java, java.lang.Long::class.java -> value.asString.toLongOrNull()
                 Float::class.java -> value.asFloat
                 Double::class.java -> value.asDouble
@@ -93,8 +93,8 @@ internal interface IResponse {
                     val listType = getListType(field)
                     listType?.let {
                         when(listType) {
-                            Int::class.java -> value.asJsonArray.map { it.asInt }
-                            Long::class.java -> value.asJsonArray.map { it.asLong }
+                            Int::class.java, java.lang.Integer::class.java -> value.asJsonArray.map { it.asInt }
+                            Long::class.java, java.lang.Long::class.java -> value.asJsonArray.map { it.asLong }
                             Float::class.java -> value.asJsonArray.map { it.asFloat }
                             Double::class.java -> value.asJsonArray.map { it.asDouble }
                             Boolean::class.java, java.lang.Boolean::class.java -> value.asJsonArray.map { it.asBoolean }
