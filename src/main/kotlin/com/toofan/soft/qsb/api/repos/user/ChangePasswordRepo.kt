@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object ChangePasswordRepo {
     @JvmStatic
@@ -16,8 +13,8 @@ object ChangePasswordRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { email, password ->
-                request = Request(email, password)
+            data.invoke { oldPassword, newPassword ->
+                request = Request(oldPassword, newPassword)
             }
 
             request?.let {
@@ -33,8 +30,8 @@ object ChangePasswordRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            email: String,
-            password: String
+            oldPassword: String,
+            newPassword: String
         )
     }
 
