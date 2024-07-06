@@ -30,13 +30,14 @@ sealed class Route(
         isAuthorized: Boolean = true
     ): Route("user/$name", method, isAuthorized) {
         // check for method
-        object Verify: User("verify", Method.POST, false)
         object Login: User("login", Method.POST, false)
-        object Logout: User("logout", Method.POST)
-        object ChangePassword: User("change-password", Method.PUT)
+        object Verify: User("verify", Method.POST, false)
         object RequestAccountRecovery: User("request-account-recovery", Method.PUT, false)
-        object ChangePasswordAfterAccountRecovery: User("change-password-after-account-recovery", Method.PUT, false)
-        object RetrieveProfile: User("retrieve-profile", Method.GET, true)
+        object VerifyAfterAccountRecovery: User("verify-after-account-recovery", Method.PUT, false)
+        object ChangePasswordAfterAccountRecovery: User("change-password-after-account-recovery", Method.PUT)
+        object RetrieveProfile: User("retrieve-profile", Method.GET)
+        object ChangePassword: User("change-password", Method.PUT)
+        object Logout: User("logout", Method.POST)
     }
 
     sealed class University(
