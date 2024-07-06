@@ -82,27 +82,36 @@ object RetrievePracticeExamQuestionsRepo {
                     if (choices == null) {
                         QuestionHelper.Data.Data.Type.values().map { it.toData() }
                     } else {
-                        if (choices.all { it.isTrue == null && it.isSelected == null }) {
-                            choices.map {
-                                QuestionHelper.Data.Data(
-                                    id = it.id,
-                                    content = it.content,
-                                    attachmentUrl = it.attachmentUrl
-                                )
-                            }
-                        } else if (choices.all { it.isTrue != null && it.isSelected != null }) {
-                            choices.map {
-                                QuestionHelper.Data.Data(
-                                    id = it.id,
-                                    content = it.content,
-                                    isTrue = it.isTrue,
-                                    isSelected = it.isSelected,
-                                    attachmentUrl = it.attachmentUrl
-                                )
-                            }
-                        } else {
-                            emptyList()
+                        choices.map {
+                            QuestionHelper.Data.Data(
+                                id = it.id,
+                                content = it.content,
+                                isTrue = it.isTrue,
+                                isSelected = it.isSelected,
+                                attachmentUrl = it.attachmentUrl
+                            )
                         }
+//                        if (choices.all { it.isTrue == null && it.isSelected == null }) {
+//                            choices.map {
+//                                QuestionHelper.Data.Data(
+//                                    id = it.id,
+//                                    content = it.content,
+//                                    attachmentUrl = it.attachmentUrl
+//                                )
+//                            }
+//                        } else if (choices.all { it.isTrue != null && it.isSelected != null }) {
+//                            choices.map {
+//                                QuestionHelper.Data.Data(
+//                                    id = it.id,
+//                                    content = it.content,
+//                                    isTrue = it.isTrue,
+//                                    isSelected = it.isSelected,
+//                                    attachmentUrl = it.attachmentUrl
+//                                )
+//                            }
+//                        } else {
+//                            emptyList()
+//                        }
                     }
                 } else if (isTrue != null && userAnswer != null) {
                     if (choices == null) {
