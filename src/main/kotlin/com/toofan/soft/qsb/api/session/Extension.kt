@@ -94,3 +94,7 @@ fun String.unescapeAll(): String {
 fun String.unescapeBookends(): String {
     return this.replace(Regex("^\"|\"$"), "")
 }
+
+fun main() {
+    println("Asdadas")
+}

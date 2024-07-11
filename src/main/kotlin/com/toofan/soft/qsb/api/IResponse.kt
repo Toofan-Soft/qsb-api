@@ -1,16 +1,9 @@
 package com.toofan.soft.qsb.api
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.toofan.soft.qsb.api.extensions.date
 import com.toofan.soft.qsb.api.extensions.datetime
-import com.toofan.soft.qsb.api.extensions.milliseconds
-import com.toofan.soft.qsb.api.extensions.time
-import com.toofan.soft.qsb.api.repos.favorite_question.RetrieveFavoriteQuestionRepo
 import com.toofan.soft.qsb.api.services.Logger
-import kotlinx.coroutines.runBlocking
 import java.lang.reflect.ParameterizedType
 import java.time.LocalDateTime
 
@@ -157,88 +150,88 @@ internal interface IResponse {
 }
 
 
-suspend fun execute(
-    jsonObject: JsonObject,
-    onComplete: (Resource<RetrieveFavoriteQuestionRepo.Response.Data>) -> Unit
-) {
-    runBlocking {
-        val response = RetrieveFavoriteQuestionRepo.Response.map(jsonObject)
-//        val response = RetrieveFavoriteQuestionRepo.Response.Data().getResponse(jsonObject) as RetrieveFavoriteQuestionRepo.Response.Data
-
-        println("response: $response")
-
-        if (response.isSuccess) {
-//            onComplete(Resource.Success(response.data))
-            val resource = response.getResource() as Resource<RetrieveFavoriteQuestionRepo.Response.Data>
-            println(resource.toString())
-
-            resource.data?.let {
-                println("1-ms: " + it.datetime1.milliseconds)
-                println("1-d: " + it.datetime1.milliseconds.date)
-                println("1-t: " + it.datetime1.milliseconds.time)
-                println("2-ms: " + it.datetime2?.milliseconds)
-                println("2-d: " + it.datetime2?.milliseconds?.date)
-                println("2-t: " + it.datetime2?.milliseconds?.time)
-
-                it.getChoices().forEach {
-                    println(it.toString())
-                }
-            }
-
-        } else {
-            onComplete(Resource.Error(response.errorMessage))
-        }
-    }
-}
-
-
-fun main() {
-    val jsonObject = JsonObject()
-    jsonObject.addProperty("is_success", true)
-
-    val data = mapOf(
-            "datetime1" to 1720126800000,
-//            "datetime2" to 1720671477775,
-            "datetime2" to 0,
-
-        "chapter_name" to "ChapterName",
-            "topic_name" to "TopicName",
-            "type_name" to "TypeName",
-            "id" to 1,
-            "content" to "Content",
-            "is_true" to true,
-            "attachment_url" to null,
-            "choices" to null,
-//            "" to "",
-        )
-
-//    val gson = Gson()
+//suspend fun execute(
+//    jsonObject: JsonObject,
+//    onComplete: (Resource<RetrieveFavoriteQuestionRepo.Response.Data>) -> Unit
+//) {
+//    runBlocking {
+//        val response = RetrieveFavoriteQuestionRepo.Response.map(jsonObject)
+////        val response = RetrieveFavoriteQuestionRepo.Response.Data().getResponse(jsonObject) as RetrieveFavoriteQuestionRepo.Response.Data
+//
+//        println("response: $response")
+//
+//        if (response.isSuccess) {
+////            onComplete(Resource.Success(response.data))
+//            val resource = response.getResource() as Resource<RetrieveFavoriteQuestionRepo.Response.Data>
+//            println(resource.toString())
+//
+//            resource.data?.let {
+//                println("1-ms: " + it.datetime1.milliseconds)
+//                println("1-d: " + it.datetime1.milliseconds.date)
+//                println("1-t: " + it.datetime1.milliseconds.time)
+//                println("2-ms: " + it.datetime2?.milliseconds)
+//                println("2-d: " + it.datetime2?.milliseconds?.date)
+//                println("2-t: " + it.datetime2?.milliseconds?.time)
+//
+//                it.getChoices().forEach {
+//                    println(it.toString())
+//                }
+//            }
+//
+//        } else {
+//            onComplete(Resource.Error(response.errorMessage))
+//        }
+//    }
+//}
+//
+//
+//fun main() {
+//    val jsonObject = JsonObject()
+//    jsonObject.addProperty("is_success", true)
+//
+//    val data = mapOf(
+//            "datetime1" to 1720126800000,
+////            "datetime2" to 1720671477775,
+//            "datetime2" to 0,
+//
+//        "chapter_name" to "ChapterName",
+//            "topic_name" to "TopicName",
+//            "type_name" to "TypeName",
+//            "id" to 1,
+//            "content" to "Content",
+//            "is_true" to true,
+//            "attachment_url" to null,
+//            "choices" to null,
+////            "" to "",
+//        )
+//
+////    val gson = Gson()
+////    val jsonData = gson.toJsonTree(data)
+//
+//    val gson = GsonBuilder().serializeNulls().create() // Enable serialization of null values
 //    val jsonData = gson.toJsonTree(data)
-
-    val gson = GsonBuilder().serializeNulls().create() // Enable serialization of null values
-    val jsonData = gson.toJsonTree(data)
-
-    jsonObject.add("data", jsonData)
-
-//    val jsonElement = jsonObject["data"]
-
-    val jsonString = Gson().toJson(jsonObject)
-    println(jsonString)
-
-    runBlocking {
-        execute(
-            jsonObject = jsonObject,
-//            jsonObject = jsonElement.asJsonObject,
-            onComplete = {
-                when (it) {
-                    is Resource.Success -> {
-                        println("data: ${it.data}")
-                    }
-                    is Resource.Error -> {
-                        println("message: ${it.message}")
-                    }
-                }
-            }
-        )
-    }
-}
+//
+//    jsonObject.add("data", jsonData)
+//
+////    val jsonElement = jsonObject["data"]
+//
+//    val jsonString = Gson().toJson(jsonObject)
+//    println(jsonString)
+//
+//    runBlocking {
+//        execute(
+//            jsonObject = jsonObject,
+////            jsonObject = jsonElement.asJsonObject,
+//            onComplete = {
+//                when (it) {
+//                    is Resource.Success -> {
+//                        println("data: ${it.data}")
+//                    }
+//                    is Resource.Error -> {
+//                        println("message: ${it.message}")
+//                    }
+//                }
+//            }
+//        )
+//    }
+//}
