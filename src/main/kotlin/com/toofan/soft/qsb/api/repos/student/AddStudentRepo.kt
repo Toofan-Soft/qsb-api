@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.student
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object AddStudentRepo {
     @JvmStatic
@@ -18,8 +15,8 @@ object AddStudentRepo {
             var request: Request? = null
 
             data.invoke(
-                { academicId, arabicName, englishName, genderId, departmentId, levelId ->
-                    request = Request(academicId, arabicName, englishName, genderId, departmentId, levelId)
+                { academicId, arabicName, englishName, genderId, departmentId, levelId, semesterId ->
+                    request = Request(academicId, arabicName, englishName, genderId, departmentId, levelId, semesterId)
                 },
                 { request!!.optional(it) }
             )
@@ -42,7 +39,8 @@ object AddStudentRepo {
             englishName: String,
             genderId: Int,
             departmentId: Int,
-            levelId: Int
+            levelId: Int,
+            semesterId: Int
         )
     }
 
@@ -63,6 +61,8 @@ object AddStudentRepo {
         private val departmentId: Int,
         @Field("level_id")
         private val _levelId: Int,
+        @Field("semester_id")
+        private val _semesterId: Int,
 
         @Field("email")
         private val _email: OptionalVariable<String> = OptionalVariable(),

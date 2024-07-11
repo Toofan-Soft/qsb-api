@@ -79,7 +79,15 @@ object RetrieveCourseStudentsRepo {
             @Field("status_name")
             val statusName: String? = null,
             @Field("image_url")
-            val imageUrl: String? = null
+            val imageUrl: String? = null,
+
+            @Field("is_active")
+            val isActive: Boolean = false,
+            @Field("is_suspended")
+            val isSuspended: Boolean = false,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

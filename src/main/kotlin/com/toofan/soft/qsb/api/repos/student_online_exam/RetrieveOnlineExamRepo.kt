@@ -79,7 +79,13 @@ object RetrieveOnlineExamRepo {
             @Field("general_note")
             val generalNote: String = "",
             @Field("special_note")
-            val specialNote: String? = null
+            val specialNote: String? = null,
+
+            @Field("is_takable")
+            val isTakable: Boolean = false,
+
+            @Field("is_complete")
+            val isComplete: Boolean = false
         ) : IResponse
 
         companion object {

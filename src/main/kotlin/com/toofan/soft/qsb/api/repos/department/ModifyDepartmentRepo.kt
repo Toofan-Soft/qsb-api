@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.department
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object ModifyDepartmentRepo {
     @JvmStatic
@@ -52,8 +49,8 @@ object ModifyDepartmentRepo {
         private val _arabicName: OptionalVariable<String> = OptionalVariable(),
         @Field("english_name")
         private val _englishName: OptionalVariable<String> = OptionalVariable(),
-        @Field("level_count")
-        private val _levelCount: OptionalVariable<Int> = OptionalVariable(),
+        @Field("levels_count_id")
+        private val _levelsCountId: OptionalVariable<Int> = OptionalVariable(),
         @Field("description")
         private val _description: OptionalVariable<String> = OptionalVariable(),
         @Field("logo")
@@ -61,7 +58,7 @@ object ModifyDepartmentRepo {
     ) : IRequest {
         val arabicName = loggableProperty(_arabicName)
         val englishName = loggableProperty(_englishName)
-        val levelCount = loggableProperty(_levelCount)
+        val levelsCountId = loggableProperty(_levelsCountId)
         val description = loggableProperty(_description)
         val logo = loggableProperty(_logo)
 

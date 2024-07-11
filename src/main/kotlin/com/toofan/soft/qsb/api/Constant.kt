@@ -33,7 +33,8 @@ sealed class Route(
         object Login: User("login", Method.POST, false)
         object Verify: User("verify", Method.POST, false)
         object RequestAccountRecovery: User("request-account-recovery", Method.PUT, false)
-        object VerifyAfterAccountRecovery: User("verify-after-account-recovery", Method.PUT, false)
+        object ResendCode: User("resend-code", Method.PUT, false)
+        object VerifyAccountAfterRecovery: User("verify-account-after-recovery", Method.PUT, false)
         object ChangePasswordAfterAccountRecovery: User("change-password-after-account-recovery", Method.PUT)
         object RetrieveProfile: User("retrieve-profile", Method.GET)
         object ChangePassword: User("change-password", Method.PUT)
@@ -60,6 +61,7 @@ sealed class Route(
         object Modify: College("modify", Method.PUT)
         object Delete: College("delete", Method.DELETE)
         object Retrieve: College("retrieve", Method.GET)
+        object RetrieveEditable: College("retrieve-editable", Method.GET)
         object RetrieveList: College("retrieve-list", Method.GET)
         object RetrieveBasicInfoList: College("retrieve-basic-info-list", Method.GET)
     }
@@ -73,6 +75,7 @@ sealed class Route(
         object Modify: Department("modify", Method.PUT)
         object Delete: Department("delete", Method.DELETE)
         object Retrieve: Department("retrieve", Method.GET)
+        object RetrieveEditable: Department("retrieve-editable", Method.GET)
         object RetrieveList: Department("retrieve-list", Method.GET)
         object RetrieveBasicInfoList: Department("retrieve-basic-info-list", Method.GET)
     }
@@ -84,6 +87,7 @@ sealed class Route(
     ): Route("course/$name", method, isAuthorized) {
         object Add: Course("add", Method.POST)
         object Modify: Course("modify", Method.PUT)
+        object Retrieve: Course("retrieve", Method.GET)
         object Delete: Course("delete", Method.DELETE)
         object RetrieveEditable: Course("retrieve-editable", Method.GET)
         object RetrieveList: Course("retrieve-list", Method.GET)
@@ -125,6 +129,7 @@ sealed class Route(
         object Modify: Topic("modify", Method.PUT)
         object Delete: Topic("delete", Method.DELETE)
         object Retrieve: Topic("retrieve", Method.GET)
+        object RetrieveEditable: Topic("retrieve-editable", Method.GET)
         object RetrieveList: Topic("retrieve-list", Method.GET)
         object RetrieveAvailableList: Topic("retrieve-available-list", Method.GET)
         object RetrieveDescription: Topic("retrieve-description", Method.GET)
@@ -142,6 +147,7 @@ sealed class Route(
         object RetrieveEditable: Question("retrieve-editable", Method.GET)
         object RetrieveList: Question("retrieve-list", Method.GET)
         object Submit: Question("submit", Method.PUT)
+        object WithdrawSubmit: Question("withdraw-submit", Method.PUT)
         object Accept: Question("accept", Method.PUT)
         object Reject: Question("reject", Method.PUT)
     }
@@ -188,12 +194,11 @@ sealed class Route(
         method: Method,
         isAuthorized: Boolean = true
     ): Route("department-course-part-chapter-and-topic/$name", method, isAuthorized) {
-        object AddTopicList: DepartmentCoursePartChapterAndTopic("add-topic-list", Method.POST)
-        object DeleteTopicList: DepartmentCoursePartChapterAndTopic("delete-topic-list", Method.DELETE)
+        object ModifyTopicList: DepartmentCoursePartChapterAndTopic("modify-topic-list", Method.POST)
         object RetrieveChapterList: DepartmentCoursePartChapterAndTopic("retrieve-chapter-list", Method.GET)
         object RetrieveTopicList: DepartmentCoursePartChapterAndTopic("retrieve-topic-list", Method.GET)
-        object RetrieveAvailableChapterList: DepartmentCoursePartChapterAndTopic("retrieve-available-chapter-list", Method.GET)
-        object RetrieveAvailableTopicList: DepartmentCoursePartChapterAndTopic("retrieve-available-topic-list", Method.GET)
+        object RetrieveEditableChapterList: DepartmentCoursePartChapterAndTopic("retrieve-editable-chapter-list", Method.GET)
+        object RetrieveEditableTopicList: DepartmentCoursePartChapterAndTopic("retrieve-editable-topic-list", Method.GET)
     }
 
     sealed class Employee(
@@ -240,13 +245,12 @@ sealed class Route(
         isAuthorized: Boolean = true
     ): Route("course-student/$name", method, isAuthorized) {
         object AddList: CourseStudent("add-list", Method.POST)
-        object Modify: CourseStudent("modify", Method.PUT)
         object Delete: CourseStudent("delete", Method.DELETE)
-        object RetrieveEditable: CourseStudent("retrieve-editable", Method.GET)
         object RetrieveList: CourseStudent("retrieve-list", Method.GET)
         object RetrieveUnlinkList: CourseStudent("retrieve-unlink-list", Method.GET)
         object Pass: CourseStudent("pass", Method.PUT)
         object Suspend: CourseStudent("suspend", Method.PUT)
+        object Unsuspend: CourseStudent("unsuspend", Method.PUT)
     }
 
     sealed class Guest(
@@ -384,7 +388,9 @@ sealed class Route(
         method: Method,
         isAuthorized: Boolean = true
     ): Route("enum/$name", method, isAuthorized) {
-        object RetrieveCourseStatusList: Enum("retrieve-course-status-list", Method.GET)
+        object RetrieveCoursePartStatusList: Enum("retrieve-course-part-status-list", Method.GET)
+        object RetrieveChapterStatusList: Enum("retrieve-chapter-status-list", Method.GET)
+        object RetrieveLevelsCountsList: Enum("retrieve-levels-counts-list", Method.GET)
         object RetrieveCoursePartList: Enum("retrieve-course-part-list", Method.GET)
         object RetrieveLanguageList: Enum("retrieve-language-list", Method.GET)
         object RetrieveDifficultyLevelList: Enum("retrieve-difficulty-level-list", Method.GET)
@@ -437,6 +443,8 @@ sealed class Route(
         object RetrieveEmployeeOfJobList: Filter("retrieve-employee-of-job-list", Method.GET)
         object RetrieveAcademicYearList: Filter("retrieve-academic-year-list", Method.GET)
         object RetrieveOwnerList: Filter("retrieve-owner-list", Method.GET)
+        object RetrieveNonOwnerEmployeeList: Filter("retrieve-non-owner-employee-list", Method.GET)
+        object RetrieveNonOwnerStudentList: Filter("retrieve-non-owner-student-list", Method.GET)
         object RetrieveRoleList: Filter("retrieve-role-list", Method.GET)
         object RetrieveProctorList: Filter("retrieve-proctor-list", Method.GET)
     }

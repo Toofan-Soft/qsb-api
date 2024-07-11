@@ -35,7 +35,7 @@ object AddCoursePartRepo {
     fun interface Mandatory {
         operator fun invoke(
             courseId: Int,
-            coursePartId: Int
+            partId: Int
         )
     }
 
@@ -46,8 +46,8 @@ object AddCoursePartRepo {
     data class Request(
         @Field("course_id")
         private val _courseId: Int,
-        @Field("course_part_id")
-        private val _coursePartId: Int,
+        @Field("part_id")
+        private val _partId: Int,
         @Field("description")
         private val _description: OptionalVariable<String> = OptionalVariable(),
     ) : IRequest {

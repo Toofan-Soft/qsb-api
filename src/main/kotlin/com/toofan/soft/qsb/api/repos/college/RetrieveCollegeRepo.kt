@@ -69,7 +69,10 @@ object RetrieveCollegeRepo {
             @Field("telegram")
             val telegram: String? = null,
             @Field("logo_url")
-            val logoUrl: String? = null
+            val logoUrl: String? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

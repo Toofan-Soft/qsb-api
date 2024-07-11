@@ -1,29 +1,29 @@
-package com.toofan.soft.qsb.api.repos.course_student
+package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 
-object RetrieveEditableCourseStudentRepo {
+object RetrieveEditableDepartmentCoursePartChapterTopicsRepo {
     @JvmStatic
     suspend fun execute(
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (Resource<Response.Data>) -> Unit
+        onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { departmentCourseId, studentId ->
-                request = Request(departmentCourseId, studentId)
+            data.invoke { departmentCoursePartId, chapterId ->
+                request = Request(departmentCoursePartId, chapterId)
             }
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.CourseStudent.RetrieveEditable,
+                    route = Route.DepartmentCoursePartChapterAndTopic.RetrieveEditableTopicList,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
                 }
             }
         }
@@ -31,16 +31,16 @@ object RetrieveEditableCourseStudentRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            departmentCourseId: Int,
-            studentId: Int
+            departmentCoursePartId: Int,
+            chapterId: Int
         )
     }
 
     data class Request(
-        @Field("department_course_id")
-        private val _departmentCourseId: Int,
-        @Field("student_id")
-        private val _studentId: Int
+        @Field("department_course_part_id")
+        private val _departmentCoursePartId: Int,
+        @Field("chapter_id")
+        private val _chapterId: Int
     ) : IRequest
 
     data class Response(
@@ -49,12 +49,18 @@ object RetrieveEditableCourseStudentRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: Data? = null
+        val data: List<Data> = emptyList()
     ) : IResponse {
 
         data class Data(
-            @Field("academic_year")
-            val academicYear: Int = 0
+            @Field("id")
+            val id: Int = 0,
+            @Field("arabic_title")
+            val arabicTitle: String = "",
+            @Field("english_title")
+            val englishTitle: String = "",
+            @Field("is_selected")
+            val isSelected: Boolean = false
         ) : IResponse
 
         companion object {

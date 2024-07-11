@@ -3,11 +3,16 @@ package com.toofan.soft.qsb.api
 import com.toofan.soft.qsb.api.repos.department.RetrieveDepartmentRepo
 import com.toofan.soft.qsb.api.repos.department_course.RetrieveDepartmentCourseRepo
 import com.toofan.soft.qsb.api.repos.filter.RetrieveDepartmentLecturerCurrentCoursesRepo
+import com.toofan.soft.qsb.api.repos.lecturer_online_exam.AddOnlineExamRepo
+import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveEditableOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormQuestionsRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormsRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.ModifyPaperExamRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.RetrievePaperExamFormsRepo
+import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamQuestionsRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamRepo
+import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsAndroidRepo
+import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
@@ -146,11 +151,106 @@ private suspend fun retrieveProfile() {
     )
 }
 
-
 private suspend fun retrieveDepartmentLecturerCurrentCourses() {
     RetrieveDepartmentLecturerCurrentCoursesRepo.execute(
         data = {
             it.invoke(1)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun retrieveEditableOnlineExam() {
+    RetrieveEditableOnlineExamRepo.execute(
+        data = {
+            it.invoke(8)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun retrievePracticeExamsAndroid() {
+    RetrievePracticeExamsAndroidRepo.execute(
+        data = {
+//            it.invoke()
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun retrievePracticeExamQuestions() {
+    RetrievePracticeExamQuestionsRepo.execute(
+        data = {
+            it.invoke(1)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+
+            it.data?.let {
+                it.filter { it.getChoices().any { it.isSelected == true } }.let {
+                    println()
+                    println()
+                    println(".....................")
+                    println(it)
+                }
+            }
+        }
+    )
+}
+
+private suspend fun retrievePracticeExams() {
+    RetrievePracticeExamsRepo.execute(
+        data = { mandatory, optional ->
+            mandatory.invoke(2)
+            optional.invoke {
+                statusId(0)
+            }
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+
+
+private suspend fun addOnlineExam() {
+    AddOnlineExamRepo.execute(
+        data = { mandatory, optional ->
+            mandatory.invoke(
+                2,
+                0,
+                1,
+//                1720126800000,
+                1721768400000,
+                120,
+//                1720126800000,
+//                1720126800000,
+                1723582800000,
+                1721768400000,
+                0,
+//                1,
+                2,
+                1,
+                1,
+//                1,
+                0,
+                {
+                    it.invoke(1, 20, 10.0f)
+                },
+                listOf(3)
+            )
         },
         onComplete = {
             println("complete...")
@@ -178,8 +278,15 @@ fun main() {
 //                    retrieveLecturerExamFormQuestions()
 //                    retrievePaperExamFormQuestions()
 //                    retrieveDepartmentCourse()
-//                    retrieveProfile()
-                    retrieveDepartmentLecturerCurrentCourses()
+                    retrieveProfile()
+//                    retrieveDepartmentLecturerCurrentCourses()
+
+//                    addOnlineExam()
+//                    retrieveEditableOnlineExam()
+
+//                    retrievePracticeExamsAndroid()
+//                    retrievePracticeExamQuestions()
+//                    retrievePracticeExams()
                 }
             }
         )

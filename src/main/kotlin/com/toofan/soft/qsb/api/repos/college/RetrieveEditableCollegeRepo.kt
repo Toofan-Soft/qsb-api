@@ -1,9 +1,9 @@
-package com.toofan.soft.qsb.api.repos.practice_exam
+package com.toofan.soft.qsb.api.repos.college
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 
-object RetrievePracticeExamResultRepo {
+object RetrieveEditableCollegeRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -20,7 +20,7 @@ object RetrievePracticeExamResultRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.RetrieveResult,
+                    route = Route.College.RetrieveEditable,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
@@ -36,8 +36,8 @@ object RetrievePracticeExamResultRepo {
     }
 
     data class Request(
-        @Field("exam_id")
-        private val _examId: Int
+        @Field("id")
+        private val _id: Int
     ) : IRequest
 
     data class Response(
@@ -50,18 +50,26 @@ object RetrievePracticeExamResultRepo {
     ) : IResponse {
 
         data class Data(
-            @Field("time_spent")
-            val timeSpent: Long = 0,
-            @Field("question_average_answer_time")
-            val questionAverageAnswerTime: Long = 0,
-            @Field("correct_answer_count")
-            val correctAnswerCount: Int = 0,
-            @Field("incorrect_answer_count")
-            val incorrectAnswerCount: Int = 0,
-            @Field("appreciation")
-            val appreciation: String = "",
-            @Field("score_rate")
-            val scoreRate: Float = 0f
+            @Field("arabic_name")
+            val arabicName: String = "",
+            @Field("english_name")
+            val englishName: String = "",
+            @Field("phone")
+            val phone: Long? = null,
+            @Field("email")
+            val email: String? = null,
+            @Field("description")
+            val description: String? = null,
+            @Field("youtube")
+            val youtube: String? = null,
+            @Field("x_platform")
+            val xPlatform: String? = null,
+            @Field("facebook")
+            val facebook: String? = null,
+            @Field("telegram")
+            val telegram: String? = null,
+            @Field("logo_url")
+            val logoUrl: String? = null
         ) : IResponse
 
         companion object {

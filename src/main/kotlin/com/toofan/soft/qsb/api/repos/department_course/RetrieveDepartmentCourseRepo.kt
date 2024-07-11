@@ -61,7 +61,10 @@ object RetrieveDepartmentCourseRepo {
             @Field("course_name")
             val courseName: String = "",
             @Field("course_parts")
-            val courseParts: List<Data>  = emptyList()
+            val courseParts: List<Data>  = emptyList(),
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse {
             data class Data(
                 @Field("id")
@@ -75,7 +78,10 @@ object RetrieveDepartmentCourseRepo {
                 @Field("lecture_duration")
                 val lectureDuration: Int? = null,
                 @Field("note")
-                val note: String? = null
+                val note: String? = null,
+
+                @Field("is_deletable")
+                val isDeletable: Boolean = false
             ) : IResponse
         }
 

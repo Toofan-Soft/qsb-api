@@ -71,7 +71,10 @@ object RetrieveQuestionRepo {
             @Field("is_true")
             private val isTrue: Boolean? = null,
             @Field("choices")
-            private val choices: List<Data>? = null
+            private val choices: List<Data>? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse {
             data class Status(
                 @Field("is_requested")

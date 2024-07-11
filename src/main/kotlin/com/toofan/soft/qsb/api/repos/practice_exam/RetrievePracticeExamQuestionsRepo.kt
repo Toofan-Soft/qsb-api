@@ -51,7 +51,7 @@ object RetrievePracticeExamQuestionsRepo {
     ) : IResponse {
         data class Data(
             @Field("id")
-            val id: Int = 0,
+            val id: Int? = null,
             @Field("content")
             val content: String = "",
             @Field("attachment_url")
@@ -66,7 +66,7 @@ object RetrievePracticeExamQuestionsRepo {
         ) : IResponse {
             data class Data(
                 @Field("id")
-                val id: Int = 0,
+                val id: Int? = null,
                 @Field("content")
                 val content: String = "",
                 @Field("attachment_url")
@@ -84,7 +84,7 @@ object RetrievePracticeExamQuestionsRepo {
                     } else {
                         choices.map {
                             QuestionHelper.Data.Data(
-                                id = it.id,
+                                id = it.id ?: 0,
                                 content = it.content,
                                 isTrue = it.isTrue,
                                 isSelected = it.isSelected,

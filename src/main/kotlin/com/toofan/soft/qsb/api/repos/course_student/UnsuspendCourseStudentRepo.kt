@@ -1,8 +1,8 @@
-package com.toofan.soft.qsb.api.repos.user_managment
+package com.toofan.soft.qsb.api.repos.course_student
 
 import com.toofan.soft.qsb.api.*
 
-object ChangeUserStatusRepo {
+object UnsuspendCourseStudentRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -13,13 +13,13 @@ object ChangeUserStatusRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { id ->
-                request = Request(id)
+            data.invoke { departmentCourseId, studentId ->
+                request = Request(departmentCourseId, studentId)
             }
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.UserManagement.Delete,
+                    route = Route.CourseStudent.Unsuspend,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)
@@ -30,12 +30,15 @@ object ChangeUserStatusRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            id: String
+            departmentCourseId: Int,
+            studentId: Int
         )
     }
 
     data class Request(
-        @Field("id")
-        private val _id: String
+        @Field("department_course_id")
+        private val _departmentCourseId: Int,
+        @Field("student_id")
+        private val _studentId: Int
     ) : IRequest
 }

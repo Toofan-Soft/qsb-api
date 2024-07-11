@@ -56,8 +56,8 @@ object RetrieveDepartmentsRepo {
             val arabicName: String = "",
             @Field("english_name")
             val englishName: String = "",
-            @Field("level_count")
-            val levelCount: Int = 0,
+            @Field("levels_count_name")
+            val levelsCountName: String = "",
             @Field("logo_url")
             val logoUrl: String? = null
         ) : IResponse

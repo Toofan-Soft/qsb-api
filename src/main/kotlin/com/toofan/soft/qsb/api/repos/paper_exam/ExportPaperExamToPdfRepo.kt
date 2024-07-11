@@ -192,7 +192,9 @@ object ExportPaperExamToPdfRepo {
             @Field("notes")
             val notes: String = "",
             @Field("forms")
-            val forms: List<Data> = emptyList()
+            val forms: List<Data>? = null,
+            @Field("questions")
+            val questions: List<Data.Data>? = null
         ) : IResponse {
             data class Data(
                 @Field("name")

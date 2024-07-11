@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.student
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object ModifyStudentRepo {
     @JvmStatic
@@ -64,7 +61,9 @@ object ModifyStudentRepo {
         @Field("image")
         private val _image: OptionalVariable<ByteArray> = OptionalVariable(),
         @Field("level_id")
-        private val _levelId: OptionalVariable<Int> = OptionalVariable()
+        private val _levelId: OptionalVariable<Int> = OptionalVariable(),
+        @Field("semester_id")
+        private val _semesterId: OptionalVariable<Int> = OptionalVariable()
     ) : IRequest {
         val academicId = loggableProperty(_academicId)
         val arabicName = loggableProperty(_arabicName)
@@ -74,6 +73,7 @@ object ModifyStudentRepo {
         val birthdate = loggableProperty(_birthdate)
         val image = loggableProperty(_image)
         val levelId = loggableProperty(_levelId)
+        val semesterId = loggableProperty(_semesterId)
 
         fun optional(block: Request.() -> Unit): Request {
             return build(block)

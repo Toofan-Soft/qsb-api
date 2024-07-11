@@ -1,29 +1,29 @@
-package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
+package com.toofan.soft.qsb.api.repos.course
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 
-object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
+object RetrieveCourseRepo {
     @JvmStatic
     suspend fun execute(
         data: (
             mandatory: Mandatory
         ) -> Unit,
-        onComplete: (Resource<List<Response.Data>>) -> Unit
+        onComplete: (Resource<Response.Data>) -> Unit
     ) {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { departmentCoursePartId, chapterId ->
-                request = Request(departmentCoursePartId, chapterId)
+            data.invoke { id ->
+                request = Request(id)
             }
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.DepartmentCoursePartChapterAndTopic.RetrieveAvailableTopicList,
+                    route = Route.Course.Retrieve,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
+                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
                 }
             }
         }
@@ -31,16 +31,13 @@ object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            departmentCoursePartId: Int,
-            chapterId: Int
+            id: Int
         )
     }
 
     data class Request(
-        @Field("department_course_part_id")
-        private val _departmentCoursePartId: Int,
-        @Field("chapter_id")
-        private val _chapterId: Int
+        @Field("id")
+        private val _id: Int
     ) : IRequest
 
     data class Response(
@@ -49,18 +46,17 @@ object RetrieveAvailableDepartmentCoursePartChapterTopicsRepo {
         @Field("error_message")
         val errorMessage: String? = null,
         @Field("data")
-        val data: List<Data> = emptyList()
+        val data: Data? = null
     ) : IResponse {
 
         data class Data(
-            @Field("id")
-            val id: Int = 0,
-            @Field("arabic_title")
-            val arabicTitle: String = "",
-            @Field("english_title")
-            val englishTitle: String = "",
-            @Field("is_selected")
-            val isSelected: Boolean = false
+            @Field("arabic_name")
+            val arabicName: String = "",
+            @Field("english_name")
+            val englishName: String = "",
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

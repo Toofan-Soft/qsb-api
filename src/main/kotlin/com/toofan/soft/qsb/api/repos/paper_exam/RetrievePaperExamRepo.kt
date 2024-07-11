@@ -83,7 +83,10 @@ object RetrievePaperExamRepo {
             @Field("questions_types")
             val questionsTypes: List<Data> = emptyList(),
             @Field("special_note")
-            val specialNote: String? = null
+            val specialNote: String? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse {
             data class Data(
                 @Field("type_name")

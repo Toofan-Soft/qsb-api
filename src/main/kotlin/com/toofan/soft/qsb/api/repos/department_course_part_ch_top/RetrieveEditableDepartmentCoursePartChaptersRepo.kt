@@ -1,9 +1,9 @@
-package com.toofan.soft.qsb.api.repos.filter
+package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 
-object RetrieveOwnersRepo {
+object RetrieveEditableDepartmentCoursePartChaptersRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -14,13 +14,13 @@ object RetrieveOwnersRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { ownerTypeId ->
-                request = Request(ownerTypeId)
+            data.invoke { departmentCoursePartId ->
+                request = Request(departmentCoursePartId)
             }
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.Filter.RetrieveOwnerList,
+                    route = Route.DepartmentCoursePartChapterAndTopic.RetrieveEditableChapterList,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
@@ -31,13 +31,13 @@ object RetrieveOwnersRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            ownerTypeId: Int
+            departmentCoursePartId: Int
         )
     }
 
     data class Request(
-        @Field("owner_type_id")
-        private val _ownerTypeId: Int
+        @Field("department_course_part_id")
+        private val _departmentCoursePartId: Int
     ) : IRequest
 
     data class Response(
@@ -52,9 +52,22 @@ object RetrieveOwnersRepo {
         data class Data(
             @Field("id")
             val id: Int = 0,
-            @Field("name")
-            val name: String = ""
-        ) : IResponse
+            @Field("arabic_title")
+            val arabicTitle: String = "",
+            @Field("english_title")
+            val englishTitle: String = "",
+            @Field("selection_status")
+            val selectionStatus: Data = Data()
+        ) : IResponse {
+            data class Data(
+                @Field("is_nune")
+                val isNune: Boolean = false,
+                @Field("is_half")
+                val isHalf: Boolean = false,
+                @Field("is_full")
+                val isFull: Boolean = false
+            ) : IResponse
+        }
 
         companion object {
             private fun getInstance(): Response {

@@ -2,7 +2,7 @@ package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
 
-object VerifyAfterAccountRecoveryRepo {
+object ChangeLanguageRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -13,13 +13,13 @@ object VerifyAfterAccountRecoveryRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { code ->
-                request = Request(code)
+            data.invoke { languageId ->
+                request = Request(languageId)
             }
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.User.VerifyAfterAccountRecovery,
+                    route = Route.User.ChangePassword,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)
@@ -30,12 +30,12 @@ object VerifyAfterAccountRecoveryRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            code: String
+            languageId: Int
         )
     }
 
     data class Request(
-        @Field("code")
-        private val _code: String
+        @Field("language_id")
+        private val _languageId: Int
     ) : IRequest
 }

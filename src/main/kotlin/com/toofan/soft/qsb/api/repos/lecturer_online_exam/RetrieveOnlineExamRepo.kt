@@ -93,7 +93,17 @@ object RetrieveOnlineExamRepo {
             @Field("proctor_name")
             val proctorName: String? = null,
             @Field("special_note")
-            val specialNote: String? = null
+            val specialNote: String? = null,
+
+            @Field("is_suspended")
+            val isSuspended: Boolean? = false,
+            @Field("is_complete")
+            val isComplete: Boolean = false,
+
+            @Field("is_editable")
+            val isEditable: Boolean = false,
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse {
             data class Data(
                 @Field("type_name")

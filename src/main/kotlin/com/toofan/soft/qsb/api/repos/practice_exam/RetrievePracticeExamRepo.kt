@@ -72,8 +72,16 @@ object RetrievePracticeExamRepo {
             val isMandatoryQuestionSequence: Boolean = false,
             @Field("title")
             val title: String = "",
+
+            @Field("is_started")
+            val isStarted: Boolean = false,
+            @Field("is_suspended")
+            val isSuspended: Boolean? = null,
             @Field("is_complete")
-            val isComplete: Boolean = false
+            val isComplete: Boolean = false,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

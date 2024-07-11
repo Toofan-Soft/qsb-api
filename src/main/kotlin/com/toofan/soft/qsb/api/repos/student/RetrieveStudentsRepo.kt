@@ -14,8 +14,8 @@ object RetrieveStudentsRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { departmentId, levelId ->
-                request = Request(departmentId, levelId)
+            data.invoke { departmentId, levelId, semesterId ->
+                request = Request(departmentId, levelId, semesterId)
             }
 
             request?.let {
@@ -32,7 +32,8 @@ object RetrieveStudentsRepo {
     fun interface Mandatory {
         operator fun invoke(
             departmentId: Int,
-            levelId: Int
+            levelId: Int,
+            semesterId: Int
         )
     }
 
@@ -40,7 +41,9 @@ object RetrieveStudentsRepo {
         @Field("department_id")
         private val _departmentId: Int,
         @Field("level_id")
-        private val _levelId: Int
+        private val _levelId: Int,
+        @Field("semester_id")
+        private val _semesterId: Int
     ) : IRequest
 
     data class Response(

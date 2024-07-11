@@ -54,12 +54,15 @@ object RetrieveDepartmentRepo {
             val arabicName: String = "",
             @Field("english_name")
             val englishName: String = "",
-            @Field("levels_count")
-            val levelsCount: Int = 0,
+            @Field("levels_count_name")
+            val levelsCountName: String = "",
             @Field("description")
             val description: String? = null,
             @Field("logo_url")
-            val logoUrl: String? = null
+            val logoUrl: String? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

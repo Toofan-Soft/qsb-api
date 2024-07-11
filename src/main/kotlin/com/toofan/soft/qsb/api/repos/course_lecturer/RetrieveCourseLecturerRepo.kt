@@ -82,7 +82,10 @@ object RetrieveCourseLecturerRepo {
             @Field("specialization")
             val specialization: Int? = null,
             @Field("image_url")
-            val imageUrl: Int? = null
+            val imageUrl: Int? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

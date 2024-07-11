@@ -64,6 +64,8 @@ object RetrieveStudentRepo {
             val departmentName: String = "",
             @Field("level_name")
             val levelName: String = "",
+            @Field("semester_name")
+            val semesterName: String = "",
             @Field("email")
             val email: String? = null,
             @Field("phone")
@@ -71,7 +73,13 @@ object RetrieveStudentRepo {
             @Field("birthdate")
             val birthdate: Long? = null,
             @Field("image_url")
-            val imageUrl: String? = null
+            val imageUrl: String? = null,
+
+            @Field("user_id")
+            val userId: String? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

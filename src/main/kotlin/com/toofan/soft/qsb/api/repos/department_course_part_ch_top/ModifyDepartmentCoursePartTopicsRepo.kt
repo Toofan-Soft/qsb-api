@@ -1,11 +1,8 @@
 package com.toofan.soft.qsb.api.repos.department_course_part_ch_top
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
-object DeleteDepartmentCoursePartTopicsRepo {
+object ModifyDepartmentCoursePartTopicsRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -22,7 +19,7 @@ object DeleteDepartmentCoursePartTopicsRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.DepartmentCoursePartChapterAndTopic.DeleteTopicList,
+                    route = Route.DepartmentCoursePartChapterAndTopic.ModifyTopicList,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)

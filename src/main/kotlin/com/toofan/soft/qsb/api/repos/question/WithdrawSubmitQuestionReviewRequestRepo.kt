@@ -1,8 +1,8 @@
-package com.toofan.soft.qsb.api.repos.course_student
+package com.toofan.soft.qsb.api.repos.question
 
 import com.toofan.soft.qsb.api.*
 
-object ModifyCourseStudentRepo {
+object WithdrawSubmitQuestionReviewRequestRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -13,13 +13,13 @@ object ModifyCourseStudentRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { departmentCourseId, studentId, academicYear ->
-                request = Request(departmentCourseId, studentId, academicYear)
+            data.invoke { id ->
+                request = Request(id)
             }
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.CourseStudent.Modify,
+                    route = Route.Question.WithdrawSubmit,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)
@@ -30,18 +30,12 @@ object ModifyCourseStudentRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            departmentCourseId: Int,
-            studentId: Int,
-            academicYear: Int
+            id: Int
         )
     }
 
     data class Request(
-        @Field("department_course_id")
-        private val _departmentCourseId: Int,
-        @Field("student_id")
-        private val _studentId: Int,
-        @Field("academic_year")
-        private val _academicYear: Int
+        @Field("id")
+        private val _id: Int
     ) : IRequest
 }

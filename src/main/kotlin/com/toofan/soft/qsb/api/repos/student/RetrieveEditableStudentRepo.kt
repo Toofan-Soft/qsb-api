@@ -60,6 +60,8 @@ object RetrieveEditableStudentRepo {
             val genderId: Int = 0,
             @Field("level_id")
             val levelId: Int = 0,
+            @Field("semester_id")
+            val semesterId: Int = 0,
             @Field("phone")
             val phone: Long? = null,
             @Field("birthdate")

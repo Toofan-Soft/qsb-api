@@ -1,8 +1,8 @@
-package com.toofan.soft.qsb.api.repos.user_managment
+package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
 
-object ChangeUserStatusRepo {
+object VerifyAccountAfterRecoveryRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -13,13 +13,13 @@ object ChangeUserStatusRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { id ->
-                request = Request(id)
+            data.invoke { code ->
+                request = Request(code)
             }
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.UserManagement.Delete,
+                    route = Route.User.VerifyAccountAfterRecovery,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)
@@ -30,12 +30,12 @@ object ChangeUserStatusRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            id: String
+            code: String
         )
     }
 
     data class Request(
-        @Field("id")
-        private val _id: String
+        @Field("code")
+        private val _code: String
     ) : IRequest
 }

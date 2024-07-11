@@ -1,9 +1,9 @@
-package com.toofan.soft.qsb.api.repos.practice_exam
+package com.toofan.soft.qsb.api.repos.topic
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 
-object RetrievePracticeExamResultRepo {
+object RetrieveEditableTopicRepo {
     @JvmStatic
     suspend fun execute(
         data: (
@@ -20,7 +20,7 @@ object RetrievePracticeExamResultRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.PracticeOnlineExam.RetrieveResult,
+                    route = Route.Topic.RetrieveEditable,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Response.Data>)
@@ -36,9 +36,10 @@ object RetrievePracticeExamResultRepo {
     }
 
     data class Request(
-        @Field("exam_id")
-        private val _examId: Int
+        @Field("id")
+        private val _id: Int
     ) : IRequest
+
 
     data class Response(
         @Field("is_success")
@@ -50,18 +51,12 @@ object RetrievePracticeExamResultRepo {
     ) : IResponse {
 
         data class Data(
-            @Field("time_spent")
-            val timeSpent: Long = 0,
-            @Field("question_average_answer_time")
-            val questionAverageAnswerTime: Long = 0,
-            @Field("correct_answer_count")
-            val correctAnswerCount: Int = 0,
-            @Field("incorrect_answer_count")
-            val incorrectAnswerCount: Int = 0,
-            @Field("appreciation")
-            val appreciation: String = "",
-            @Field("score_rate")
-            val scoreRate: Float = 0f
+            @Field("arabic_title")
+            val arabicTitle: String = "",
+            @Field("english_title")
+            val englishTitle: String = "",
+            @Field("description")
+            val description: String? = null
         ) : IResponse
 
         companion object {

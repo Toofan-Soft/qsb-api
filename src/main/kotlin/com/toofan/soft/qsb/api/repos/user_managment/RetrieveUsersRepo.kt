@@ -54,7 +54,7 @@ object RetrieveUsersRepo {
 
         data class Data(
             @Field("id")
-            val id: Int = 0,
+            val id: String = "",
             @Field("owner_name")
             val ownerName: String = "",
             @Field("email")

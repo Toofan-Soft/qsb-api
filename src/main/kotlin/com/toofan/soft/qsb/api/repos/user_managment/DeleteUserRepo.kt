@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.user_managment
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object DeleteUserRepo {
     @JvmStatic
@@ -33,12 +30,12 @@ object DeleteUserRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            id: Int
+            id: String
         )
     }
 
     data class Request(
         @Field("id")
-        private val _id: Int
+        private val _id: String
     ) : IRequest
 }

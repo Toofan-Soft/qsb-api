@@ -31,13 +31,13 @@ object RetrieveUserRepo {
 
     fun interface Mandatory {
         operator fun invoke(
-            id: Int
+            id: String
         )
     }
 
     data class Request(
         @Field("id")
-        private val _id: Int
+        private val _id: String
     ) : IRequest
 
     data class Response(
@@ -63,7 +63,10 @@ object RetrieveUserRepo {
             @Field("roles")
             val roles: List<Data> = emptyList(),
             @Field("image_url")
-            val imageUrl: String? = null
+            val imageUrl: String? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse {
             data class Data(
                 @Field("id")

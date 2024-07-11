@@ -59,6 +59,9 @@ object RetrieveCoursePartsRepo {
             val statusName: String = "",
             @Field("description")
             val description: String? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {

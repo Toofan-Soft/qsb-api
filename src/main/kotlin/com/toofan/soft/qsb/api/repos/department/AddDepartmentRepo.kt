@@ -15,8 +15,8 @@ object AddDepartmentRepo {
             var request: Request? = null
 
             data.invoke(
-                { collegeId, arabicName, englishName, levelCount ->
-                    request = Request(collegeId, arabicName, englishName, levelCount)
+                { collegeId, arabicName, englishName, levelsCountId ->
+                    request = Request(collegeId, arabicName, englishName, levelsCountId)
                 },
                 { request!!.optional(it) }
             )
@@ -37,7 +37,7 @@ object AddDepartmentRepo {
             collegeId: Int,
             arabicName: String,
             englishName: String,
-            levelCount: Int
+            levelsCountId: Int
         )
     }
 
@@ -52,8 +52,8 @@ object AddDepartmentRepo {
         private val _arabicName: String,
         @Field("english_name")
         private val _englishName: String,
-        @Field("levels_count")
-        private val _levelsCount: Int,
+        @Field("levels_count_id")
+        private val _levelsCountId: Int,
         @Field("description")
         private val _description: OptionalVariable<String> = OptionalVariable(),
         @Field("logo")

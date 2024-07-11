@@ -1,13 +1,13 @@
 package com.toofan.soft.qsb.api.session
 
-enum class UserType {
+enum class Role {
     GUEST,
     STUDENT,
     LECTURER,
     EMPLOYEE;
 
     companion object {
-        fun of(id: Int): UserType? {
+        fun of(id: Int): Role? {
             return values().find { it.ordinal == id }
         }
     }

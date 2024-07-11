@@ -73,7 +73,7 @@ object RetrievePracticeExamsAndroidRepo {
             @Field("appreciation")
             val appreciation: String? = null,
             @Field("score_rate")
-            val scoreRate: Int? = null
+            val scoreRate: Float? = null
         ) : IResponse
 
         companion object {

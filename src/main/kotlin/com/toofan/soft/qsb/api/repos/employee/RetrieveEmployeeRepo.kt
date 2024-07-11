@@ -67,7 +67,13 @@ object RetrieveEmployeeRepo {
             @Field("specialization")
             val specialization: String? = null,
             @Field("image_url")
-            val imageUrl: String? = null
+            val imageUrl: String? = null,
+
+            @Field("user_id")
+            val userId: String? = null,
+
+            @Field("is_deletable")
+            val isDeletable: Boolean = false
         ) : IResponse
 
         companion object {
