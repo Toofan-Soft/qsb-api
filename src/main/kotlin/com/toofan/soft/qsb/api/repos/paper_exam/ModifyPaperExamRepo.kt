@@ -1,9 +1,7 @@
 package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 object ModifyPaperExamRepo {
     @JvmStatic
@@ -52,7 +50,7 @@ object ModifyPaperExamRepo {
         @Field("type_id")
         private val _typeId: OptionalVariable<Int> = OptionalVariable(),
         @Field("datetime")
-        private val _datetime: OptionalVariable<Long> = OptionalVariable(),
+        private val _datetime: OptionalVariable<LocalDateTime> = OptionalVariable(),
         @Field("lecturer_name")
         private val _lecturerName: OptionalVariable<String> = OptionalVariable(),
 

@@ -4,7 +4,8 @@ import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.session.Auth
 import com.toofan.soft.qsb.api.session.Profile
-import com.toofan.soft.qsb.api.session.Role
+import com.toofan.soft.qsb.api.session.UserType
+import java.time.LocalDate
 
 object RetrieveProfileRepo {
     @JvmStatic
@@ -54,7 +55,7 @@ object RetrieveProfileRepo {
             @Field("image_url")
             val imageUrl: String? = null,
             @Field("birthdate")
-            val birthdate: Long? = null,
+            val birthdate: LocalDate? = null,
 
             @Field("qualification_name")
             val qualificationName: String = "",
@@ -64,8 +65,8 @@ object RetrieveProfileRepo {
             val specialization: String? = null
         ) : IResponse {
             fun getData(): Profile? {
-                return when (Auth.role) {
-                    Role.GUEST -> {
+                return when (Auth.user) {
+                    UserType.GUEST -> {
                         Profile.Guest(
                             name,
                             email,
@@ -74,7 +75,7 @@ object RetrieveProfileRepo {
                             imageUrl
                         )
                     }
-                    Role.STUDENT -> {
+                    UserType.STUDENT -> {
                         Profile.Student(
                             arabicName,
                             englishName,
@@ -82,10 +83,10 @@ object RetrieveProfileRepo {
                             genderName,
                             phone,
                             imageUrl,
-                            birthdate
+                            birthdate?.toString()
                         )
                     }
-                    Role.LECTURER, Role.EMPLOYEE -> {
+                    UserType.EMPLOYEE -> {
                         Profile.Employee(
                             arabicName,
                             englishName,

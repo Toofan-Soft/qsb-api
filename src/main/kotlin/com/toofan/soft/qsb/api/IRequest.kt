@@ -1,5 +1,10 @@
 package com.toofan.soft.qsb.api
 
+import com.toofan.soft.qsb.api.extensions.milliseconds
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+
 interface IRequest {
     val parametersGet: String
         get() {
@@ -73,7 +78,14 @@ interface IRequest {
                                             }
                                         }
                                     } else {
-                                        val value = f.value?.toString()
+//                                        val value = f.value?.toString()
+                                        val value = when (f.value) {
+                                            is LocalDate -> (f.value as? LocalDate)?.milliseconds
+                                            is LocalTime -> (f.value as? LocalTime)?.milliseconds
+                                            is LocalDateTime -> (f.value as? LocalDateTime)?.milliseconds
+                                            else -> f.value
+                                        }?.toString()
+
                                         parameters.append(it).append("=").append(value).append("&")
                                     }
                                 } else {}
@@ -91,7 +103,14 @@ interface IRequest {
                                         }
                                     }
                                 } else {
-                                    val value = f?.toString()
+//                                    val value = f?.toString()
+                                    val value = when (f) {
+                                        is LocalDate -> (f as? LocalDate)?.milliseconds
+                                        is LocalTime -> (f as? LocalTime)?.milliseconds
+                                        is LocalDateTime -> (f as? LocalDateTime)?.milliseconds
+                                        else -> f
+                                    }?.toString()
+
                                     parameters.append(it).append("=").append(value).append("&")
                                 }
                             }

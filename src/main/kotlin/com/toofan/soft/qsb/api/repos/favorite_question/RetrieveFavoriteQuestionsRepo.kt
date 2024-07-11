@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.favorite_question
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDateTime
 
 object RetrieveFavoriteQuestionsRepo {
     @JvmStatic
@@ -57,10 +59,12 @@ object RetrieveFavoriteQuestionsRepo {
             @Field("type_name")
             val typeName: String = "",
             @Field("datetime")
-            val datetime: Long = 0,
+            private val _datetime: LocalDateTime = LocalDateTime.now(),
             @Field("combination_id")
             val combinationId: Int? = null
-        ) : IResponse
+        ) : IResponse {
+            val datetime get() = _datetime.string
+        }
 
         companion object {
             private fun getInstance(): Response {

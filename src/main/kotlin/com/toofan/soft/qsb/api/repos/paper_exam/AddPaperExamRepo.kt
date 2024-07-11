@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import java.time.LocalDateTime
 
 object AddPaperExamRepo {
     @JvmStatic
@@ -49,7 +50,7 @@ object AddPaperExamRepo {
         operator fun invoke(
             departmentCoursePartId: Int,
             typeId: Int,
-            datetime: Long,
+            datetime: LocalDateTime,
             duration: Int,
             languageId: Int,
             difficultyLevelId: Int,
@@ -83,7 +84,7 @@ object AddPaperExamRepo {
         @Field("type_id")
         private val _typeId: Int,
         @Field("datetime")
-        private val _datetime: Long,
+        private val _datetime: LocalDateTime,
         @Field("duration")
         private val _duration: Int,
         @Field("language_id")

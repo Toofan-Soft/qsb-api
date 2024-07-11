@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDateTime
 
 object RetrieveOnlineExamRepo {
     @JvmStatic
@@ -67,13 +69,13 @@ object RetrieveOnlineExamRepo {
             @Field("type_name")
             val typeName: String = "",
             @Field("datetime")
-            val datetime: Long = 0,
+            private val _datetime: LocalDateTime = LocalDateTime.now(),
             @Field("duration")
             val duration: Int = 0,
             @Field("datetime_notification_datetime")
-            val datetimeNotificationDatetime: Long = 0,
+            private val _datetimeNotificationDatetime: LocalDateTime = LocalDateTime.now(),
             @Field("result_notification_datetime")
-            val resultNotificationDatetime: Long = 0,
+            private val _resultNotificationDatetime: LocalDateTime = LocalDateTime.now(),
             @Field("language_name")
             val languageName: String = "",
             @Field("lecturer_name")
@@ -105,6 +107,10 @@ object RetrieveOnlineExamRepo {
             @Field("is_deletable")
             val isDeletable: Boolean = false
         ) : IResponse {
+            val datetime get() = _datetime.string
+            val datetimeNotificationDatetime get() = _datetimeNotificationDatetime.string
+            val resultNotificationDatetime get() = _resultNotificationDatetime.string
+
             data class Data(
                 @Field("type_name")
                 val typeName: String = "",

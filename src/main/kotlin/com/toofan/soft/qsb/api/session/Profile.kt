@@ -28,6 +28,6 @@ sealed interface Profile {
         val genderName: String,
         val phone: Long?,
         val imageUrl: String?,
-        val birthdate: Long?
+        val birthdate: String?
     ) : Profile
 }

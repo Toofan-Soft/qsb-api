@@ -10,7 +10,7 @@ object RetrieveFavoriteQuestionRepo {
         data: (
             mandatory: Mandatory,
             optional: Optional
-            ) -> Unit,
+        ) -> Unit,
         onComplete: (Resource<Response.Data>) -> Unit
     ) {
         Coroutine.launch {

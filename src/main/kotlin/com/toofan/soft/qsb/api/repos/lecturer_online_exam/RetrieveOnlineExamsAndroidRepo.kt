@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDateTime
 
 object RetrieveOnlineExamsAndroidRepo {
     @JvmStatic
@@ -67,12 +69,14 @@ object RetrieveOnlineExamsAndroidRepo {
             @Field("language_name")
             val languageName: String = "",
             @Field("datetime")
-            val datetime: Long = 0,
+            private val _datetime: LocalDateTime = LocalDateTime.now(),
             @Field("type_name")
             val typeName: String = "",
             @Field("status_name")
             val statusName: String = ""
-        ) : IResponse
+        ) : IResponse {
+            val datetime get() = _datetime.string
+        }
 
         companion object {
             private fun getInstance(): Response {

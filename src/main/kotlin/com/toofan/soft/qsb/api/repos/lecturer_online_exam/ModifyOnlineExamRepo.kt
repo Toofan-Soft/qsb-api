@@ -1,9 +1,7 @@
 package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 object ModifyOnlineExamRepo {
     @JvmStatic
@@ -54,11 +52,11 @@ object ModifyOnlineExamRepo {
         @Field("type_id")
         private val _typeId: OptionalVariable<Int> = OptionalVariable(),
         @Field("datetime")
-        private val _datetime: OptionalVariable<Long> = OptionalVariable(),
+        private val _datetime: OptionalVariable<LocalDateTime> = OptionalVariable(),
         @Field("datetime_notification_datetime")
-        private val _datetimeNotificationDatetime: OptionalVariable<Long> = OptionalVariable(),
+        private val _datetimeNotificationDatetime: OptionalVariable<LocalDateTime> = OptionalVariable(),
         @Field("result_notification_datetime")
-        private val _resultNotificationDatetime: OptionalVariable<Long> = OptionalVariable(),
+        private val _resultNotificationDatetime: OptionalVariable<LocalDateTime> = OptionalVariable(),
 
         @Field("form_name_method_id")
         private val _formNameMethodId: OptionalVariable<Int> = OptionalVariable(),

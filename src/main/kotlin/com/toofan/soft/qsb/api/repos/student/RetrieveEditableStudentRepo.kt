@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.student
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import java.time.LocalDate
 
 object RetrieveEditableStudentRepo {
     @JvmStatic
@@ -65,7 +66,7 @@ object RetrieveEditableStudentRepo {
             @Field("phone")
             val phone: Long? = null,
             @Field("birthdate")
-            val birthdate: Long? = null,
+            val birthdate: LocalDate? = null,
             @Field("image_url")
             val imageUrl: String? = null
         ) : IResponse

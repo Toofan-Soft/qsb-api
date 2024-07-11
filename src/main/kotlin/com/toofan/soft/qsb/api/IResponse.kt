@@ -4,10 +4,15 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.toofan.soft.qsb.api.extensions.date
+import com.toofan.soft.qsb.api.extensions.datetime
+import com.toofan.soft.qsb.api.extensions.milliseconds
+import com.toofan.soft.qsb.api.extensions.time
 import com.toofan.soft.qsb.api.repos.favorite_question.RetrieveFavoriteQuestionRepo
 import com.toofan.soft.qsb.api.services.Logger
 import kotlinx.coroutines.runBlocking
 import java.lang.reflect.ParameterizedType
+import java.time.LocalDateTime
 
 internal interface IResponse {
     fun getResource(): Resource<out Any> {
@@ -89,6 +94,7 @@ internal interface IResponse {
                 Double::class.java -> value.asDouble
                 Boolean::class.java, java.lang.Boolean::class.java -> value.asBoolean
                 String::class.java -> if (value.isJsonNull) null else value.asString
+                LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toLongOrNull())?.datetime
                 List::class.java -> {
                     val listType = getListType(field)
                     listType?.let {
@@ -99,6 +105,7 @@ internal interface IResponse {
                             Double::class.java -> value.asJsonArray.map { it.asDouble }
                             Boolean::class.java, java.lang.Boolean::class.java -> value.asJsonArray.map { it.asBoolean }
                             String::class.java -> value.asJsonArray.map { it.asString }
+                            LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toLongOrNull())?.datetime
                             else -> {
                                 if (IResponse::class.java.isAssignableFrom(listType)) {
                                     value.asJsonArray.map { jsonElement ->
@@ -149,84 +156,6 @@ internal interface IResponse {
     }
 }
 
-//
-//fun main() {
-//    val jsonObject = JsonObject()
-//    jsonObject.addProperty("is_success", true)
-//
-//    val data = listOf(
-//        mapOf("id" to 2147483647, "name" to "College 1", "logo_url" to "https://example.com/logo1.png"),
-//        mapOf("id" to 2, "name" to "College 2", "logo_url" to "https://example.com/logo2.png"),
-//        // Add more colleges as needed
-//    )
-//
-//    val dataArray = JsonArray()
-//    data.forEach { college ->
-//        val collegeObject = JsonObject()
-//        college.forEach { (key, value) ->
-//            collegeObject.addProperty(key, value.toString())
-//        }
-//        dataArray.add(collegeObject)
-//    }
-//
-////    data.first().let { college ->
-////        val collegeObject = JsonObject()
-////        college.forEach { (key, value) ->
-////            collegeObject.addProperty(key, value.toString())
-////        }
-////        jsonObject.add("data", collegeObject)
-////    }
-//
-////    (0..9).forEach {
-////        dataArray.add(it)
-////    }
-//
-//    jsonObject.add("data", dataArray)
-//
-////    val jsonString = Gson().toJson(jsonObject)
-////
-////    println(jsonString)
-////
-////    val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
-////    println("response: $response")
-//
-//    runBlocking {
-//        execute(
-//            jsonObject = jsonObject,
-//            onComplete = {
-//                when (it) {
-//                    is Resource.Success -> {
-//                        println("data: ${it.data}")
-//                    }
-//                    is Resource.Error -> {
-//                        println("message: ${it.message}")
-//                    }
-//                }
-//            }
-//        )
-//    }
-//}
-
-//suspend fun execute(
-//    jsonObject: JsonObject,
-//    onComplete: (Resource<List<RetrieveBasicCollegesInfoRepo.Response.Data>>) -> Unit
-//) {
-//    runBlocking {
-//        val response = RetrieveBasicCollegesInfoRepo.Response.map(jsonObject)
-//
-//        println("response: $response")
-//
-//        val resource = response.getResource() as Resource<RetrieveBasicCollegesInfoRepo.Response.Data>
-//        println(resource.toString())
-//
-////        if (response.isSuccess) {
-////            onComplete(Resource.Success(response.data))
-////        } else {
-////            onComplete(Resource.Error(response.errorMessage))
-////        }
-//    }
-//}
-
 
 suspend fun execute(
     jsonObject: JsonObject,
@@ -244,6 +173,13 @@ suspend fun execute(
             println(resource.toString())
 
             resource.data?.let {
+                println("1-ms: " + it.datetime1.milliseconds)
+                println("1-d: " + it.datetime1.milliseconds.date)
+                println("1-t: " + it.datetime1.milliseconds.time)
+                println("2-ms: " + it.datetime2?.milliseconds)
+                println("2-d: " + it.datetime2?.milliseconds?.date)
+                println("2-t: " + it.datetime2?.milliseconds?.time)
+
                 it.getChoices().forEach {
                     println(it.toString())
                 }
@@ -261,7 +197,11 @@ fun main() {
     jsonObject.addProperty("is_success", true)
 
     val data = mapOf(
-            "chapter_name" to "ChapterName",
+            "datetime1" to 1720126800000,
+//            "datetime2" to 1720671477775,
+            "datetime2" to 0,
+
+        "chapter_name" to "ChapterName",
             "topic_name" to "TopicName",
             "type_name" to "TypeName",
             "id" to 1,

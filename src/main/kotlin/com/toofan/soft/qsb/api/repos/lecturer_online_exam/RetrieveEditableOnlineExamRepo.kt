@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import java.time.LocalDateTime
 
 object RetrieveEditableOnlineExamRepo {
     @JvmStatic
@@ -55,13 +56,13 @@ object RetrieveEditableOnlineExamRepo {
             @Field("type_id")
             val typeId: Int = 0,
             @Field("datetime")
-            val datetime: Long = 0,
+            val datetime: LocalDateTime = LocalDateTime.now(),
             @Field("duration")
             val duration: Int = 0,
             @Field("datetime_notification_datetime")
-            val datetimeNotificationDatetime: Long = 0,
+            val datetimeNotificationDatetime: LocalDateTime = LocalDateTime.now(),
             @Field("result_notification_datetime")
-            val resultNotificationDatetime: Long = 0,
+            val resultNotificationDatetime: LocalDateTime = LocalDateTime.now(),
             @Field("form_name_method_id")
             val formNameMethodId: Int = 0,
             @Field("proctor_id")

@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.student
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDate
 
 object RetrieveStudentRepo {
     @JvmStatic
@@ -71,7 +73,7 @@ object RetrieveStudentRepo {
             @Field("phone")
             val phone: Long? = null,
             @Field("birthdate")
-            val birthdate: Long? = null,
+            private val _birthdate: LocalDate? = null,
             @Field("image_url")
             val imageUrl: String? = null,
 
@@ -80,7 +82,9 @@ object RetrieveStudentRepo {
 
             @Field("is_deletable")
             val isDeletable: Boolean = false
-        ) : IResponse
+        ) : IResponse {
+            val birthdate get() = _birthdate?.string
+        }
 
         companion object {
             private fun getInstance(): Response {

@@ -1,6 +1,7 @@
 package com.toofan.soft.qsb.api.repos.student
 
 import com.toofan.soft.qsb.api.*
+import java.time.LocalDate
 
 object ModifyStudentRepo {
     @JvmStatic
@@ -57,7 +58,7 @@ object ModifyStudentRepo {
         @Field("phone")
         private val _phone: OptionalVariable<Long> = OptionalVariable(),
         @Field("birthdate")
-        private val _birthdate: OptionalVariable<Long> = OptionalVariable(),
+        private val _birthdate: OptionalVariable<LocalDate> = OptionalVariable(),
         @Field("image")
         private val _image: OptionalVariable<ByteArray> = OptionalVariable(),
         @Field("level_id")

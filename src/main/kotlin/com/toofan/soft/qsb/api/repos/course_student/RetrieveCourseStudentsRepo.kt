@@ -83,8 +83,8 @@ object RetrieveCourseStudentsRepo {
 
             @Field("is_active")
             val isActive: Boolean = false,
-            @Field("is_suspended")
-            val isSuspended: Boolean = false,
+            @Field("is_passed")
+            val isPassed: Boolean = false,
 
             @Field("is_deletable")
             val isDeletable: Boolean = false

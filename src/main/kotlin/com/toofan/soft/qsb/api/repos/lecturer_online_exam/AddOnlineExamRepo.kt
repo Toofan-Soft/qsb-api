@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.lecturer_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import java.time.LocalDateTime
 
 object AddOnlineExamRepo {
     @JvmStatic
@@ -50,10 +51,10 @@ object AddOnlineExamRepo {
             departmentCoursePartId: Int,
             conductMethodId: Int,
             typeId: Int,
-            datetime: Long,
+            datetime: LocalDateTime,
             duration: Int,
-            datetimeNotificationDatetime: Long,
-            resultNotificationDatetime: Long,
+            datetimeNotificationDatetime: LocalDateTime,
+            resultNotificationDatetime: LocalDateTime,
             languageId: Int,
             difficultyLevelId: Int,
 
@@ -87,13 +88,13 @@ object AddOnlineExamRepo {
         @Field("type_id")
         private val _typeId: Int,
         @Field("datetime")
-        private val _datetime: Long,
+        private val _datetime: LocalDateTime,
         @Field("duration")
         private val _duration: Int,
         @Field("datetime_notification_datetime")
-        private val _datetimeNotificationDatetime: Long,
+        private val _datetimeNotificationDatetime: LocalDateTime,
         @Field("result_notification_datetime")
-        private val _resultNotificationDatetime: Long,
+        private val _resultNotificationDatetime: LocalDateTime,
         @Field("language_id")
         private val _languageId: Int,
         @Field("difficulty_level_id")

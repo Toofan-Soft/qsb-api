@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDateTime
 
 object RetrieveOnlineExamsRepo {
     @JvmStatic
@@ -34,8 +36,10 @@ object RetrieveOnlineExamsRepo {
             @Field("course_part_name")
             val coursePartName: String = "",
             @Field("datetime")
-            val datetime: Long = 0
-        ) : IResponse
+            private val _datetime: LocalDateTime = LocalDateTime.now()
+        ) : IResponse {
+            val datetime get() = _datetime.string
+        }
 
         companion object {
             private fun getInstance(): Response {

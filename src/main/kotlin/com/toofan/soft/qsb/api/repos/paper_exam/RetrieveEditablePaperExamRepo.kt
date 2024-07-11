@@ -2,6 +2,7 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import java.time.LocalDateTime
 
 object RetrieveEditablePaperExamRepo {
     @JvmStatic
@@ -53,7 +54,7 @@ object RetrieveEditablePaperExamRepo {
             @Field("type_id")
             val typeId: Int = 0,
             @Field("datetime")
-            val datetime: Long = 0,
+            val datetime: LocalDateTime = LocalDateTime.now(),
             @Field("duration")
             val duration: Int = 0,
             @Field("lecturer_name")

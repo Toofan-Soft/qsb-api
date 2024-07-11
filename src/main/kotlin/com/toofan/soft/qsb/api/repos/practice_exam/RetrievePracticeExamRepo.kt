@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDateTime
 
 object RetrievePracticeExamRepo {
     @JvmStatic
@@ -63,7 +65,7 @@ object RetrievePracticeExamRepo {
             @Field("course_part_name")
             val coursePartName: String = "",
             @Field("datetime")
-            val datetime: Long = 0,
+            private val _datetime: LocalDateTime = LocalDateTime.now(),
             @Field("duration")
             val duration: Int = 0,
             @Field("language_name")
@@ -82,7 +84,9 @@ object RetrievePracticeExamRepo {
 
             @Field("is_deletable")
             val isDeletable: Boolean = false
-        ) : IResponse
+        ) : IResponse {
+            val datetime get() = _datetime.string
+        }
 
         companion object {
             private fun getInstance(): Response {

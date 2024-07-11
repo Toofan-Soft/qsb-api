@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDateTime
 
 object RetrievePracticeExamsRepo {
     @JvmStatic
@@ -75,14 +77,16 @@ object RetrievePracticeExamsRepo {
             @Field("title")
             val title: String = "",
             @Field("datetime")
-            val datetime: Long = 0,
+            private val _datetime: LocalDateTime = LocalDateTime.now(),
             @Field("appreciation")
             val appreciation: String? = null,
             @Field("score_rate")
             val scoreRate: Float? = null,
             @Field("status_name")
             val statusName: String? = null
-        ) : IResponse
+        ) : IResponse {
+            val datetime get() = _datetime.string
+        }
 
         companion object {
             private fun getInstance(): Response {

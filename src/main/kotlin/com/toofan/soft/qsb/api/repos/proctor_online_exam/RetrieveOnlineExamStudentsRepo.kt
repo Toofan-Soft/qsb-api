@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalTime
 
 object RetrieveOnlineExamStudentsRepo {
     @JvmStatic
@@ -62,10 +64,10 @@ object RetrieveOnlineExamStudentsRepo {
             val statusName: String = "",
             @Field("form_name")
             val formName: String = "",
-            @Field("start_datetime")
-            val startDatetime: Long? = null,
-            @Field("end_datetime")
-            val endDatetime: Long? = null,
+            @Field("start_time")
+            private val _startTime: LocalTime? = null,
+            @Field("end_time")
+            private val _endTime: LocalTime? = null,
             @Field("answered_questions_count")
             val answeredQuestionsCount: Int? = null,
             @Field("image_url")
@@ -74,7 +76,10 @@ object RetrieveOnlineExamStudentsRepo {
             val isStarted: Boolean = false,
             val isFinished: Boolean? = null,
             val isSuspended: Boolean? = null
-        ) : IResponse
+        ) : IResponse {
+            val startTime get() = _startTime?.string
+            val dateTime get() = _endTime?.string
+        }
 
         companion object {
             private fun getInstance(): Response {

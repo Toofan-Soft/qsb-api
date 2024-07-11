@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.extensions.string
+import java.time.LocalDateTime
 
 object RetrievePaperExamRepo {
     @JvmStatic
@@ -65,7 +67,7 @@ object RetrievePaperExamRepo {
             @Field("type_name")
             val typeName: String = "",
             @Field("datetime")
-            val datetime: Long = 0,
+            private val _datetime: LocalDateTime = LocalDateTime.now(),
             @Field("duration")
             val duration: Int = 0,
             @Field("language_name")
@@ -88,6 +90,8 @@ object RetrievePaperExamRepo {
             @Field("is_deletable")
             val isDeletable: Boolean = false
         ) : IResponse {
+            val datetime get() = _datetime.string
+
             data class Data(
                 @Field("type_name")
                 val typeName: String = "",

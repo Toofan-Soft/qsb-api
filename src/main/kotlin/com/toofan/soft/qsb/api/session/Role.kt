@@ -4,7 +4,11 @@ enum class Role {
     GUEST,
     STUDENT,
     LECTURER,
-    EMPLOYEE;
+    QUESTION_ENTRY,
+    QUESTION_REVIEWER,
+    SYSTEM_ADMINISTRATOR,
+    DATA_ENTRY,
+    PROCTOR;
 
     companion object {
         fun of(id: Int): Role? {

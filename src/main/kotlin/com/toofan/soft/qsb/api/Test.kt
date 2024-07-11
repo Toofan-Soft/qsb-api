@@ -16,6 +16,7 @@ import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
+import java.time.LocalDateTime
 
 private suspend fun retrievePractice() {
     RetrievePracticeExamRepo.execute(
@@ -233,12 +234,15 @@ private suspend fun addOnlineExam() {
                 0,
                 1,
 //                1720126800000,
-                1721768400000,
+//                1721768400000,
+                LocalDateTime.now(),
                 120,
 //                1720126800000,
 //                1720126800000,
-                1723582800000,
-                1721768400000,
+//                1723582800000,
+//                1721768400000,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
                 0,
 //                1,
                 2,
