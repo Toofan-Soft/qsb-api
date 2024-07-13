@@ -7,12 +7,9 @@ import com.pusher.client.PusherOptions
 import com.pusher.client.connection.ConnectionEventListener
 import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
-import com.toofan.soft.qsb.api.Api
 import com.toofan.soft.qsb.api.Field
 import com.toofan.soft.qsb.api.IResponse
-import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.session.Session
-import kotlinx.coroutines.runBlocking
 import java.time.LocalTime
 
 private object PusherConstant {
@@ -25,34 +22,6 @@ private object PusherConstant {
 }
 
 internal object StudentPusherListener {
-//    fun listen() {
-//        val options = PusherOptions()
-//        options.setCluster(PusherConstant.CLUSTER);
-//
-//        val pusher = Pusher(PusherConstant.API_KEY, options)
-//
-//        pusher.connect(object : ConnectionEventListener {
-//            override fun onConnectionStateChange(change: ConnectionStateChange) {
-//                println("Pusher: State changed from ${change.previousState} to ${change.currentState}")
-//            }
-//
-//            override fun onError(
-//                message: String,
-//                code: String,
-//                e: Exception
-//            ) {
-//                println("Pusher: There was a problem connecting! code ($code), message ($message), exception($e)")
-//            }
-//        }, ConnectionState.ALL)
-//
-//        val channel = pusher.subscribe(PusherConstant.CHANNEL)
-//        channel.bind(PusherConstant.STUDENT_EVENT) { event ->
-//            println("Pusher: Received event with data: $event")
-//
-//            println("Pusher.Data: ${event.data}")
-//        }
-//    }
-
     fun addListener(
         onComplete: (Data) -> Unit
     ) {
@@ -167,9 +136,6 @@ internal object ProctorPusherListener {
         @Field("is_suspended")
         val isSuspended: Boolean? = null
     ) : IResponse {
-        // we add these inside repo..
-//        val isStarted get() = startTime != null
-//        val isFinished get() = endTime != null
 
         companion object {
             private fun getInstance(): Data {
@@ -180,20 +146,6 @@ internal object ProctorPusherListener {
                 return getInstance().getResponse(data) as Data
             }
         }
-    }
-}
-
-fun login() {
-    runBlocking {
-        Api.init("192.168.1.15")
-        LoginRepo.execute(
-            data = {
-                it.invoke("m7devoo.99@gmail.com", "m7devoo.99")
-            },
-            onComplete = {
-                println("Complete")
-            }
-        )
     }
 }
 
