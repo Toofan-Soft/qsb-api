@@ -21,7 +21,7 @@ dependencies {
 //    implementation("io.socket:socket.io-client:1.0.0")
 
     // https://mvnrepository.com/artifact/com.pusher/pusher-java-client
-//    implementation("com.pusher:pusher-java-client:2.4.4")
+    implementation("com.pusher:pusher-java-client:2.4.4")
 
 
 //    implementation("com.itextpdf:itextpdf:5.5.13.3")

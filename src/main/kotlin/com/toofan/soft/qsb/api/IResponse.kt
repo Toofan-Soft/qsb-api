@@ -49,13 +49,18 @@ internal interface IResponse {
 
     private fun setField(field: java.lang.reflect.Field, jsonObject: JsonObject) {
         field.isAccessible = true
-        field.getAnnotation(Field::class.java)?.value?.let {
-            val value = jsonObject[it]
+        field.getAnnotation(Field::class.java)?.value?.let { key ->
+            val value = jsonObject[key]
             try {
                 println("${field.name}: ${field.type} = $value")
                 val castedValue = castFieldValue(value, field)
                 castedValue?.also {
-                    field[this] = castedValue
+//                    field[this] = castedValue
+                    field[this] = if (key.endsWith("url")) {
+                        Api.IMAGE + "/" + castedValue
+                    } else {
+                        castedValue
+                    }
                 }
             } catch (e: Exception) {
                 Logger.log("IResponse.setField.catch(Exception)", e.message)

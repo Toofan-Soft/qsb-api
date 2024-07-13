@@ -3,6 +3,7 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.test.ProctorPusherListener
 import java.time.LocalTime
 
 object RetrieveOnlineExamStudentsRepo {
@@ -25,7 +26,36 @@ object RetrieveOnlineExamStudentsRepo {
                     route = Route.ProctorOnlineExam.RetrieveStudentList,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
+//                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
+
+                    val resource = Response.map(it).getResource() as Resource<List<Response.Data>>
+                    onComplete(resource)
+
+                    when (resource) {
+                        is Resource.Success -> {
+                            resource.data?.let { data ->
+                                ProctorPusherListener.addListener { new ->
+                                    data.map {
+                                        if (it.id != new.id) {
+                                            it
+                                        } else {
+                                            it.copy(
+                                                formName = new.formName,
+                                                statusName = new.statusName,
+                                                _startTime = new.startTime,
+                                                _endTime = new.endTime,
+                                                answeredQuestionsCount = new.answeredQuestionsCount,
+                                                isSuspended = new.isSuspended
+                                            )
+                                        }
+                                    }.also {
+                                        onComplete(Resource.Success(it))
+                                    }
+                                }
+                            }
+                        }
+                        is Resource.Error -> {}
+                    }
                 }
             }
         }
@@ -60,25 +90,27 @@ object RetrieveOnlineExamStudentsRepo {
             val name: String = "",
             @Field("gender_name")
             val genderName: String = "",
-            @Field("status_name")
-            val statusName: String = "",
+            @Field("image_url")
+            val imageUrl: String? = null,
+
             @Field("form_name")
-            val formName: String = "",
+            val formName: String? = null,
+            @Field("status_name")
+            val statusName: String? = null,
             @Field("start_time")
             private val _startTime: LocalTime? = null,
             @Field("end_time")
             private val _endTime: LocalTime? = null,
             @Field("answered_questions_count")
             val answeredQuestionsCount: Int? = null,
-            @Field("image_url")
-            val imageUrl: String? = null,
 
-            val isStarted: Boolean = false,
-            val isFinished: Boolean? = null,
             val isSuspended: Boolean? = null
         ) : IResponse {
             val startTime get() = _startTime?.string
             val dateTime get() = _endTime?.string
+
+            val isStarted get() = _startTime != null
+            val isFinished get() = _endTime != null
         }
 
         companion object {

@@ -3,6 +3,7 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.test.StudentPusherListener
 import java.time.LocalDateTime
 
 object RetrieveOnlineExamRepo {
@@ -25,7 +26,28 @@ object RetrieveOnlineExamRepo {
                     route = Route.StudentOnlineExam.Retrieve,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+//                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+
+                    val resource = Response.map(it).getResource() as Resource<Response.Data>
+                    onComplete(resource)
+
+                    when (resource) {
+                        is Resource.Success -> {
+                            resource.data?.let { data ->
+                                StudentPusherListener.addListener { new ->
+                                    data.copy(
+                                        isTakable = new.isTakable,
+                                        isSuspended = new.isSuspended,
+                                        isCanceled = new.isCanceled,
+                                        isComplete = new.isComplete
+                                    ).also {
+                                        onComplete(Resource.Success(it))
+                                    }
+                                }
+                            }
+                        }
+                        is Resource.Error -> {}
+                    }
                 }
             }
         }
@@ -85,6 +107,10 @@ object RetrieveOnlineExamRepo {
 
             @Field("is_takable")
             val isTakable: Boolean = false,
+            @Field("is_suspended")
+            val isSuspended: Boolean = false,
+            @Field("is_canceled")
+            val isCanceled: Boolean = false,
 
             @Field("is_complete")
             val isComplete: Boolean = false

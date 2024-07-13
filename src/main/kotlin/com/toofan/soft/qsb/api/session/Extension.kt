@@ -2,6 +2,9 @@ package com.toofan.soft.qsb.api.session
 
 import com.google.gson.JsonObject
 
+private val uid: String
+    get() = "uid"
+
 private val token: String
     get() = "token"
 
@@ -15,6 +18,14 @@ private val languageId: String
     get() = "language_id"
 
 internal fun JsonObject.checkSession() {
+    if (hasUid) {
+        removeUid()?.let {
+            it.replace("\"", "").let {
+                Session.updateUid(it)
+            }
+        }
+    }
+
     if (hasToken) {
         removeToken()?.let {
             it.replace("\"", "").let {
@@ -59,6 +70,10 @@ internal fun JsonObject.checkSession() {
     }
 }
 
+private fun JsonObject.removeUid(): String? {
+    return this.remove(uid)?.toString()
+}
+
 private fun JsonObject.removeToken(): String? {
     return this.remove(token)?.toString()
 }
@@ -74,6 +89,9 @@ private fun JsonObject.removeRolesIds(): String? {
 private fun JsonObject.removeLanguageId(): String? {
     return this.remove(languageId)?.toString()
 }
+
+private val JsonObject.hasUid : Boolean
+    get() = this.has(uid)
 
 private val JsonObject.hasToken : Boolean
     get() = this.has(token)
@@ -93,8 +111,4 @@ fun String.unescapeAll(): String {
 
 fun String.unescapeBookends(): String {
     return this.replace(Regex("^\"|\"$"), "")
-}
-
-fun main() {
-    println("Asdadas")
 }
