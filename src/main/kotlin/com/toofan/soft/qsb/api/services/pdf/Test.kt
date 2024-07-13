@@ -7,6 +7,9 @@ data class File(
 
 
 fun testArPdfGenerator(
+    paper: Boolean,
+    mirror: Boolean,
+    answerMirror: Boolean,
     onFinish: (
         papers: List<File>?,
         mirrors: List<File>?,
@@ -15,9 +18,9 @@ fun testArPdfGenerator(
 ) {
     PdfGenerator.build(
         dataAr,
-        true,
-        false,
-        false
+        paper,
+        mirror,
+        answerMirror
     ) { papers, mirrors, answerMirrors ->
         onFinish(
             papers?.map { File(it.form, it.bytes) },
@@ -28,6 +31,9 @@ fun testArPdfGenerator(
 }
 
 fun testEnPdfGenerator(
+    paper: Boolean,
+    mirror: Boolean,
+    answerMirror: Boolean,
     onFinish: (
         papers: List<File>?,
         mirrors: List<File>?,
@@ -36,9 +42,9 @@ fun testEnPdfGenerator(
 ) {
     PdfGenerator.build(
         dataEn,
-        true,
-        false,
-        false
+        paper,
+        mirror,
+        answerMirror
     ) { papers, mirrors, answerMirrors ->
         onFinish(
             papers?.map { File(it.form, it.bytes) },
