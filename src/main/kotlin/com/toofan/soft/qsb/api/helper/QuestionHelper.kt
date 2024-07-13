@@ -1,5 +1,8 @@
 package com.toofan.soft.qsb.api.helper
 
+import com.toofan.soft.qsb.api.session.Auth
+import com.toofan.soft.qsb.api.session.Language
+
 object QuestionHelper {
     @JvmStatic
     fun getQuestionTypeProperties(typeId: Int): Data {
@@ -58,14 +61,22 @@ object QuestionHelper {
         ) {
             internal enum class Type(
                 private val id: Int,
-                private val title: String
+                private val arabicTitle: String,
+                private val englishTitle: String
             ) {
-                CORRECT(-1, "Correct Answer"),
-                INCORRECT(-2, "Incorrect Answer");
+                CORRECT(-1, "إجابة صحيحة", "Correct Answer"),
+                INCORRECT(-2, "إجابة خاطئة", "Incorrect Answer");
 
                 fun toData(): Data {
-//                    return Data(this.ordinal, this.title)
-                    return Data(this.id, this.title)
+//                    return Data(this.id, this.title)
+                    return Data(
+                        this.id,
+                        when (Auth.language) {
+                            Language.ARABIC -> this.arabicTitle
+                            Language.ENGLISH -> this.englishTitle
+                            null -> this.arabicTitle
+                        }
+                    )
                 }
 
                 companion object {
