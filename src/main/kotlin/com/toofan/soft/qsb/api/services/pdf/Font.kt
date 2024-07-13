@@ -7,16 +7,13 @@ import com.itextpdf.kernel.font.PdfFontFactory
 
 internal object Font {
     private val TIMES_NEW_ROMAN =
-        "E:\\f\\ToofanSoft\\QsB\\coding\\helper\\pdf-helper\\src\\main\\kotlin/res/times new roman.ttf"
+        "E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\times new roman.ttf"
     private val TIMES_NEW_ROMAN_BOLD =
-        "E:\\f\\ToofanSoft\\QsB\\coding\\helper\\pdf-helper\\src\\main\\kotlin/res/times new roman bold.ttf"
-    private val TIMES_NEW_ROMAN_BOLD_ITALIC =
-        "E:\\f\\ToofanSoft\\QsB\\coding\\helper\\pdf-helper\\src\\main\\kotlin/res/times new roman bold italic.ttf"
-    private val TIMES_NEW_ROMAN_ITALIC =
-        "E:\\f\\ToofanSoft\\QsB\\coding\\helper\\pdf-helper\\src\\main\\kotlin/res/times new roman italic.ttf"
-    //    private val ARIAL = createFont("C:/Windows/Fonts/Arial.ttf")
-    private val ARIAL = "E:\\f\\ToofanSoft\\QsB\\coding\\helper\\pdf-helper\\src\\main\\kotlin/res/arial.ttf"
-    private val ARIAL_BOLD = "E:\\f\\ToofanSoft\\QsB\\coding\\helper\\pdf-helper\\src\\main\\kotlin/res/arial bold.ttf"
+        "E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\times new roman bold.ttf"
+    private val ARIAL =
+        "E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\arial.ttf"
+    private val ARIAL_BOLD =
+        "E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\arial bold.ttf"
 
     private fun createFont(path: String): PdfFont {
         return PdfFontFactory.createFont(

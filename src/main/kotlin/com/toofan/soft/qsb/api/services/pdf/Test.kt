@@ -3,10 +3,9 @@ package com.toofan.soft.qsb.api.services.pdf
 import com.toofan.soft.qsb.api.Coroutine
 
 data class File(
-    val form: String,
+    val form: String?,
     val bytes: ByteArray
 )
-
 
 suspend fun testArPdfGenerator(
     paper: Boolean,

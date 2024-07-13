@@ -8,7 +8,6 @@ internal val LocalTime.string get() = this.toString()
 
 internal val LocalDateTime.string get() = this.toString()
 
-//internal val Long.datetime get() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.of("Asia/Aden"))
 internal val Long.datetime get() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
 internal val Long.date get() = LocalDate.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
 internal val Long.time get() = LocalTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
@@ -17,7 +16,7 @@ internal val Long.time1: LocalTime
     get() {
         val seconds = this / 1000
         val nanos = (this % 1000) * 1_000_000
-        return LocalTime.ofSecondOfDay(seconds.toLong()).plusNanos(nanos)
+        return LocalTime.ofSecondOfDay(seconds).plusNanos(nanos)
     }
 
 

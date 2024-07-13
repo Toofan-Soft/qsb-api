@@ -16,9 +16,15 @@ internal data class Data(
     val score: Int,
     val languageId: Int,
     val notes: String,
-    val forms: List<Form>
+    val forms: List<Form> = emptyList(),
+    val trueFalseQuestions: List<Form.TrueFalse> = emptyList(),
+    val multiChoicesQuestions: List<Form.MultiChoices> = emptyList()
 ) {
     val language = Language.values()[languageId]
+
+    val multiForms get() = forms.isNotEmpty() && (trueFalseQuestions.isEmpty() && multiChoicesQuestions.isEmpty())
+    val singleForm get() = forms.isEmpty() && (trueFalseQuestions.isNotEmpty() || multiChoicesQuestions.isNotEmpty())
+
 
     data class Form(
         val name: String,

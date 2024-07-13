@@ -66,9 +66,7 @@ internal fun Int.toString(value: String, spaces: Int = 0): String {
 internal val Int.toSpaces: String
     get() = if (this@toSpaces > 0) {
         java.lang.StringBuilder().apply {
-
             repeat((1..this@toSpaces).count()) {
-//        for(i in 1..this@toSpaces) {
                 append(" ")
             }
         }.toString()
@@ -81,8 +79,6 @@ internal fun Int.toOrder(language: Data.Language): Char {
         }
         Data.Language.ARABIC -> {
             Order.values()[this].arValue
-//            val arabicLigaturizer = ArabicLigaturizer()
-//            arabicLigaturizer.process(Order.values()[this].arValue.toString()).toCharArray().first()
         }
     }
 }

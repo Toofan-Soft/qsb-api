@@ -22,7 +22,7 @@ internal object PdfGenerator {
     private val PAGE_SIZE = PageSize.A4
 
     internal data class File(
-        val form: String,
+        val form: String?,
         val bytes: ByteArray
     )
 
@@ -59,7 +59,63 @@ internal object PdfGenerator {
     private fun createPaper(data: Data): List<File> {
         val files = ArrayList<File>()
 
-        for (form in data.forms) {
+        if (data.multiForms) {
+            for (form in data.forms) {
+                val outputStream = ByteArrayOutputStream()
+
+                val pdfWriter = PdfWriter(outputStream)
+                val pdfDocument = PdfDocument(pdfWriter)
+                val document = Document(pdfDocument)
+
+                document.setFont(Font.getFont(data.language))
+
+                val contents = listOf(
+                    createHeader(
+                        data.universityName,
+                        data.universityLogoUrl,
+                        data.collegeName,
+                        data.departmentName,
+                        data.level,
+                        data.semester,
+                        data.courseName,
+                        data.coursePartName,
+                        data.lecturerName,
+                        data.typeName,
+                        data.date,
+                        data.duration,
+                        form.name,
+                        data.notes,
+                        data.language
+                    ),
+                    createQuestions(
+                        form.trueFalseQuestions,
+                        form.multiChoicesQuestions,
+                        data.language
+                    )
+                )
+
+                document
+                    .add(
+                        Div()
+                            .setPaddingLeft(-16f)
+                            .setPaddingRight(-16f)
+                            .apply {
+                                for (content in contents) {
+                                    add(content)
+                                }
+                            }
+                    )
+
+                pdfDocument.close()
+
+                files.add(
+                    File(
+                        form.name,
+                        outputStream.toByteArray()
+                    )
+                )
+            }
+        } else if (data.singleForm) {
             val outputStream = ByteArrayOutputStream()
 
             val pdfWriter = PdfWriter(outputStream)
@@ -82,13 +138,13 @@ internal object PdfGenerator {
                     data.typeName,
                     data.date,
                     data.duration,
-                    form.name,
+                    null,
                     data.notes,
                     data.language
                 ),
                 createQuestions(
-                    form.trueFalseQuestions,
-                    form.multiChoicesQuestions,
+                    data.trueFalseQuestions,
+                    data.multiChoicesQuestions,
                     data.language
                 )
             )
@@ -109,7 +165,7 @@ internal object PdfGenerator {
 
             files.add(
                 File(
-                    form.name,
+                    null,
                     outputStream.toByteArray()
                 )
             )
@@ -121,7 +177,67 @@ internal object PdfGenerator {
     private fun createMirror(data: Data): List<File> {
         val files = ArrayList<File>()
 
-        for (form in data.forms) {
+        if (data.multiForms) {
+            for (form in data.forms) {
+                val outputStream = ByteArrayOutputStream()
+
+                val pdfWriter = PdfWriter(outputStream)
+                val pdfDocument = PdfDocument(pdfWriter)
+
+                val document = Document(pdfDocument)
+
+                document.setFont(Font.getFont(data.language))
+
+                val contents = listOf(
+                    createHeader(
+                        data.universityName,
+                        data.universityLogoUrl,
+                        data.collegeName,
+                        data.departmentName,
+                        data.level,
+                        data.semester,
+                        data.courseName,
+                        data.coursePartName,
+                        data.lecturerName,
+                        data.typeName,
+                        data.date,
+                        data.duration,
+                        form.name,
+                        data.notes,
+                        data.language
+                    ),
+                    createQuestionsMirror(
+                        form.trueFalseQuestions,
+                        form.multiChoicesQuestions,
+                        false,
+                        data.language,
+                        pdfDocument
+                    )
+                )
+
+                document.apply {
+                    add(
+                        Div()
+                            .setPaddingLeft(-16f)
+                            .setPaddingRight(-16f)
+                            .apply {
+                                for (content in contents) {
+                                    add(content)
+                                }
+                            }
+                    )
+                }
+
+                pdfDocument.close()
+
+                files.add(
+                    File(
+                        form.name,
+                        outputStream.toByteArray()
+                    )
+                )
+            }
+        } else if (data.singleForm) {
             val outputStream = ByteArrayOutputStream()
 
             val pdfWriter = PdfWriter(outputStream)
@@ -145,13 +261,13 @@ internal object PdfGenerator {
                     data.typeName,
                     data.date,
                     data.duration,
-                    form.name,
+                    null,
                     data.notes,
                     data.language
                 ),
                 createQuestionsMirror(
-                    form.trueFalseQuestions,
-                    form.multiChoicesQuestions,
+                    data.trueFalseQuestions,
+                    data.multiChoicesQuestions,
                     false,
                     data.language,
                     pdfDocument
@@ -175,7 +291,7 @@ internal object PdfGenerator {
 
             files.add(
                 File(
-                    form.name,
+                    null,
                     outputStream.toByteArray()
                 )
             )
@@ -187,7 +303,69 @@ internal object PdfGenerator {
     private fun createAnswerMirror(data: Data): ArrayList<File> {
         val files = ArrayList<File>()
 
-        for (form in data.forms) {
+        if (data.multiForms) {
+            for (form in data.forms) {
+                val outputStream = ByteArrayOutputStream()
+
+                val pdfWriter = PdfWriter(outputStream)
+                val pdfDocument = PdfDocument(pdfWriter).apply {
+                    defaultPageSize = PageSize.A4
+                }
+
+                val document = Document(pdfDocument)
+
+                document.setFont(Font.getFont(data.language))
+
+                val contents = listOf(
+                    createHeader(
+                        data.universityName,
+                        data.universityLogoUrl,
+                        data.collegeName,
+                        data.departmentName,
+                        data.level,
+                        data.semester,
+                        data.courseName,
+                        data.coursePartName,
+                        data.lecturerName,
+                        data.typeName,
+                        data.date,
+                        data.duration,
+                        form.name,
+                        data.notes,
+                        data.language
+                    ),
+                    createQuestionsMirror(
+                        form.trueFalseQuestions,
+                        form.multiChoicesQuestions,
+                        true,
+                        data.language,
+                        pdfDocument
+                    )
+                )
+
+                document.apply {
+                    add(
+                        Div()
+                            .setPaddingLeft(-16f)
+                            .setPaddingRight(-16f)
+                            .apply {
+                                for (content in contents) {
+                                    add(content)
+                                }
+                            }
+                    )
+                }
+
+                pdfDocument.close()
+
+                files.add(
+                    File(
+                        form.name,
+                        outputStream.toByteArray()
+                    )
+                )
+            }
+        } else if (data.singleForm) {
             val outputStream = ByteArrayOutputStream()
 
             val pdfWriter = PdfWriter(outputStream)
@@ -213,13 +391,13 @@ internal object PdfGenerator {
                     data.typeName,
                     data.date,
                     data.duration,
-                    form.name,
+                    null,
                     data.notes,
                     data.language
                 ),
                 createQuestionsMirror(
-                    form.trueFalseQuestions,
-                    form.multiChoicesQuestions,
+                    data.trueFalseQuestions,
+                    data.multiChoicesQuestions,
                     true,
                     data.language,
                     pdfDocument
@@ -243,7 +421,7 @@ internal object PdfGenerator {
 
             files.add(
                 File(
-                    form.name,
+                    null,
                     outputStream.toByteArray()
                 )
             )
@@ -265,7 +443,7 @@ internal object PdfGenerator {
         examTypeName: String,
         date: String,
         duration: Int,
-        form: String,
+        form: String?,
         notes: String,
         language: Data.Language
     ): IBlockElement {
@@ -285,8 +463,8 @@ internal object PdfGenerator {
         }
 
         val thirdHeaders = when (language) {
-            Data.Language.ENGLISH -> listOf("Name:", "Form: $form")
-            Data.Language.ARABIC -> listOf("الاسم:", "نموذج: $form")
+            Data.Language.ENGLISH -> listOf("Name:", if (form != null) "Form: $form" else "")
+            Data.Language.ARABIC -> listOf("الاسم:", if (form != null) "نموذج: $form" else "")
         }
 
         val forthHeaders = when (language) {
@@ -436,15 +614,8 @@ internal object PdfGenerator {
         language: Data.Language
     ): IBlockElement {
         return Div().apply {
-//        return Table(1).apply {
             for (index in trueFalseQuestions.indices) {
                 add(createTrueFalseQuestion(index+1, trueFalseQuestions[index], language))
-//                addCell(
-//                    PdfHelper.createCell()
-//                        .add(
-//                            createTrueFalseQuestion(index+1, trueFalseQuestions[index], language)
-//                        )
-//                )
             }
 
             if (trueFalseQuestions.isNotEmpty() && multiChoicesQuestions.isNotEmpty()) {
@@ -454,12 +625,6 @@ internal object PdfGenerator {
                         .setMarginRight(0f)
 
                 )
-//                addCell(
-//                    PdfHelper.createCell()
-//                        .add(
-//                            PdfHelper.createDoubleSolidLine()
-//                        )
-//                )
             }
 
             for (index in multiChoicesQuestions.indices) {
@@ -468,20 +633,6 @@ internal object PdfGenerator {
                     PdfHelper.createSolidLine(0.7f)
                         .setPaddingTop(4f)
                 )
-
-//                addCell(
-//                    PdfHelper.createCell()
-//                        .add(
-//                            createMultiChoicesQuestion(index+1, multiChoicesQuestions[index], language)
-//                        )
-//                )
-//                addCell(
-//                    PdfHelper.createCell()
-//                        .add(
-//                            PdfHelper.createSolidLine(0.7f)
-//                                .setPaddingTop(4f)
-//                        )
-//                )
             }
         }
     }

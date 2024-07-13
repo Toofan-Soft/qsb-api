@@ -56,8 +56,6 @@ internal object PdfHelper {
 
     fun createSolidLine(weight: Float = 1f): Div {
         return Div()
-//            .setMarginLeft(14f)
-//            .setMarginRight(14f)
             .add(
                 LineSeparator(SolidLine(weight))
             )
@@ -130,7 +128,6 @@ internal object PdfHelper {
     fun createImage(url: String?, width: Float? = null, height: Float? = null): Image? {
         return url?.let {
             it.url?.let {
-//                Image(ImageDataFactory.create("E:\\f\\ToofanSoft\\QsB\\coding\\helper\\pdf-helper\\src\\main\\kotlin/res/logo.png"))
                 Image(ImageDataFactory.create(url))
                     .setOpacity(0.5f)
                     .setHorizontalAlignment(HorizontalAlignment.CENTER)
@@ -174,7 +171,6 @@ internal object PdfHelper {
 
         // Calculate the width and height of the letter to center it
         val textWidth = font.getWidth(letter.toString(), fontSize)
-//        val textWidth = 14f
         val textHeight = fontSize
 
         // Calculate the position to center the text
