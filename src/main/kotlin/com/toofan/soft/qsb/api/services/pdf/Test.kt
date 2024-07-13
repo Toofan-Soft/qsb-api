@@ -1,12 +1,14 @@
 package com.toofan.soft.qsb.api.services.pdf
 
+import com.toofan.soft.qsb.api.Coroutine
+
 data class File(
     val form: String,
     val bytes: ByteArray
 )
 
 
-fun testArPdfGenerator(
+suspend fun testArPdfGenerator(
     paper: Boolean,
     mirror: Boolean,
     answerMirror: Boolean,
@@ -16,21 +18,23 @@ fun testArPdfGenerator(
         answerMirrors: List<File>?
     ) -> Unit
 ) {
-    PdfGenerator.build(
-        dataAr,
-        paper,
-        mirror,
-        answerMirror
-    ) { papers, mirrors, answerMirrors ->
-        onFinish(
-            papers?.map { File(it.form, it.bytes) },
-            mirrors?.map { File(it.form, it.bytes) },
-            answerMirrors?.map { File(it.form, it.bytes) }
-        )
+    Coroutine.launch {
+        PdfGenerator.build(
+            dataAr,
+            paper,
+            mirror,
+            answerMirror
+        ) { papers, mirrors, answerMirrors ->
+            onFinish(
+                papers?.map { File(it.form, it.bytes) },
+                mirrors?.map { File(it.form, it.bytes) },
+                answerMirrors?.map { File(it.form, it.bytes) }
+            )
+        }
     }
 }
 
-fun testEnPdfGenerator(
+suspend fun testEnPdfGenerator(
     paper: Boolean,
     mirror: Boolean,
     answerMirror: Boolean,
@@ -40,16 +44,18 @@ fun testEnPdfGenerator(
         answerMirrors: List<File>?
     ) -> Unit
 ) {
-    PdfGenerator.build(
-        dataEn,
-        paper,
-        mirror,
-        answerMirror
-    ) { papers, mirrors, answerMirrors ->
-        onFinish(
-            papers?.map { File(it.form, it.bytes) },
-            mirrors?.map { File(it.form, it.bytes) },
-            answerMirrors?.map { File(it.form, it.bytes) }
-        )
+    Coroutine.launch {
+        PdfGenerator.build(
+            dataEn,
+            paper,
+            mirror,
+            answerMirror
+        ) { papers, mirrors, answerMirrors ->
+            onFinish(
+                papers?.map { File(it.form, it.bytes) },
+                mirrors?.map { File(it.form, it.bytes) },
+                answerMirrors?.map { File(it.form, it.bytes) }
+            )
+        }
     }
 }
