@@ -3,15 +3,18 @@ package com.toofan.soft.qsb.api
 private object Constant {
     private const val URL = "http://localhost:8000/"
     const val HOME = URL + "api"
+    const val IMAGES = URL + "images"
+
 }
 
 object Api {
     internal var HOME = Constant.HOME
-    internal var IMAGE = Constant.HOME + "images"
+    internal var IMAGES = Constant.HOME
 
     @JvmStatic
     fun init(ip: String) {
         HOME = "http://$ip:8000/api"
+        IMAGES = "http://$ip:8000/images"
     }
 }
 
@@ -35,10 +38,11 @@ sealed class Route(
         object Verify: User("verify", Method.POST, false)
         object RequestAccountRecovery: User("request-account-recovery", Method.PUT, false)
         object ResendCode: User("resend-code", Method.PUT, false)
-        object VerifyAccountAfterRecovery: User("verify-account-after-recovery", Method.PUT, false)
+        object VerifyAccountAfterRecovery: User("verify-account-after-recovery", Method.POST, false)
         object ChangePasswordAfterAccountRecovery: User("change-password-after-account-recovery", Method.PUT)
         object RetrieveProfile: User("retrieve-profile", Method.GET)
         object ChangePassword: User("change-password", Method.PUT)
+        object ChangeLanguage: User("change-language", Method.PUT)
         object Logout: User("logout", Method.POST)
     }
 
@@ -391,7 +395,7 @@ sealed class Route(
     ): Route("enum/$name", method, isAuthorized) {
         object RetrieveCoursePartStatusList: Enum("retrieve-course-part-status-list", Method.GET)
         object RetrieveChapterStatusList: Enum("retrieve-chapter-status-list", Method.GET)
-        object RetrieveLevelsCountsList: Enum("retrieve-levels-counts-list", Method.GET)
+        object RetrieveLevelsCountList: Enum("retrieve-levels-count-list", Method.GET)
         object RetrieveCoursePartList: Enum("retrieve-course-part-list", Method.GET)
         object RetrieveLanguageList: Enum("retrieve-language-list", Method.GET)
         object RetrieveDifficultyLevelList: Enum("retrieve-difficulty-level-list", Method.GET)

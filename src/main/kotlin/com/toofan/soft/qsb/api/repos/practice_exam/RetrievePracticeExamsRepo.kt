@@ -74,10 +74,10 @@ object RetrievePracticeExamsRepo {
             val courseName: String = "",
             @Field("course_part_name")
             val coursePartName: String = "",
-            @Field("title")
-            val title: String = "",
             @Field("datetime")
             private val _datetime: LocalDateTime = LocalDateTime.now(),
+            @Field("title")
+            val title: String? = null,
             @Field("appreciation")
             val appreciation: String? = null,
             @Field("score_rate")

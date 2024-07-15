@@ -64,14 +64,14 @@ object RetrievePracticeExamsAndroidRepo {
             val courseName: String = "",
             @Field("course_part_name")
             val coursePartName: String = "",
-            @Field("title")
-            val title: String = "",
             @Field("datetime")
             private val _datetime: LocalDateTime = LocalDateTime.now(),
             @Field("language_name")
             val languageName: String = "",
             @Field("status_name")
             val statusName: String = "",
+            @Field("title")
+            val title: String? = null,
             @Field("appreciation")
             val appreciation: String? = null,
             @Field("score_rate")

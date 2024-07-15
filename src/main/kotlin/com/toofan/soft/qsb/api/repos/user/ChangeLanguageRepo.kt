@@ -19,7 +19,7 @@ object ChangeLanguageRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.User.ChangePassword,
+                    route = Route.User.ChangeLanguage,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)

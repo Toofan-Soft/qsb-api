@@ -73,7 +73,7 @@ object RetrievePracticeExamRepo {
             @Field("is_mandatory_question_sequence")
             val isMandatoryQuestionSequence: Boolean = false,
             @Field("title")
-            val title: String = "",
+            val title: String? = null,
 
             @Field("is_started")
             val isStarted: Boolean = false,

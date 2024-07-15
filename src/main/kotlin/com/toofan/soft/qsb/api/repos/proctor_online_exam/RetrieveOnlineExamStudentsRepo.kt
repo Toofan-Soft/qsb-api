@@ -107,7 +107,7 @@ object RetrieveOnlineExamStudentsRepo {
             val isSuspended: Boolean? = null
         ) : IResponse {
             val startTime get() = _startTime?.string
-            val dateTime get() = _endTime?.string
+            val endTime get() = _endTime?.string
 
             val isStarted get() = _startTime != null
             val isFinished get() = _endTime != null

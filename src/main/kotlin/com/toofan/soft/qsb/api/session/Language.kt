@@ -9,4 +9,6 @@ enum class Language {
             return values().find { it.ordinal == id }
         }
     }
+
+    val id get() = this.ordinal
 }

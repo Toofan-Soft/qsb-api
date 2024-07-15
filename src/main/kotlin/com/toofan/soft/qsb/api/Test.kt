@@ -1,5 +1,8 @@
 package com.toofan.soft.qsb.api
 
+import com.toofan.soft.qsb.api.image.fileToByteArray
+import com.toofan.soft.qsb.api.repos.college.AddCollegeRepo
+import com.toofan.soft.qsb.api.repos.college.RetrieveCollegeRepo
 import com.toofan.soft.qsb.api.repos.department.RetrieveDepartmentRepo
 import com.toofan.soft.qsb.api.repos.department_course.RetrieveDepartmentCourseRepo
 import com.toofan.soft.qsb.api.repos.filter.RetrieveDepartmentLecturerCurrentCoursesRepo
@@ -16,6 +19,7 @@ import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
+import java.io.File
 import java.time.LocalDateTime
 
 private suspend fun retrievePractice() {
@@ -263,13 +267,51 @@ private suspend fun addOnlineExam() {
     )
 }
 
+private suspend fun addCollege() {
+    val file = File("E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\image/home.png") // Replace with your image file path
+    val logo = fileToByteArray(file)
+
+    AddCollegeRepo.execute(
+        data = { mandatory, optional ->
+            mandatory.invoke(
+                "كلية 4",
+                "college 4"
+            )
+
+            optional.invoke {
+                phone(777777777)
+                email("example@gmail.com")
+                description("desc...")
+                logo(logo.toList())
+            }
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun retrieveCollege() {
+    RetrieveCollegeRepo.execute(
+        data = {
+            it.invoke(6)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
 fun main() {
     runBlocking {
         Api.init("192.168.1.15")
         LoginRepo.execute(
             data = {
-                it.invoke("llll123456@gmail.com", "llll123456")
+//                it.invoke("llll123456@gmail.com", "llll123456")
 //                it.invoke("ssss1234@gmail.com", "ssss1234")
+                it.invoke("fadi@gmail.com", "fadi1234")
             },
             onComplete = {
                 println("complete")
@@ -282,7 +324,7 @@ fun main() {
 //                    retrieveLecturerExamFormQuestions()
 //                    retrievePaperExamFormQuestions()
 //                    retrieveDepartmentCourse()
-                    retrieveProfile()
+//                    retrieveProfile()
 //                    retrieveDepartmentLecturerCurrentCourses()
 
 //                    addOnlineExam()
@@ -291,6 +333,9 @@ fun main() {
 //                    retrievePracticeExamsAndroid()
 //                    retrievePracticeExamQuestions()
 //                    retrievePracticeExams()
+
+                    addCollege()
+//                    retrieveCollege()
                 }
             }
         )

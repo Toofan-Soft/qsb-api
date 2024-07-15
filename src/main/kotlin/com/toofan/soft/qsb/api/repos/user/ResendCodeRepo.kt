@@ -19,7 +19,7 @@ object ResendCodeRepo {
 
             request?.let {
                 ApiExecutor.execute(
-                    route = Route.User.RequestAccountRecovery,
+                    route = Route.User.ResendCode,
                     request = it
                 ) {
                     onComplete(Response.map(it).getResource() as Resource<Boolean>)

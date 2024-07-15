@@ -5,7 +5,8 @@ import java.io.File
 import java.io.FileInputStream
 
 fun main() {
-    val file = File("E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\image/1713466605.jpg") // Replace with your image file path
+//    val file = File("E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\image/1713466605.jpg") // Replace with your image file path
+    val file = File("E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\image/home.png") // Replace with your image file path
 //    val file = File("/1713466605.jpg") // Replace with your image file path
     val byteArray = fileToByteArray(file)
 
@@ -13,9 +14,11 @@ fun main() {
     println("Byte array size: ${byteArray.size} bytes")
     println()
 
+    println(byteArray.toList())
+    println()
+
     println(byteArray.toList().min())
     println(byteArray.toList().max())
-//    println(byteArray.toList())
 }
 
 fun fileToByteArray(file: File): ByteArray {

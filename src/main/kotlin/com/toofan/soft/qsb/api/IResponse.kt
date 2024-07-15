@@ -57,7 +57,7 @@ internal interface IResponse {
                 castedValue?.also {
 //                    field[this] = castedValue
                     field[this] = if (key.endsWith("url")) {
-                        Api.IMAGE + "/" + castedValue
+                        Api.IMAGES + "/" + castedValue
                     } else {
                         castedValue
                     }

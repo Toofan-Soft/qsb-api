@@ -10,7 +10,7 @@ object RetrieveLevelsCountsRepo {
     ) {
         Coroutine.launch {
             ApiExecutor.execute(
-                route = Route.Enum.RetrieveLevelsCountsList
+                route = Route.Enum.RetrieveLevelsCountList
             ) {
                 onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }

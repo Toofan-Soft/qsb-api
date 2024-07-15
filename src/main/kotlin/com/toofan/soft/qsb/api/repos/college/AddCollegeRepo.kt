@@ -63,7 +63,7 @@ object AddCollegeRepo {
         @Field("telegram")
         private val _telegram: OptionalVariable<String> = OptionalVariable(),
         @Field("logo")
-        private val _logo: OptionalVariable<ByteArray> = OptionalVariable()
+        private val _logo: OptionalVariable<List<Byte>> = OptionalVariable()
     ) : IRequest {
         val phone = loggableProperty(_phone)
         val email = loggableProperty(_email)
