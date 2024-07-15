@@ -282,7 +282,7 @@ private suspend fun addCollege() {
                 phone(777777777)
                 email("example@gmail.com")
                 description("desc...")
-                logo(logo.toList())
+                logo(logo)
             }
         },
         onComplete = {
