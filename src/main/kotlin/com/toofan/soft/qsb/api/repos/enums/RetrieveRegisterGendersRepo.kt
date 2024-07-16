@@ -3,15 +3,16 @@ package com.toofan.soft.qsb.api.repos.enums
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 
-object RetrieveAcceptanceStatusRepo {
+object RetrieveRegisterGendersRepo {
     @JvmStatic
     suspend fun execute(
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         Coroutine.launch {
             ApiExecutor.execute(
-                route = Route.Enum.RetrieveAcceptanceStatusList
+                route = Route.Enum.RetrieveRegisterGenderList
             ) {
+                println(Response.map(it).data.size.toString())
                 onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }

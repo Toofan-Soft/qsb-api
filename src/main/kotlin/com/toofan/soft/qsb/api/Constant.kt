@@ -407,6 +407,7 @@ sealed class Route(
         object RetrieveJobTypeList: Enum("retrieve-job-type-list", Method.GET)
         object RetrieveQualificationList: Enum("retrieve-qualification-list", Method.GET)
         object RetrieveGenderList: Enum("retrieve-gender-list", Method.GET, false)
+        object RetrieveRegisterGenderList: Enum("retrieve-register-gender-list", Method.GET, false)
         object RetrieveCourseStudentStatusList: Enum("retrieve-course-student-status-list", Method.GET)
         object RetrieveOwnerTypeList: Enum("retrieve-owner-type-list", Method.GET)
         object RetrieveUserStatusList: Enum("retrieve-user-status-list", Method.GET)
@@ -415,6 +416,7 @@ sealed class Route(
         object RetrieveFormConfigurationMethodList: Enum("retrieve-form-configuration-method-list", Method.GET)
         object RetrieveFormNameMethodList: Enum("retrieve-form-name-method-list", Method.GET)
         object RetrieveOnlineExamStatusList: Enum("retrieve-online-exam-status-list", Method.GET)
+        object RetrievePracticeExamStatusList: Enum("retrieve-practice-exam-status-list", Method.GET)
         object RetrieveStudentOnlineExamStatusList: Enum("retrieve-student-online-exam-status-list", Method.GET)
         object RetrieveOnlineExamTakingStatusList: Enum("retrieve-online-exam-taking-status-list", Method.GET)
     }
