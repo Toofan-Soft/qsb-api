@@ -8,49 +8,71 @@ internal val LocalTime.string get() = this.toString()
 
 internal val LocalDateTime.string get() = this.toString()
 
-internal val Long.datetime get() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
-internal val Long.date get() = LocalDate.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
-internal val Long.time get() = LocalTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
-
-internal val Long.time1: LocalTime
-    get() {
-        val seconds = this / 1000
-        val nanos = (this % 1000) * 1_000_000
-        return LocalTime.ofSecondOfDay(seconds).plusNanos(nanos)
-    }
+internal val Long.datetime get() = LocalDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
+internal val Long.date get() = LocalDate.ofEpochDay(this)
+internal val Long.time get() = LocalTime.ofSecondOfDay(this)
 
 
-internal val LocalDateTime.milliseconds: Long get() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-internal val LocalDate.milliseconds: Long get() = this.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+internal val LocalDateTime.long: Long get() = this.atZone(ZoneId.systemDefault()).toInstant().epochSecond
+internal val LocalDate.long: Long get() = this.toEpochDay()
+internal val LocalTime.long get() = this.toNanoOfDay() / 1_000_000_000
 
-internal val LocalTime.milliseconds: Long get() = this.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-internal val LocalTime.milliseconds1: Long get() = this.toNanoOfDay() / 1_000_000
+//internal val LocalDateTime.milliseconds: Long get() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+//
+//internal val LocalDate.milliseconds: Long get() = this.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+//
+//internal val LocalTime.milliseconds: Long get() = this.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
 
 
 fun main() {
-    LocalTime.now().milliseconds.let {
+//    LocalTime.now().milliseconds.let {
+//        println(it)
+//    }
+//
+//    LocalTime.now().let {
+//        println(it)
+//        println(it.milliseconds1)
+//        println(it.milliseconds1.time)
+//        println(it.milliseconds1.time1)
+//    }
+//
+//    LocalDate.now().milliseconds.let {
+//        println(it)
+//    }
+//
+//    LocalDateTime.now().minusYears(50).milliseconds.let {
+//        println(it)
+//    }
+//
+//    48151.toLong().time.let {
+//        println(it)
+//        println(it.milliseconds)
+//    }
+
+
+    LocalDateTime.now().plusDays(2).let {
         println(it)
+        println(it.long)
+        println(it.long.datetime)
     }
+
+    println()
+
+//    LocalDate.now().let {
+    LocalDate.now().minusYears(20).let {
+        println(it)
+        println(it.long)
+        println(it.long.date)
+    }
+
+    println()
 
     LocalTime.now().let {
         println(it)
-        println(it.milliseconds1)
-        println(it.milliseconds1.time)
-        println(it.milliseconds1.time1)
-    }
-
-    LocalDate.now().milliseconds.let {
-        println(it)
-    }
-
-    LocalDateTime.now().minusYears(50).milliseconds.let {
-        println(it)
-    }
-
-    48151.toLong().time.let {
-        println(it)
-        println(it.milliseconds)
+        println(it.long)
+        println(it.long.time)
     }
 }

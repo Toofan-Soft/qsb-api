@@ -1,6 +1,6 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.extensions.milliseconds
+import com.toofan.soft.qsb.api.extensions.long
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -91,9 +91,9 @@ interface IRequest {
                                             }
                                         } else {
                                             val value = when (f.value) {
-                                                is LocalDate -> (f.value as? LocalDate)?.milliseconds
-                                                is LocalTime -> (f.value as? LocalTime)?.milliseconds
-                                                is LocalDateTime -> (f.value as? LocalDateTime)?.milliseconds
+                                                is LocalDate -> (f.value as? LocalDate)?.long
+                                                is LocalTime -> (f.value as? LocalTime)?.long
+                                                is LocalDateTime -> (f.value as? LocalDateTime)?.long
                                                 else -> f.value
                                             }?.toString()
 
@@ -128,9 +128,9 @@ interface IRequest {
                                         }
                                     } else {
                                         val value = when (f) {
-                                            is LocalDate -> (f as? LocalDate)?.milliseconds
-                                            is LocalTime -> (f as? LocalTime)?.milliseconds
-                                            is LocalDateTime -> (f as? LocalDateTime)?.milliseconds
+                                            is LocalDate -> (f as? LocalDate)?.long
+                                            is LocalTime -> (f as? LocalTime)?.long
+                                            is LocalDateTime -> (f as? LocalDateTime)?.long
                                             else -> f
                                         }?.toString()
 
