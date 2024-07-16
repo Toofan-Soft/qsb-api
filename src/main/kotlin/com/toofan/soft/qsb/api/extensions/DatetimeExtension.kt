@@ -53,26 +53,27 @@ fun main() {
 //    }
 
 
-    LocalDateTime.now().plusDays(2).let {
-        println(it)
-        println(it.long)
-        println(it.long.datetime)
-    }
+//    LocalDateTime.now().plusDays(2).let {
+//        println(it)
+//        println(it.long)
+//        println(it.long.datetime)
+//    }
+//
+//    println()
+//
+////    LocalDate.now().let {
+//    LocalDate.now().minusYears(20).let {
+//        println(it)
+//        println(it.long)
+//        println(it.long.date)
+//    }
+//
+//    println()
+//
+//    LocalTime.now().let {
+//        println(it)
+//        println(it.long)
+//        println(it.long.time)
+//    }
 
-    println()
-
-//    LocalDate.now().let {
-    LocalDate.now().minusYears(20).let {
-        println(it)
-        println(it.long)
-        println(it.long.date)
-    }
-
-    println()
-
-    LocalTime.now().let {
-        println(it)
-        println(it.long)
-        println(it.long.time)
-    }
 }

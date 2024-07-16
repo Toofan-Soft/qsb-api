@@ -16,6 +16,7 @@ import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamQuestions
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsAndroidRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsRepo
+import com.toofan.soft.qsb.api.repos.student.RetrieveStudentRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
@@ -229,7 +230,6 @@ private suspend fun retrievePracticeExams() {
 }
 
 
-
 private suspend fun addOnlineExam() {
     AddOnlineExamRepo.execute(
         data = { mandatory, optional ->
@@ -309,6 +309,20 @@ private suspend fun retrieveCollege() {
     )
 }
 
+
+
+private suspend fun retrieveStudent() {
+    RetrieveStudentRepo.execute(
+        data = {
+            it.invoke(6)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
 fun main() {
     runBlocking {
         Api.init("192.168.1.15")
@@ -332,7 +346,7 @@ fun main() {
 //                    retrieveProfile()
 //                    retrieveDepartmentLecturerCurrentCourses()
 
-                    addOnlineExam()
+//                    addOnlineExam()
 //                    retrieveEditableOnlineExam()
 
 //                    retrievePracticeExamsAndroid()
@@ -341,6 +355,8 @@ fun main() {
 
 //                    addCollege()
 //                    retrieveCollege()
+
+                    retrieveStudent()
                 }
             }
         )

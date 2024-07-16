@@ -2,10 +2,14 @@ package com.toofan.soft.qsb.api
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.toofan.soft.qsb.api.extensions.date
 import com.toofan.soft.qsb.api.extensions.datetime
+import com.toofan.soft.qsb.api.extensions.time
 import com.toofan.soft.qsb.api.services.Logger
 import java.lang.reflect.ParameterizedType
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 internal interface IResponse {
     fun getResource(): Resource<out Any> {
@@ -92,7 +96,9 @@ internal interface IResponse {
                 Double::class.java -> value.asDouble
                 Boolean::class.java, java.lang.Boolean::class.java -> value.asBoolean
                 String::class.java -> if (value.isJsonNull) null else value.asString
-                LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toLongOrNull())?.datetime
+                LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.datetime
+                LocalDate::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.date
+                LocalTime::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.time
                 List::class.java -> {
                     val listType = getListType(field)
                     listType?.let {
@@ -103,7 +109,9 @@ internal interface IResponse {
                             Double::class.java -> value.asJsonArray.map { it.asDouble }
                             Boolean::class.java, java.lang.Boolean::class.java -> value.asJsonArray.map { it.asBoolean }
                             String::class.java -> value.asJsonArray.map { it.asString }
-                            LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toLongOrNull())?.datetime
+                            LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.datetime
+                            LocalDate::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.date
+                            LocalTime::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.time
                             else -> {
                                 if (IResponse::class.java.isAssignableFrom(listType)) {
                                     value.asJsonArray.map { jsonElement ->
