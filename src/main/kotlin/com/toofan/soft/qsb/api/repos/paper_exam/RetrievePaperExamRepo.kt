@@ -78,12 +78,14 @@ object RetrievePaperExamRepo {
             val difficultyLevelName: String = "",
             @Field("forms_count")
             val formsCount: Int = 0,
-            @Field("form_configuration_method_name")
-            val formConfigurationMethodName: String = "",
-            @Field("form_name_method_name")
-            val formNameMethodName: String = "",
             @Field("questions_types")
             val questionsTypes: List<Data> = emptyList(),
+
+            @Field("form_configuration_method_name")
+            val formConfigurationMethodName: String? = null,
+            @Field("form_name_method_name")
+            val formNameMethodName: String? = null,
+
             @Field("special_note")
             val specialNote: String? = null,
 

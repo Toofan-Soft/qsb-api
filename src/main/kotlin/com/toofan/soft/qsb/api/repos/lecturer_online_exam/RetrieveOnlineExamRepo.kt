@@ -86,12 +86,14 @@ object RetrieveOnlineExamRepo {
             val statusName: String = "",
             @Field("forms_count")
             val formsCount: Int = 0,
-            @Field("form_configuration_method_name")
-            val formConfigurationMethodName: String = "",
-            @Field("form_name_method_name")
-            val formNameMethodName: String = "",
             @Field("questions_types")
             val questionsTypes: List<Data> = emptyList(),
+
+            @Field("form_configuration_method_name")
+            val formConfigurationMethodName: String? = null,
+            @Field("form_name_method_name")
+            val formNameMethodName: String? = null,
+
             @Field("proctor_name")
             val proctorName: String? = null,
             @Field("special_note")

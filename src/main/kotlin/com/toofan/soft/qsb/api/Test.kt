@@ -251,18 +251,23 @@ private suspend fun addOnlineExam() {
 //                1,
                 2,
                 1,
-                1,
 //                1,
-                0,
+//                1,
+//                0,
                 {
                     it.invoke(1, 20, 10.0f)
                 },
                 listOf(3)
             )
+
+            optional.invoke {
+//                formConfigurationMethodId(1)
+//                formNameMethodId(1)
+            }
         },
         onComplete = {
             println("complete...")
-            println(it.data)
+            println(it)
         }
     )
 }
@@ -327,14 +332,14 @@ fun main() {
 //                    retrieveProfile()
 //                    retrieveDepartmentLecturerCurrentCourses()
 
-//                    addOnlineExam()
+                    addOnlineExam()
 //                    retrieveEditableOnlineExam()
 
 //                    retrievePracticeExamsAndroid()
 //                    retrievePracticeExamQuestions()
 //                    retrievePracticeExams()
 
-                    addCollege()
+//                    addCollege()
 //                    retrieveCollege()
                 }
             }

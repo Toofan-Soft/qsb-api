@@ -64,7 +64,7 @@ object RetrieveEditableOnlineExamRepo {
             @Field("result_notification_datetime")
             val resultNotificationDatetime: LocalDateTime = LocalDateTime.now(),
             @Field("form_name_method_id")
-            val formNameMethodId: Int = 0,
+            val formNameMethodId: Int? = null,
             @Field("proctor_id")
             val proctorId: Int? = null,
             @Field("special_note")

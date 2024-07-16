@@ -60,7 +60,7 @@ object RetrieveEditablePaperExamRepo {
             @Field("lecturer_name")
             val lecturerName: String = "",
             @Field("form_name_method_id")
-            val formNameMethodId: Int = 0,
+            val formNameMethodId: Int? = null,
             @Field("special_note")
             val specialNote: String? = null
         ) : IResponse

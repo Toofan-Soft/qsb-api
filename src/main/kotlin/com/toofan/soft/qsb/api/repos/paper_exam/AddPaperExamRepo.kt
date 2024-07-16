@@ -19,7 +19,7 @@ object AddPaperExamRepo {
             data.invoke(
                 { departmentCoursePartId, typeId, datetime, duration,
                   languageId, difficultyLevelId, lecturerName,
-                  formsCount, formConfigurationMethodId, formNameMethodId, questionsTypes, topicsIds ->
+                  formsCount, questionsTypes, topicsIds ->
                     val _questionsTypes: ArrayList<Request.Data> = arrayListOf()
 
                     questionsTypes.invoke { typeId, questionsCount, questionScore ->
@@ -29,18 +29,32 @@ object AddPaperExamRepo {
                     request = Request(
                         departmentCoursePartId, typeId, datetime, duration,
                         languageId, difficultyLevelId, lecturerName,
-                        formsCount, formConfigurationMethodId, formNameMethodId, _questionsTypes, topicsIds
+                        formsCount, _questionsTypes, topicsIds
                     )
                 },
                 { request!!.optional(it) }
             )
 
             request?.let {
-                ApiExecutor.execute(
-                    route = Route.PaperExam.Add,
-                    request = it
-                ) {
-                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+                val hasError = (it._formsCount == 1 &&
+                        listOf(
+                            it._formConfigurationMethodId.value,
+                            it._formNameMethodId.value
+                        ).any { it != null }) || (it._formsCount > 1 &&
+                        listOf(
+                            it._formConfigurationMethodId.value,
+                            it._formNameMethodId.value
+                        ).any { it == null })
+
+                if (!hasError) {
+                    ApiExecutor.execute(
+                        route = Route.PaperExam.Add,
+                        request = it
+                    ) {
+                        onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+                    }
+                } else {
+                    onComplete(Resource.Error("Invalid Inputs!"))
                 }
             }
         }
@@ -57,8 +71,6 @@ object AddPaperExamRepo {
             lecturerName: String,
 
             formsCount: Int,
-            formConfigurationMethodId: Int,
-            formNameMethodId: Int,
 
             questionsTypes: (Data) -> Unit,
 
@@ -95,19 +107,22 @@ object AddPaperExamRepo {
         private val _lecturerName: String,
 
         @Field("forms_count")
-        private val _formsCount: Int,
-        @Field("form_configuration_method_id")
-        private val _formConfigurationMethodId: Int,
-        @Field("form_name_method_id")
-        private val _formNameMethodId: Int,
+        internal val _formsCount: Int,
         @Field("questions_types")
         private val _questionsTypes: List<Data>,
         @Field("topics_ids")
         private val _topicsIds: List<Int>,
 
+        @Field("form_configuration_method_id")
+        internal val _formConfigurationMethodId: OptionalVariable<Int> = OptionalVariable(),
+        @Field("form_name_method_id")
+        internal val _formNameMethodId: OptionalVariable<Int> = OptionalVariable(),
+
         @Field("special_note")
         private val _specialNote: OptionalVariable<String> = OptionalVariable()
     ) : IRequest {
+        val formConfigurationMethodId = loggableProperty(_formConfigurationMethodId)
+        val formNameMethodId = loggableProperty(_formNameMethodId)
         val specialNote = loggableProperty(_specialNote)
 
         data class Data(
