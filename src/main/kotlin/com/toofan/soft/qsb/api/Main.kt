@@ -1,11 +1,9 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.repos.paper_exam.AddPaperExamRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.question.ModifyQuestionRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import kotlinx.coroutines.runBlocking
-import java.time.LocalDateTime
 
 fun main2() {
     runBlocking {
@@ -231,31 +229,31 @@ fun main(args: Array<String>) {
 //                        }
 //                    )
 
-                    AddPaperExamRepo.execute(
-                        data = { mandatory, optional ->
-                            mandatory.invoke(
-                                2,
-                                0,
-//                                1720126800000,
-                                LocalDateTime.now(),
-                                900,
-                                0,
-                                1,
-                                "asdsa",
-                                1,
-                                0,
-                                0,
-                                {
-                                    it.invoke(1, 10, 10f)
-                                },
-                                listOf(3)
-                            )
-                        },
-                        onComplete = {
-                            println("complete...")
-                            println(it.data)
-                        }
-                    )
+//                    AddPaperExamRepo.execute(
+//                        data = { mandatory, optional ->
+//                            mandatory.invoke(
+//                                2,
+//                                0,
+////                                1720126800000,
+//                                LocalDateTime.now(),
+//                                900,
+//                                0,
+//                                1,
+//                                "asdsa",
+//                                1,
+//                                0,
+//                                0,
+//                                {
+//                                    it.invoke(1, 10, 10f)
+//                                },
+//                                listOf(3)
+//                            )
+//                        },
+//                        onComplete = {
+//                            println("complete...")
+//                            println(it.data)
+//                        }
+//                    )
 
 //        Api.init("127.0.0.1")
 //        LoginRepo.execute(
