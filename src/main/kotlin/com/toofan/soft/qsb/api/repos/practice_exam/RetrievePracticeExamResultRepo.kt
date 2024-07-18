@@ -36,8 +36,8 @@ object RetrievePracticeExamResultRepo {
     }
 
     data class Request(
-        @Field("exam_id")
-        private val _examId: Int
+        @Field("id")
+        private val id: Int
     ) : IRequest
 
     data class Response(
