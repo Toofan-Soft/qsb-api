@@ -11,6 +11,7 @@ import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveEditableOnline
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormQuestionsRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormsRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.ModifyPaperExamRepo
+import com.toofan.soft.qsb.api.repos.paper_exam.RetrievePaperExamFormQuestionsRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.RetrievePaperExamFormsRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamQuestionsRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamRepo
@@ -19,6 +20,7 @@ import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsRepo
 import com.toofan.soft.qsb.api.repos.proctor_online_exam.RetrieveOnlineExamStudentsRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.student.RetrieveStudentRepo
+import com.toofan.soft.qsb.api.repos.student_online_exam.RetrieveOnlineExamQuestionsRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
 import kotlinx.coroutines.runBlocking
@@ -337,6 +339,55 @@ private suspend fun retrieveOnlineExamStudents() {
     )
 }
 
+private suspend fun retrieveOnlineExamFormQuestions() {
+    RetrieveOnlineExamFormQuestionsRepo.execute(
+        data = {
+            it.invoke(2)
+        },
+        onComplete = {
+            println("complete...")
+//            println(it.data)
+            it.data!!.first().questions.forEach {
+                println(it.getChoices())
+            }
+        }
+    )
+}
+
+private suspend fun retrieveOnlineExamQuestions() {
+    RetrieveOnlineExamQuestionsRepo.execute(
+        data = {
+            it.invoke(2)
+        },
+        onComplete = {
+            println("complete...")
+//            println(it.data)
+            it.data!!.forEach {
+                it.questions.forEach {
+                    println(it.getChoices())
+                }
+            }
+        }
+    )
+}
+
+private suspend fun retrievePaperExamFormQuestions1() {
+    RetrievePaperExamFormQuestionsRepo.execute(
+        data = {
+            it.invoke(4)
+        },
+        onComplete = {
+            println("complete...")
+//            println(it.data)
+            it.data!!.forEach {
+                it.questions.forEach {
+                    println(it.getChoices())
+                }
+            }
+        }
+    )
+}
+
 private suspend fun addQuestion() {
     AddQuestionRepo.execute(
         data = { mandatory, optional ->
@@ -371,6 +422,7 @@ fun main() {
 //                it.invoke("llll123456@gmail.com", "llll123456")
 //                it.invoke("ssss1234@gmail.com", "ssss1234")
                 it.invoke("fadi@gmail.com", "fadi1234")
+//                it.invoke("mohammed@gmail.com", "mohammed")
             },
             onComplete = {
                 println("complete")
@@ -400,7 +452,11 @@ fun main() {
 
 //                    addQuestion()
 
-                    retrieveOnlineExamStudents()
+//                    retrieveOnlineExamStudents()
+//                    retrieveOnlineExamFormQuestions()
+                    retrievePaperExamFormQuestions1()
+
+//                    retrieveOnlineExamQuestions()
                 }
             }
         )

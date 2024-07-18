@@ -65,24 +65,63 @@ object RetrieveOnlineExamQuestionsRepo {
                 @Field("choices")
                 private val choices: List<Data>? = null
             ) : IResponse {
+//                data class Data(
+//                    @Field("id")
+//                    val id: Int = 0,
+//                    @Field("content")
+//                    val content: String = "",
+//                    @Field("attachment_url")
+//                    val attachmentUrl: String? = null
+//                ) : IResponse
+
                 data class Data(
                     @Field("id")
                     val id: Int = 0,
                     @Field("content")
                     val content: String = "",
                     @Field("attachment_url")
-                    val attachmentUrl: String? = null
+                    val attachmentUrl: String? = null,
+                    @Field("mix")
+                    val mix: List<Data>? = null,
                 ) : IResponse
 
                 fun getChoices(): List<QuestionHelper.Data.Data> {
-                    return choices?.map {
-                        QuestionHelper.Data.Data(
-                            id = it.id,
-                            content = it.content,
-                            attachmentUrl = it.attachmentUrl
-                        )
-                    }
-                        ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
+                    return choices?.flatMap { choice ->
+                        if (choice.mix == null) {
+                            listOf(
+                                QuestionHelper.Data.Data(
+                                    id = choice.id,
+                                    content = choice.content,
+                                    attachmentUrl = choice.attachmentUrl
+                                )
+                            )
+                        } else {
+                            choice.mix.map { choice ->
+                                QuestionHelper.Data.Data(
+                                    id = choice.id,
+                                    content = choice.content,
+                                    attachmentUrl = choice.attachmentUrl
+                                )
+                            }.let {
+                                ArrayList(it).also {
+                                    it.add(
+                                        QuestionHelper.Data.Data.MIX_CHOICE.copy(
+                                            id = choice.id
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    } ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
+
+//                    return choices?.map {
+//                        QuestionHelper.Data.Data(
+//                            id = it.id,
+//                            content = it.content,
+//                            attachmentUrl = it.attachmentUrl
+//                        )
+//                    }
+//                        ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
                 }
             }
 

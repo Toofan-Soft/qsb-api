@@ -49,7 +49,6 @@ object RetrieveOnlineExamFormQuestionsRepo {
         @Field("data")
         val data: List<Data> = emptyList()
     ) : IResponse {
-
         data class Data(
             @Field("type_name")
             val typeName: String = "",
@@ -72,6 +71,17 @@ object RetrieveOnlineExamFormQuestionsRepo {
                 @Field("choices")
                 private val choices: List<Data>? = null
             ) : IResponse {
+//                data class Data(
+//                    @Field("id")
+//                    val id: Int = 0,
+//                    @Field("content")
+//                    val content: String = "",
+//                    @Field("is_true")
+//                    val isTrue: Boolean = false,
+//                    @Field("attachment_url")
+//                    val attachmentUrl: String? = null
+//                ) : IResponse
+
                 data class Data(
                     @Field("id")
                     val id: Int = 0,
@@ -80,7 +90,9 @@ object RetrieveOnlineExamFormQuestionsRepo {
                     @Field("is_true")
                     val isTrue: Boolean = false,
                     @Field("attachment_url")
-                    val attachmentUrl: String? = null
+                    val attachmentUrl: String? = null,
+                    @Field("mix")
+                    val mix: List<Data>? = null,
                 ) : IResponse
 
                 fun getChoices(): List<QuestionHelper.Data.Data> {
@@ -90,18 +102,60 @@ object RetrieveOnlineExamFormQuestionsRepo {
                             QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isTrue = !isTrue)
                         )
                     } else if (isTrue == null && choices != null) {
-                        choices.map {
-                            QuestionHelper.Data.Data(
-                                id = it.id,
-                                content = it.content,
-                                isTrue = it.isTrue,
-                                attachmentUrl = it.attachmentUrl
-                            )
+                        choices.flatMap { choice ->
+                            if (choice.mix == null) {
+                                listOf(
+                                    QuestionHelper.Data.Data(
+                                        id = choice.id,
+                                        content = choice.content,
+                                        isTrue = choice.isTrue,
+                                        attachmentUrl = choice.attachmentUrl
+                                    )
+                                )
+                            } else {
+                                choice.mix.map { choice ->
+                                    QuestionHelper.Data.Data(
+                                        id = choice.id,
+                                        content = choice.content,
+                                        isTrue = choice.isTrue,
+                                        attachmentUrl = choice.attachmentUrl
+                                    )
+                                }.let {
+                                    ArrayList(it).also {
+                                        it.add(
+                                            QuestionHelper.Data.Data.MIX_CHOICE.copy(
+                                                id = choice.id,
+                                                isTrue = choice.isTrue
+                                            )
+                                        )
+                                    }
+                                }
+                            }
                         }
                     } else {
                         emptyList()
                     }
                 }
+
+//                fun getChoices(): List<QuestionHelper.Data.Data> {
+//                    return if (isTrue != null && choices == null) {
+//                        listOf(
+//                            QuestionHelper.Data.Data.Type.CORRECT.toData().copy(isTrue = isTrue),
+//                            QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isTrue = !isTrue)
+//                        )
+//                    } else if (isTrue == null && choices != null) {
+//                        choices.map {
+//                            QuestionHelper.Data.Data(
+//                                id = it.id,
+//                                content = it.content,
+//                                isTrue = it.isTrue,
+//                                attachmentUrl = it.attachmentUrl
+//                            )
+//                        }
+//                    } else {
+//                        emptyList()
+//                    }
+//                }
             }
 
 //            data class Data(

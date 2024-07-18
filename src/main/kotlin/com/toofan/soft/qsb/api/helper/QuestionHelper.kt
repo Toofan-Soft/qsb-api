@@ -59,6 +59,16 @@ object QuestionHelper {
             val isSelected: Boolean? = null,
             val attachmentUrl: String? = null
         ) {
+            companion object {
+                val MIX_CHOICE = Data(
+                    -3,
+                    when (Auth.language) {
+                        Language.ARABIC -> "أ و ب"
+                        Language.ENGLISH -> "A & B"
+                        null -> "أ و ب"
+                    }
+                )
+            }
             internal enum class Type(
                 private val id: Int,
                 private val arabicTitle: String,
