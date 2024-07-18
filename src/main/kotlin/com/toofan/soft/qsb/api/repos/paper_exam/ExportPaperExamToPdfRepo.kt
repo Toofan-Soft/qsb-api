@@ -249,7 +249,9 @@ object ExportPaperExamToPdfRepo {
                         @Field("is_true")
                         val isTrue: Boolean = false,
                         @Field("attachment_url")
-                        val attachmentUrl: String? = null
+                        val attachmentUrl: String? = null,
+                        @Field("mix")
+                        val mix: List<Data>? = null
                     ) : IResponse
 
                     fun getChoices(): List<QuestionHelper.Data.Data> {
@@ -266,6 +268,36 @@ object ExportPaperExamToPdfRepo {
                                     isTrue = it.isTrue,
                                     attachmentUrl = it.attachmentUrl
                                 )
+                            }
+
+                            choices.flatMap { choice ->
+                                if (choice.mix == null) {
+                                    listOf(
+                                        QuestionHelper.Data.Data(
+                                            id = 0,
+                                            content = choice.content,
+                                            isTrue = choice.isTrue,
+                                            attachmentUrl = choice.attachmentUrl
+                                        )
+                                    )
+                                } else {
+                                    choice.mix.map { choice ->
+                                        QuestionHelper.Data.Data(
+                                            id = 0,
+                                            content = choice.content,
+                                            isTrue = choice.isTrue,
+                                            attachmentUrl = choice.attachmentUrl
+                                        )
+                                    }.let {
+                                        ArrayList(it).also {
+                                            it.add(
+                                                QuestionHelper.Data.Data.MIX_CHOICE.copy(
+                                                    isTrue = choice.isTrue
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         } else {
                             emptyList()

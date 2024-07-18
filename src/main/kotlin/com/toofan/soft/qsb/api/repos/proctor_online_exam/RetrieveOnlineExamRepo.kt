@@ -5,6 +5,7 @@ import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
 import com.toofan.soft.qsb.api.services.Timer
 import com.toofan.soft.qsb.api.services.TimerListener
+import com.toofan.soft.qsb.api.services.formatSeconds
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -104,7 +105,8 @@ object RetrieveOnlineExamRepo {
                         .schedule(
                             onUpdate = {
                                 if (::listener.isInitialized) {
-                                    listener.onUpdate(it)
+//                                    listener.onUpdate(it)
+                                    listener.onUpdate(formatSeconds(it))
                                 }
                             },
                             onFinish = {

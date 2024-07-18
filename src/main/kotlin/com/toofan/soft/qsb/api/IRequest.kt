@@ -94,7 +94,14 @@ interface IRequest {
                                                 is LocalDate -> (f.value as? LocalDate)?.long
                                                 is LocalTime -> (f.value as? LocalTime)?.long
                                                 is LocalDateTime -> (f.value as? LocalDateTime)?.long
-                                                else -> f.value
+//                                                else -> f.value
+                                                else -> {
+                                                    if (it.contains("duration")) {
+                                                        f.value.toString().toLongOrNull()?.times(60)
+                                                    } else {
+                                                        f.value
+                                                    }
+                                                }
                                             }?.toString()
 
                                             parameters.append(it).append("=").append(value).append("&")
@@ -131,7 +138,14 @@ interface IRequest {
                                             is LocalDate -> (f as? LocalDate)?.long
                                             is LocalTime -> (f as? LocalTime)?.long
                                             is LocalDateTime -> (f as? LocalDateTime)?.long
-                                            else -> f
+//                                            else -> f
+                                            else -> {
+                                                if (it.contains("duration")) {
+                                                    f.toString().toLongOrNull()?.times(60)
+                                                } else {
+                                                    f
+                                                }
+                                            }
                                         }?.toString()
 
                                         parameters.append(it).append("=").append(value).append("&")

@@ -198,24 +198,24 @@ private suspend fun retrievePracticeExamsAndroid() {
 }
 
 private suspend fun retrievePracticeExamQuestions() {
-    RetrievePracticeExamQuestionsRepo.execute(
-        data = {
-            it.invoke(1)
-        },
-        onComplete = {
-            println("complete...")
-            println(it.data)
-
-            it.data?.let {
-                it.filter { it.getChoices().any { it.isSelected == true } }.let {
-                    println()
-                    println()
-                    println(".....................")
-                    println(it)
-                }
-            }
-        }
-    )
+//    RetrievePracticeExamQuestionsRepo.execute(
+//        data = {
+//            it.invoke(1)
+//        },
+//        onComplete = {
+//            println("complete...")
+//            println(it.data)
+//
+//            it.data?.let {
+//                it.filter { it.getChoices().any { it.isSelected == true } }.let {
+//                    println()
+//                    println()
+//                    println(".....................")
+//                    println(it)
+//                }
+//            }
+//        }
+//    )
 }
 
 private suspend fun retrievePracticeExams() {
@@ -388,6 +388,24 @@ private suspend fun retrievePaperExamFormQuestions1() {
     )
 }
 
+private suspend fun retrievePracticeExamQuestions1() {
+    RetrievePracticeExamQuestionsRepo.execute(
+        data = {
+            it.invoke(1)
+        },
+        onComplete = {
+            println("complete...")
+//            println(it.data)
+            it.data!!.forEach {
+//                it.questions.forEach {
+                    println(it.getChoices())
+//                }
+            }
+        }
+    )
+}
+
+
 private suspend fun addQuestion() {
     AddQuestionRepo.execute(
         data = { mandatory, optional ->
@@ -454,9 +472,10 @@ fun main() {
 
 //                    retrieveOnlineExamStudents()
 //                    retrieveOnlineExamFormQuestions()
-                    retrievePaperExamFormQuestions1()
+//                    retrievePaperExamFormQuestions1()
+//                    retrievePracticeExamQuestions1()
 
-//                    retrieveOnlineExamQuestions()
+                    retrieveOnlineExamQuestions()
                 }
             }
         )

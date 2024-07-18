@@ -62,6 +62,8 @@ internal interface IResponse {
 //                    field[this] = castedValue
                     field[this] = if (key.endsWith("url")) {
                         Api.IMAGES + "/" + castedValue
+                    } else if (key.contains("duration")) {
+                        castedValue.toString().toLongOrNull()?.div(60)
                     } else {
                         castedValue
                     }
