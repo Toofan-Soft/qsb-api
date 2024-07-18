@@ -4,8 +4,8 @@ import java.util.*
 import java.util.Timer
 
 interface TimerListener {
-    fun onUpdate(value: String)
-//    fun onUpdate(value: Long)
+//    fun onUpdate(value: String)
+    fun onUpdate(value: Long)
 //    fun onUpdate(hours: Int, minutes: Int, seconds: Int)
     fun onFinish()
 }
@@ -41,12 +41,12 @@ internal data class Timer(
     }
 }
 
-internal fun formatSeconds(seconds: Long): String {
-    val hours = seconds / 3600
-    val minutes = (seconds % 3600) / 60
-    val secs = seconds % 60
-    return String.format("%d:%02d:%02d", hours, minutes, secs)
-}
+//internal fun formatSeconds(seconds: Long): String {
+//    val hours = seconds / 3600
+//    val minutes = (seconds % 3600) / 60
+//    val secs = seconds % 60
+//    return String.format("%d:%02d:%02d", hours, minutes, secs)
+//}
 
 fun main() {
 //    Timer(10000).schedule(

@@ -105,8 +105,8 @@ object RetrieveOnlineExamRepo {
                         .schedule(
                             onUpdate = {
                                 if (::listener.isInitialized) {
-//                                    listener.onUpdate(it)
-                                    listener.onUpdate(formatSeconds(it))
+                                    listener.onUpdate(it)
+//                                    listener.onUpdate(formatSeconds(it))
                                 }
                             },
                             onFinish = {
