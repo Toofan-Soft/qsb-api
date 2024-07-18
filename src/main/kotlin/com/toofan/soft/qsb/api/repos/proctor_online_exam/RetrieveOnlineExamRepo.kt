@@ -3,6 +3,9 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.services.Timer
+import com.toofan.soft.qsb.api.services.TimerListener
+import java.time.Duration
 import java.time.LocalDateTime
 
 object RetrieveOnlineExamRepo {
@@ -86,6 +89,36 @@ object RetrieveOnlineExamRepo {
             val isComplete: Boolean = false
         ) : IResponse {
             val datetime get() = _datetime.string
+
+            private lateinit var listener: TimerListener
+
+            init {
+                startTimer()
+            }
+
+            private fun startTimer() {
+                val remainingTime = Duration.between(_datetime.plusSeconds(duration.toLong()), LocalDateTime.now()).toMillis()
+
+                if (isTakable && !isComplete && remainingTime > 0) {
+                    Timer((remainingTime * 1000))
+                        .schedule(
+                            onUpdate = {
+                                if (::listener.isInitialized) {
+                                    listener.onUpdate(it)
+                                }
+                            },
+                            onFinish = {
+                                if (::listener.isInitialized) {
+                                    listener.onFinish()
+                                }
+                            }
+                        )
+                }
+            }
+
+            fun setOnRemainingTimerListener(listener: TimerListener) {
+                this.listener = listener
+            }
         }
 
         companion object {

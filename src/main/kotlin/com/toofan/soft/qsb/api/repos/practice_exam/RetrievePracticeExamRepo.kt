@@ -3,6 +3,8 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.services.Timer
+import com.toofan.soft.qsb.api.services.TimerListener
 import java.time.LocalDateTime
 
 object RetrievePracticeExamRepo {
@@ -39,7 +41,7 @@ object RetrievePracticeExamRepo {
 
     data class Request(
         @Field("id")
-        private val _id: Int
+        internal val _id: Int
     ) : IRequest
 
     data class Response(
@@ -72,6 +74,8 @@ object RetrievePracticeExamRepo {
             val languageName: String = "",
             @Field("is_mandatory_question_sequence")
             val isMandatoryQuestionSequence: Boolean = false,
+            @Field("remaining_time")
+            private val _remainingTime: Int = 0,
             @Field("title")
             val title: String? = null,
 
@@ -86,6 +90,34 @@ object RetrievePracticeExamRepo {
             val isDeletable: Boolean = false
         ) : IResponse {
             val datetime get() = _datetime.string
+
+            private lateinit var listener: TimerListener
+
+            init {
+                startTimer()
+            }
+
+            private fun startTimer() {
+                if (isStarted && isSuspended == false && !isComplete && _remainingTime > 0) {
+                    Timer((_remainingTime * 1000).toLong())
+                        .schedule(
+                            onUpdate = {
+                                if (::listener.isInitialized) {
+                                    listener.onUpdate(it)
+                                }
+                            },
+                            onFinish = {
+                                if (::listener.isInitialized) {
+                                    listener.onFinish()
+                                }
+                            }
+                        )
+                }
+            }
+
+            fun setOnRemainingTimerListener(listener: TimerListener) {
+                this.listener = listener
+            }
         }
 
         companion object {

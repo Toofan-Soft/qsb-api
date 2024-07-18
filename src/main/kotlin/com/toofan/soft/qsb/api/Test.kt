@@ -16,6 +16,8 @@ import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamQuestions
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsAndroidRepo
 import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsRepo
+import com.toofan.soft.qsb.api.repos.proctor_online_exam.RetrieveOnlineExamStudentsRepo
+import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.student.RetrieveStudentRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
@@ -323,6 +325,44 @@ private suspend fun retrieveStudent() {
     )
 }
 
+private suspend fun retrieveOnlineExamStudents() {
+    RetrieveOnlineExamStudentsRepo.execute(
+        data = {
+            it.invoke(2)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun addQuestion() {
+    AddQuestionRepo.execute(
+        data = { mandatory, optional ->
+            mandatory.invoke(
+                1,
+                0,
+                1,
+                1,
+                1,
+                20,
+//                "content",
+                "شسيشيشسيشيشيسش",
+                choice = { mandatory, optional ->
+                    mandatory.invoke(-1, "", false)
+                    mandatory.invoke(-2, "", true)
+//                    it.invoke(1, "", true, null)
+                }
+            )
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
 fun main() {
     runBlocking {
         Api.init("192.168.1.15")
@@ -356,7 +396,11 @@ fun main() {
 //                    addCollege()
 //                    retrieveCollege()
 
-                    retrieveStudent()
+//                    retrieveStudent()
+
+//                    addQuestion()
+
+                    retrieveOnlineExamStudents()
                 }
             }
         )

@@ -327,6 +327,7 @@ sealed class Route(
         object ContinueStudent: ProctorOnlineExam("continue-student", Method.PUT)
         // check for its method
         object FinishStudent: ProctorOnlineExam("finish-student", Method.PUT)
+        object Finish: ProctorOnlineExam("finish", Method.PUT)
         // check for its method
         object Retrieve: ProctorOnlineExam("retrieve", Method.GET)
         object RetrieveList: ProctorOnlineExam("retrieve-list", Method.GET)
@@ -368,12 +369,11 @@ sealed class Route(
         object RetrieveList: PracticeOnlineExam("retrieve-list", Method.GET)
         object RetrieveAndroidList: PracticeOnlineExam("retrieve-android-list", Method.GET)
         object RetrieveQuestionList: PracticeOnlineExam("retrieve-question-list", Method.GET)
-        object Finish: PracticeOnlineExam("finish", Method.PUT)
-        // check if its method
         object SaveQuestionAnswer: PracticeOnlineExam("save-question-answer", Method.PUT)
-        // check if its method
+        object Start: PracticeOnlineExam("start", Method.PUT)
         object Suspend: PracticeOnlineExam("suspend", Method.PUT)
-        // check if its method
+        object Continue: PracticeOnlineExam("continue", Method.PUT)
+        object Finish: PracticeOnlineExam("finish", Method.PUT)
     }
 
     sealed class FavoriteQuestion(
