@@ -111,7 +111,7 @@ object RetrievePracticeExamRepo {
                         .schedule(
                             onUpdate = {
                                 if (::listener.isInitialized) {
-                                    listener.onUpdate(it)
+                                    listener.onUpdate(it / 1000)
 //                                    listener.onUpdate(formatSeconds(it))
                                 }
                             },

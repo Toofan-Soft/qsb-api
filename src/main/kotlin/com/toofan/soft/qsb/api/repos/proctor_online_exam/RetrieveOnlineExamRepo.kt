@@ -28,7 +28,19 @@ object RetrieveOnlineExamRepo {
                     route = Route.ProctorOnlineExam.Retrieve,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+//                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+
+                    when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
+                        is Resource.Success -> {
+                            resource.data?.let {
+                                it.startTimer()
+                                onComplete(Resource.Success(it))
+                            }
+                        }
+                        is Resource.Error -> {
+                            onComplete(Resource.Error(resource.message))
+                        }
+                    }
                 }
             }
         }
@@ -92,11 +104,7 @@ object RetrieveOnlineExamRepo {
 
             private lateinit var listener: TimerListener
 
-            init {
-                startTimer()
-            }
-
-            private fun startTimer() {
+            internal fun startTimer() {
                 val remainingTime = Duration.between(_datetime.plusSeconds(duration.toLong()), LocalDateTime.now()).toMillis()
 
                 if (isTakable && !isComplete && remainingTime > 0) {
@@ -104,7 +112,7 @@ object RetrieveOnlineExamRepo {
                         .schedule(
                             onUpdate = {
                                 if (::listener.isInitialized) {
-                                    listener.onUpdate(it)
+                                    listener.onUpdate(it / 1000)
 //                                    listener.onUpdate(formatSeconds(it))
                                 }
                             },

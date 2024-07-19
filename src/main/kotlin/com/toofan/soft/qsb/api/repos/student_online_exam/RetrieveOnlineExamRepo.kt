@@ -31,14 +31,14 @@ object RetrieveOnlineExamRepo {
                 ) {
 //                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
 
-                    val resource = Response.map(it).getResource() as Resource<Response.Data>
-                    onComplete(resource)
-
-                    when (resource) {
+                    when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
-                            resource.data?.let { data ->
+                            resource.data?.let {
+                                it.startTimer()
+                                onComplete(Resource.Success(it))
+
                                 StudentPusherListener.addListener { new ->
-                                    data.copy(
+                                    it.copy(
                                         isTakable = new.isTakable,
                                         isSuspended = new.isSuspended,
                                         isCanceled = new.isCanceled,
@@ -49,7 +49,9 @@ object RetrieveOnlineExamRepo {
                                 }
                             }
                         }
-                        is Resource.Error -> {}
+                        is Resource.Error -> {
+                            onComplete(Resource.Error(resource.message))
+                        }
                     }
                 }
             }
@@ -122,11 +124,7 @@ object RetrieveOnlineExamRepo {
 
             private lateinit var listener: TimerListener
 
-            init {
-                startTimer()
-            }
-
-            private fun startTimer() {
+            internal fun startTimer() {
                 val remainingTime = Duration.between(_datetime.plusSeconds(duration.toLong()), LocalDateTime.now()).toMillis()
 
                 if (isTakable && !isCanceled && !isComplete && remainingTime > 0) {
@@ -134,7 +132,7 @@ object RetrieveOnlineExamRepo {
                         .schedule(
                             onUpdate = {
                                 if (::listener.isInitialized) {
-                                    listener.onUpdate(it)
+                                    listener.onUpdate(it / 1000)
 //                                    listener.onUpdate(formatSeconds(it))
                                 }
                             },
