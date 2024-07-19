@@ -27,7 +27,19 @@ object RetrievePracticeExamRepo {
                     route = Route.PracticeOnlineExam.Retrieve,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+//                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
+
+                    when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
+                        is Resource.Success -> {
+                            resource.data?.let {
+                                it.startTimer()
+                                onComplete(Resource.Success(it))
+                            }
+                        }
+                        is Resource.Error -> {
+                            onComplete(Resource.Error(resource.message))
+                        }
+                    }
                 }
             }
         }
@@ -93,11 +105,7 @@ object RetrievePracticeExamRepo {
 
             private lateinit var listener: TimerListener
 
-            init {
-                startTimer()
-            }
-
-            private fun startTimer() {
+            internal fun startTimer() {
                 if (isStarted && isSuspended == false && !isComplete && _remainingTime > 0) {
                     Timer((_remainingTime * 1000).toLong())
                         .schedule(
