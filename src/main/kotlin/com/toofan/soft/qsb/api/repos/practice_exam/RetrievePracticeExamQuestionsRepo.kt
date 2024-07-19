@@ -152,11 +152,12 @@ object RetrievePracticeExamQuestionsRepo {
                                 }
                             }
                         }
-                    } else if (isTrue != null && userAnswer != null) {
+//                    } else if (isTrue != null && userAnswer != null) {
+                    } else if (isTrue != null) {
                         if (choices == null) {
                             listOf(
                                 QuestionHelper.Data.Data.Type.CORRECT.toData().copy(isTrue = isTrue, isSelected = userAnswer),
-                                QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isTrue = !isTrue, isSelected = !userAnswer)
+                                QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isTrue = !isTrue, isSelected = if (userAnswer == null) null else !userAnswer)
                             )
                         } else {
                             emptyList()
