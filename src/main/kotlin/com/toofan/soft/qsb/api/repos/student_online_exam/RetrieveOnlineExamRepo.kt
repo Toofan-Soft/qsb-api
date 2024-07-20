@@ -34,7 +34,7 @@ object RetrieveOnlineExamRepo {
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             resource.data?.let {
-                                it.startTimer()
+                                it.run()
                                 onComplete(Resource.Success(it))
 
                                 StudentPusherListener.addListener { new ->
@@ -44,6 +44,9 @@ object RetrieveOnlineExamRepo {
                                         isCanceled = new.isCanceled,
                                         isComplete = new.isComplete
                                     ).also {
+                                        if (new.isCanceled || new.isComplete) {
+                                            Response.Data.stop()
+                                        }
                                         onComplete(Resource.Success(it))
                                     }
                                 }
@@ -122,31 +125,48 @@ object RetrieveOnlineExamRepo {
         ) : IResponse {
             val datetime get() = _datetime.string
 
-            private lateinit var listener: TimerListener
+//            private lateinit var listener: TimerListener
 
-            internal fun startTimer() {
+            companion object {
+                private var listener: TimerListener? = null
+                private var isRun: Boolean = false
+
+                internal fun stop() {
+                    isRun = false
+                }
+            }
+
+            internal fun run() {
+                isRun = true
+                startTimer()
+            }
+
+            private fun startTimer() {
                 val remainingTime = Duration.between(_datetime.plusSeconds(duration.toLong()), LocalDateTime.now()).toMillis()
 
                 if (isTakable && !isCanceled && !isComplete && remainingTime > 0) {
                     Timer((remainingTime * 1000))
                         .schedule(
                             onUpdate = {
-                                if (::listener.isInitialized) {
-                                    listener.onUpdate(it / 1000)
-//                                    listener.onUpdate(formatSeconds(it))
-                                }
+//                                if (::listener.isInitialized) {
+//                                    listener.onUpdate(it / 1000)
+////                                    listener.onUpdate(formatSeconds(it))
+//                                }
+                                listener?.onUpdate(it / 1000)
+                                isRun
                             },
                             onFinish = {
-                                if (::listener.isInitialized) {
-                                    listener.onFinish()
-                                }
+//                                if (::listener.isInitialized) {
+//                                    listener.onFinish()
+//                                }
+                                listener?.onFinish()
                             }
                         )
                 }
             }
 
             fun setOnRemainingTimerListener(listener: TimerListener) {
-                this.listener = listener
+                Data.listener = listener
             }
         }
 

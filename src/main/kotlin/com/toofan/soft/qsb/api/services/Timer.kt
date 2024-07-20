@@ -14,7 +14,8 @@ internal data class Timer(
     private val totalTime: Long
 ) {
     fun schedule(
-        onUpdate: (Long) -> Unit,
+//        onUpdate: (Long) -> Unit,
+        onUpdate: (Long) -> Boolean,
         onFinish: () -> Unit
     ) {
         val timer = Timer()
@@ -31,7 +32,9 @@ internal data class Timer(
                         onFinish()
                         timer.cancel()
                     } else {
-                        onUpdate(remainingTime)
+                        if (!onUpdate(remainingTime)) {
+                            timer.cancel()
+                        }
                     }
                 }
             },

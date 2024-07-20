@@ -1,6 +1,8 @@
 package com.toofan.soft.qsb.api.repos.user
 
 import com.toofan.soft.qsb.api.*
+import com.toofan.soft.qsb.api.session.Language
+import com.toofan.soft.qsb.api.session.Session
 
 object ChangeLanguageRepo {
     @JvmStatic
@@ -22,7 +24,19 @@ object ChangeLanguageRepo {
                     route = Route.User.ChangeLanguage,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+
+                    when (val resource = Response.map(it).getResource() as Resource<Boolean>) {
+                        is Resource.Success -> {
+                            Language.of(request!!._languageId)?.let {
+                                Session.updateLanguage(it)
+                                onComplete(Resource.Success(resource.data))
+                            } ?: onComplete(Resource.Error("Error!"))
+                        }
+                        is Resource.Error -> {
+                            onComplete(Resource.Error(resource.message))
+                        }
+                    }
                 }
             }
         }
@@ -36,6 +50,6 @@ object ChangeLanguageRepo {
 
     data class Request(
         @Field("language_id")
-        private val _languageId: Int
+        internal val _languageId: Int
     ) : IRequest
 }

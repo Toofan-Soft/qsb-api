@@ -32,12 +32,12 @@ object RetrievePracticeExamRepo {
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             resource.data?.let {
-                                it.startTimer()
-                                onComplete(Resource.Success(it))
+                                it.run()
+                                onComplete(resource)
                             }
                         }
                         is Resource.Error -> {
-                            onComplete(Resource.Error(resource.message))
+                            onComplete(resource)
                         }
                     }
                 }
@@ -103,29 +103,40 @@ object RetrievePracticeExamRepo {
         ) : IResponse {
             val datetime get() = _datetime.string
 
-            private lateinit var listener: TimerListener
+//            private lateinit var listener: TimerListener
+            companion object {
+                private var listener: TimerListener? = null
+                private var isRun: Boolean = false
 
-            internal fun startTimer() {
+                internal fun stop() {
+                    isRun = false
+                }
+            }
+
+            internal fun run() {
+                isRun = true
+                startTimer()
+            }
+
+            private fun startTimer() {
                 if (isStarted && isSuspended == false && !isComplete && _remainingTime > 0) {
                     Timer((_remainingTime * 1000).toLong())
                         .schedule(
                             onUpdate = {
-                                if (::listener.isInitialized) {
-                                    listener.onUpdate(it / 1000)
-//                                    listener.onUpdate(formatSeconds(it))
-                                }
+//                                if (::listener.isInitialized) {}
+                                listener?.onUpdate(it / 1000)
+                                isRun
                             },
                             onFinish = {
-                                if (::listener.isInitialized) {
-                                    listener.onFinish()
-                                }
+//                                if (::listener.isInitialized) {}
+                                listener?.onFinish()
                             }
                         )
                 }
             }
 
             fun setOnRemainingTimerListener(listener: TimerListener) {
-                this.listener = listener
+                Data.listener = listener
             }
         }
 

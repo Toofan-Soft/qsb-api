@@ -1,8 +1,10 @@
 package com.toofan.soft.qsb.api.session
 
-enum class Language {
-    ARABIC,
-    ENGLISH;
+enum class Language(
+    private val _symbol: String
+) {
+    ARABIC("ar"),
+    ENGLISH("en");
 
     companion object {
         fun of(id: Int): Language? {
@@ -11,4 +13,5 @@ enum class Language {
     }
 
     val id get() = this.ordinal
+    val symbol get() = this._symbol
 }

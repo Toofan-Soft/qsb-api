@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.practice_exam
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object SuspendPracticeExamRepo {
     @JvmStatic
@@ -25,7 +22,19 @@ object SuspendPracticeExamRepo {
                     route = Route.PracticeOnlineExam.Suspend,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+
+                    when (val resource = Response.map(it).getResource() as Resource<Boolean>) {
+                        is Resource.Success -> {
+                            resource.data?.let {
+                                RetrievePracticeExamRepo.Response.Data.stop()
+                                onComplete(resource)
+                            }
+                        }
+                        is Resource.Error -> {
+                            onComplete(resource)
+                        }
+                    }
                 }
             }
         }
