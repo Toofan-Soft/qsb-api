@@ -12,7 +12,7 @@ object Auth {
         this.listener = listener
     }
 
-    interface LanguageListener {
+    fun interface LanguageListener {
         fun onUpdate(language: Language)
     }
 }

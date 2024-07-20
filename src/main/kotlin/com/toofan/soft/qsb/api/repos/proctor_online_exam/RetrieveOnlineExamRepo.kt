@@ -120,9 +120,10 @@ object RetrieveOnlineExamRepo {
 
             private fun startTimer() {
                 val remainingTime = Duration.between(_datetime.plusSeconds(duration.toLong()), LocalDateTime.now()).toMillis()
+                println(remainingTime)
 
                 if (isTakable && !isComplete && remainingTime > 0) {
-                    Timer((remainingTime * 1000))
+                    Timer((remainingTime))
                         .schedule(
                             onUpdate = {
 //                                if (::listener.isInitialized) {
