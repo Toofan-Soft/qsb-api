@@ -7,6 +7,8 @@ internal object Session {
     private var _roles: List<Role>? = null
     private var _language: Language? = null
 
+    private lateinit var listener: LanguageListener
+
     internal val uid: String?
         get() = _uid
 
@@ -40,5 +42,18 @@ internal object Session {
 
     internal fun updateLanguage(language: Language) {
         _language = language
+
+        if (::listener.isInitialized) {
+            listener.onUpdate(language)
+        }
+    }
+
+
+    fun setOnLanguageChangeListener(listener: LanguageListener) {
+        this.listener = listener
+    }
+
+    interface LanguageListener {
+        fun onUpdate(language: Language)
     }
 }
