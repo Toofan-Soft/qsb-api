@@ -116,36 +116,87 @@ object RetrieveOnlineExamQuestionsRepo {
                 }
 
                 fun getChoices(): List<QuestionHelper.Data.Data> {
-                    return choices?.let {
-                        ArrayList<QuestionHelper.Data.Data>().apply {
-                            if (choices.mixed != null) {
-                                choices.mixed.choices.map {
-                                    QuestionHelper.Data.Data(
-                                        id = it.id,
-                                        content = it.content,
-                                        attachmentUrl = it.attachmentUrl
-                                    )
-                                }.also {
-                                    addAll(it)
-                                    add(
-                                        QuestionHelper.Data.Data.MIX_CHOICE
-                                    )
+                    return if (userAnswer == null) {
+                        if (choices == null) {
+                            QuestionHelper.Data.Data.Type.values().map { it.toData() }
+                        } else {
+                            ArrayList<QuestionHelper.Data.Data>().apply {
+                                if (choices.mixed != null) {
+                                    choices.mixed.choices.map {
+                                        QuestionHelper.Data.Data(
+                                            id = it.id,
+                                            content = it.content,
+                                            isSelected = it.isSelected,
+                                            attachmentUrl = it.attachmentUrl
+                                        )
+                                    }.also {
+                                        addAll(it)
+                                        add(
+                                            QuestionHelper.Data.Data.MIX_CHOICE.copy(
+                                                isSelected = choices.mixed.isSelected
+                                            )
+                                        )
+                                    }
                                 }
-                            }
 
-                            if (choices.unmixed != null) {
-                                choices.unmixed.map {
-                                    QuestionHelper.Data.Data(
-                                        id = it.id,
-                                        content = it.content,
-                                        attachmentUrl = it.attachmentUrl
-                                    )
-                                }.also {
-                                    addAll(it)
+                                if (choices.unmixed != null) {
+                                    choices.unmixed.map {
+                                        QuestionHelper.Data.Data(
+                                            id = it.id,
+                                            content = it.content,
+                                            isSelected = it.isSelected,
+                                            attachmentUrl = it.attachmentUrl
+                                        )
+                                    }.also {
+                                        addAll(it)
+                                    }
                                 }
                             }
                         }
-                    } ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
+                    } else {
+                        if (choices == null) {
+                            listOf(
+                                QuestionHelper.Data.Data.Type.CORRECT.toData().copy(isSelected = userAnswer),
+                                QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isSelected = !userAnswer)
+                            )
+                        } else {
+                            emptyList()
+                        }
+                    }
+
+
+//                    return choices?.let {
+//                        ArrayList<QuestionHelper.Data.Data>().apply {
+//                            if (choices.mixed != null) {
+//                                choices.mixed.choices.map {
+//                                    QuestionHelper.Data.Data(
+//                                        id = it.id,
+//                                        content = it.content,
+//                                        attachmentUrl = it.attachmentUrl,
+//                                        isSelected = it.isSelected
+//                                    )
+//                                }.also {
+//                                    addAll(it)
+//                                    add(
+//                                        QuestionHelper.Data.Data.MIX_CHOICE
+//                                    )
+//                                }
+//                            }
+//
+//                            if (choices.unmixed != null) {
+//                                choices.unmixed.map {
+//                                    QuestionHelper.Data.Data(
+//                                        id = it.id,
+//                                        content = it.content,
+//                                        attachmentUrl = it.attachmentUrl,
+//                                        isSelected = it.isSelected
+//                                    )
+//                                }.also {
+//                                    addAll(it)
+//                                }
+//                            }
+//                        }
+//                    } ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
 
 //                    return choices?.flatMap { choice ->
 //                        if (choice.mix == null) {
