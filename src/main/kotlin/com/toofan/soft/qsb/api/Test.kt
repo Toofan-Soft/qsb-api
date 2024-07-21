@@ -6,6 +6,7 @@ import com.toofan.soft.qsb.api.repos.college.RetrieveCollegeRepo
 import com.toofan.soft.qsb.api.repos.department.RetrieveDepartmentRepo
 import com.toofan.soft.qsb.api.repos.department_course.RetrieveDepartmentCourseRepo
 import com.toofan.soft.qsb.api.repos.filter.RetrieveDepartmentLecturerCurrentCoursesRepo
+import com.toofan.soft.qsb.api.repos.filter.RetrieveLecturerCollegesRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.AddOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveEditableOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormQuestionsRepo
@@ -13,16 +14,16 @@ import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamForm
 import com.toofan.soft.qsb.api.repos.paper_exam.ModifyPaperExamRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.RetrievePaperExamFormQuestionsRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.RetrievePaperExamFormsRepo
-import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamQuestionsRepo
-import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamRepo
-import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsAndroidRepo
-import com.toofan.soft.qsb.api.repos.practice_exam.RetrievePracticeExamsRepo
+import com.toofan.soft.qsb.api.repos.practice_exam.*
+import com.toofan.soft.qsb.api.repos.proctor_online_exam.RetrieveOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.proctor_online_exam.RetrieveOnlineExamStudentsRepo
+import com.toofan.soft.qsb.api.repos.proctor_online_exam.StartStudentOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.question.AddQuestionRepo
 import com.toofan.soft.qsb.api.repos.student.RetrieveStudentRepo
 import com.toofan.soft.qsb.api.repos.student_online_exam.RetrieveOnlineExamQuestionsRepo
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.repos.user.RetrieveProfileRepo
+import com.toofan.soft.qsb.api.services.TimerListener
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.time.LocalDateTime
@@ -330,7 +331,19 @@ private suspend fun retrieveStudent() {
 private suspend fun retrieveOnlineExamStudents() {
     RetrieveOnlineExamStudentsRepo.execute(
         data = {
-            it.invoke(2)
+            it.invoke(11)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun retrieveOnlineExamStudentQuestions() {
+    RetrieveOnlineExamQuestionsRepo.execute(
+        data = {
+            it.invoke(11)
         },
         onComplete = {
             println("complete...")
@@ -357,15 +370,13 @@ private suspend fun retrieveOnlineExamFormQuestions() {
 private suspend fun retrieveOnlineExamQuestions() {
     RetrieveOnlineExamQuestionsRepo.execute(
         data = {
-            it.invoke(2)
+            it.invoke(8)
         },
         onComplete = {
             println("complete...")
 //            println(it.data)
             it.data!!.forEach {
-                it.questions.forEach {
-                    println(it.getChoices())
-                }
+                println(it.getChoices())
             }
         }
     )
@@ -391,7 +402,7 @@ private suspend fun retrievePaperExamFormQuestions1() {
 private suspend fun retrievePracticeExamQuestions1() {
     RetrievePracticeExamQuestionsRepo.execute(
         data = {
-            it.invoke(1)
+            it.invoke(4)
         },
         onComplete = {
             println("complete...")
@@ -401,6 +412,97 @@ private suspend fun retrievePracticeExamQuestions1() {
                     println(it.getChoices())
 //                }
             }
+        }
+    )
+}
+
+private suspend fun retrieveColleges() {
+    RetrieveLecturerCollegesRepo.execute(
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun retrievePracticeExam() {
+    RetrievePracticeExamRepo.execute(
+        data = {
+            it.invoke(8)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+
+            it.data!!.setOnRemainingTimerListener(object : TimerListener {
+                override fun onUpdate(value: Long) {
+                    println("...")
+                    println((value / 1000).toString())
+                }
+
+                override fun onFinish() {
+                    println("Finish.")
+                }
+
+            });
+//            it.data!!.forEach {
+////                it.questions.forEach {
+//                    println(it.getChoices())
+////                }
+//            }
+        }
+    )
+}
+
+private suspend fun retrieveProctorOnlineExam() {
+    RetrieveOnlineExamRepo.execute(
+        data = {
+            it.invoke(8)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+
+            it.data!!.setOnRemainingTimerListener(object : TimerListener {
+                override fun onUpdate(value: Long) {
+                    println("...")
+                    println((value).toString())
+                }
+
+                override fun onFinish() {
+                    println("Finish.")
+                }
+
+            });
+//            it.data!!.forEach {
+////                it.questions.forEach {
+//                    println(it.getChoices())
+////                }
+//            }
+        }
+    )
+}
+
+private suspend fun startStudent() {
+    StartStudentOnlineExamRepo.execute(
+        data = {
+            it.invoke(8, 8)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
+private suspend fun retrievePracticeExamResult() {
+    RetrievePracticeExamResultRepo.execute(
+        data = {
+            it.invoke(1)
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
         }
     )
 }
@@ -435,12 +537,14 @@ private suspend fun addQuestion() {
 fun main() {
     runBlocking {
         Api.init("192.168.1.15")
+//        Api.init("192.168.1.13")
         LoginRepo.execute(
             data = {
 //                it.invoke("llll123456@gmail.com", "llll123456")
 //                it.invoke("ssss1234@gmail.com", "ssss1234")
-                it.invoke("fadi@gmail.com", "fadi1234")
-//                it.invoke("mohammed@gmail.com", "mohammed")
+//                it.invoke("fadi@gmail.com", "fadi1234")
+                it.invoke("mohammed@gmail.com", "mohammed")
+//                it.invoke("fadiadmin@gmail.com", "fadiadmin")
             },
             onComplete = {
                 println("complete")
@@ -470,12 +574,20 @@ fun main() {
 
 //                    addQuestion()
 
+//                    retrieveProctorOnlineExam()
 //                    retrieveOnlineExamStudents()
 //                    retrieveOnlineExamFormQuestions()
 //                    retrievePaperExamFormQuestions1()
 //                    retrievePracticeExamQuestions1()
+//                    retrievePracticeExam()
+//                    retrievePracticeExamResult()
 
-                    retrieveOnlineExamQuestions()
+//                    retrieveOnlineExamQuestions()
+
+//                    startStudent()
+
+//                    retrieveColleges()
+                    retrieveOnlineExamStudentQuestions()
                 }
             }
         )
