@@ -104,6 +104,7 @@ object RetrieveOnlineExamStudentsRepo {
             @Field("answered_questions_count")
             val answeredQuestionsCount: Int? = null,
 
+            @Field("is_suspended")
             val isSuspended: Boolean? = null
         ) : IResponse {
             val startTime get() = _startTime?.string
