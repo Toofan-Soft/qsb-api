@@ -49,12 +49,12 @@ object RetrieveOnlineExamQuestionsRepo {
         @Field("data")
         val data: List<Data> = emptyList()
     ) : IResponse {
-        data class Data(
-            @Field("type_name")
-            val typeName: String = "",
-            @Field("questions")
-            val questions: List<Data> = emptyList()
-        ) : IResponse {
+//        data class Data(
+//            @Field("type_name")
+//            val typeName: String = "",
+//            @Field("questions")
+//            val questions: List<Data> = emptyList()
+//        ) : IResponse {
             data class Data(
                 @Field("id")
                 val id: Int = 0,
@@ -62,6 +62,9 @@ object RetrieveOnlineExamQuestionsRepo {
                 val content: String = "",
                 @Field("attachment_url")
                 val attachmentUrl: String? = null,
+                @Field("user_answer")
+                private val userAnswer: Boolean? = null,
+
                 @Field("choices")
                 private val choices: Data? = null
             ) : IResponse {
@@ -94,6 +97,8 @@ object RetrieveOnlineExamQuestionsRepo {
                     data class Data(
                         @Field("id")
                         val id: Int = 0,
+                        @Field("is_selected")
+                        val isSelected: Boolean? = null,
                         @Field("choices")
                         val choices: List<Data> = emptyList()
                     ) : IResponse {
@@ -103,7 +108,9 @@ object RetrieveOnlineExamQuestionsRepo {
                             @Field("content")
                             val content: String = "",
                             @Field("attachment_url")
-                            val attachmentUrl: String? = null
+                            val attachmentUrl: String? = null,
+                            @Field("is_selected")
+                            val isSelected: Boolean? = null
                         ) : IResponse
                     }
                 }
@@ -216,7 +223,7 @@ object RetrieveOnlineExamQuestionsRepo {
 //                    )
 //                }
 //            }
-        }
+//        }
 
         companion object {
             private fun getInstance(): Response {
