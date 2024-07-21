@@ -137,12 +137,15 @@ object RetrieveOnlineExamRepo {
             }
 
             internal fun run() {
+                if (isRun) {
+                    isRun = false
+                }
                 isRun = true
                 startTimer()
             }
 
             private fun startTimer() {
-                val remainingTime = Duration.between(_datetime.plusSeconds(duration.toLong()), LocalDateTime.now()).toMillis()
+                val remainingTime = Duration.between(_datetime.plusSeconds((duration * 60).toLong()), LocalDateTime.now()).toMillis()
 
                 if (isTakable && !isCanceled && !isComplete && remainingTime > 0) {
                     Timer((remainingTime))
