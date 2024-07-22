@@ -36,10 +36,6 @@ object ExportPaperExamToPdfRepo {
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             if (resource.data != null) {
-                                println("**************************")
-                                println(resource.data)
-                                println("**************************")
-//                                return@execute
                                 PdfGenerator.build(
                                     Data(
                                         resource.data.universityName,

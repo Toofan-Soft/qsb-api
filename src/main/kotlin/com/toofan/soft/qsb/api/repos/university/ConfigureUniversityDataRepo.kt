@@ -26,13 +26,12 @@ object ConfigureUniversityDataRepo {
             )
 
             request?.let {
-                println(it.parametersPost)
-//                ApiExecutor.execute(
-//                    route = Route.University.Configure,
-//                    request = it
-//                ) {
-//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
-//                }
+                ApiExecutor.execute(
+                    route = Route.University.Configure,
+                    request = it
+                ) {
+                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+                }
             }
         }
     }
