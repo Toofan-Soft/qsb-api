@@ -3,8 +3,10 @@ package com.toofan.soft.qsb.api.repos.paper_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.helper.QuestionHelper
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.services.pdf.Data
 import com.toofan.soft.qsb.api.services.pdf.PdfGenerator
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 
 object ExportPaperExamToPdfRepo {
@@ -34,6 +36,10 @@ object ExportPaperExamToPdfRepo {
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             if (resource.data != null) {
+                                println("**************************")
+                                println(resource.data)
+                                println("**************************")
+//                                return@execute
                                 PdfGenerator.build(
                                     Data(
                                         resource.data.universityName,
@@ -170,9 +176,10 @@ object ExportPaperExamToPdfRepo {
     data class Request(
         @Field("id")
         private val _id: Int,
-        @Field("with_mirror")
+//        @Field("with_mirror")
         internal val _withMirror: OptionalVariable<Boolean> = OptionalVariable(),
-        @Field("with_answer_mirror")
+//        @Field("with_answer_mirror")
+        @Field("with_answer")
         internal val _withAnswerMirror: OptionalVariable<Boolean> = OptionalVariable()
     ) : IRequest {
         val withMirror = loggableProperty(_withMirror)
@@ -241,18 +248,41 @@ object ExportPaperExamToPdfRepo {
                     @Field("is_true")
                     internal val isTrue: Boolean? = null,
                     @Field("choices")
-                    private val choices: List<Data>? = null
+                    private val choices: Data? = null
                 ) : IResponse {
+//                    data class Data(
+//                        @Field("content")
+//                        val content: String = "",
+//                        @Field("is_true")
+//                        val isTrue: Boolean = false,
+//                        @Field("attachment_url")
+//                        val attachmentUrl: String? = null,
+//                        @Field("mix")
+//                        val mix: List<Data>? = null
+//                    ) : IResponse
+
                     data class Data(
-                        @Field("content")
-                        val content: String = "",
-                        @Field("is_true")
-                        val isTrue: Boolean = false,
-                        @Field("attachment_url")
-                        val attachmentUrl: String? = null,
-                        @Field("mix")
-                        val mix: List<Data>? = null
-                    ) : IResponse
+                        @Field("unmixed")
+                        val unmixed: List<Data.Data>? = null,
+                        @Field("mixed")
+                        val mixed: Data? = null
+                    ) : IResponse {
+                        data class Data(
+                            @Field("is_true")
+                            val isTrue: Boolean? = null,
+                            @Field("choices")
+                            val choices: List<Data> = emptyList()
+                        ) : IResponse {
+                            data class Data(
+                                @Field("content")
+                                val content: String = "",
+                                @Field("attachment_url")
+                                val attachmentUrl: String? = null,
+                                @Field("is_true")
+                                val isTrue: Boolean? = null
+                            ) : IResponse
+                        }
+                    }
 
                     fun getChoices(): List<QuestionHelper.Data.Data> {
                         return if (isTrue != null && choices == null) {
@@ -261,41 +291,35 @@ object ExportPaperExamToPdfRepo {
                                 QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isTrue = !isTrue)
                             )
                         } else if (isTrue == null && choices != null) {
-                            choices.map {
-                                QuestionHelper.Data.Data(
-                                    id = 0,
-                                    content = it.content,
-                                    isTrue = it.isTrue,
-                                    attachmentUrl = it.attachmentUrl
-                                )
-                            }
-
-                            choices.flatMap { choice ->
-                                if (choice.mix == null) {
-                                    listOf(
+                            ArrayList<QuestionHelper.Data.Data>().apply {
+                                if (choices.mixed != null) {
+                                    choices.mixed.choices.map {
                                         QuestionHelper.Data.Data(
                                             id = 0,
-                                            content = choice.content,
-                                            isTrue = choice.isTrue,
-                                            attachmentUrl = choice.attachmentUrl
+                                            content = it.content,
+                                            isTrue = it.isTrue,
+                                            attachmentUrl = it.attachmentUrl
                                         )
-                                    )
-                                } else {
-                                    choice.mix.map { choice ->
-                                        QuestionHelper.Data.Data(
-                                            id = 0,
-                                            content = choice.content,
-                                            isTrue = choice.isTrue,
-                                            attachmentUrl = choice.attachmentUrl
-                                        )
-                                    }.let {
-                                        ArrayList(it).also {
-                                            it.add(
-                                                QuestionHelper.Data.Data.MIX_CHOICE.copy(
-                                                    isTrue = choice.isTrue
-                                                )
+                                    }.also {
+                                        addAll(it)
+                                        add(
+                                            QuestionHelper.Data.Data.MIX_CHOICE.copy(
+                                                isTrue = choices.mixed.isTrue
                                             )
-                                        }
+                                        )
+                                    }
+                                }
+
+                                if (choices.unmixed != null) {
+                                    choices.unmixed.map {
+                                        QuestionHelper.Data.Data(
+                                            id = 0,
+                                            content = it.content,
+                                            isTrue = it.isTrue,
+                                            attachmentUrl = it.attachmentUrl
+                                        )
+                                    }.also {
+                                        addAll(it)
                                     }
                                 }
                             }
@@ -331,4 +355,62 @@ object ExportPaperExamToPdfRepo {
             )
         }
     }
+}
+
+
+fun main() {
+    val thread1 = Thread {
+        // First process
+        for (i in 1..10) {
+            println("Thread 1 - Count: $i")
+            Thread.sleep(2000) // Simulating work with sleep
+        }
+    }
+    val thread2 = Thread {
+        runBlocking {
+            Api.init("192.168.1.15")
+            LoginRepo.execute(
+                data = {
+                    it.invoke("fadi@gmail.com", "fadi1234")
+                },
+                onComplete = {
+                    println("complete")
+                    runBlocking {
+                        ExportPaperExamToPdfRepo.execute(
+                            data = { mandatory, optional ->
+                                mandatory.invoke(6)
+                                optional.invoke {
+                                    withAnswerMirror(true)
+                                }
+                            },
+                            onComplete = {
+                                when (it) {
+                                    is Resource.Success -> {
+                                        it.data?.let {
+                                            println("**************** Listen ****************")
+                                            println("papers: " + it.papers.size)
+                                            println("mirrors: " + it.mirrors.size)
+                                            println("answer mirrors: " + it.answerMirrors.size)
+                                            println("****************************************")
+                                        } ?: println("Error")
+                                    }
+                                    is Resource.Error -> {
+
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
+    }
+
+    thread1.start()
+    thread2.start()
+
+    thread1.join() // Wait for thread1 to finish
+    thread2.join() // Wait for thread2 to finish
+
+    println("Both threads have finished")
 }

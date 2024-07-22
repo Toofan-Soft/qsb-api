@@ -49,6 +49,9 @@ object RetrieveOnlineExamRepo {
                                         if (new.isCanceled || new.isComplete) {
                                             Response.Data.stop()
                                         }
+                                        if (new.isTakable) {
+                                            it.run()
+                                        }
                                         onComplete(Resource.Success(it))
                                     }
                                 }
@@ -198,17 +201,18 @@ fun main() {
 
     val thread2 = Thread {
         runBlocking {
-            Api.init("192.168.1.15")
+            Api.init("192.168.1.13")
             LoginRepo.execute(
                 data = {
-                    it.invoke("mohammed@gmail.com", "mohammed")
+//                    it.invoke("mohammed@gmail.com", "mohammed")
+                    it.invoke("student@gmail.com", "1dztjayi")
                 },
                 onComplete = {
                     println("complete")
                     runBlocking {
                         RetrieveOnlineExamRepo.execute(
                             data = {
-                                it.invoke(12)
+                                it.invoke(16)
                             },
                             onComplete = {
                                 when (it) {
@@ -216,7 +220,7 @@ fun main() {
                                         it.data?.let {
                                             it.setOnRemainingTimerListener(object : TimerListener {
                                                 override fun onUpdate(value: Long) {
-
+                                                    println(value)
                                                 }
 
                                                 override fun onFinish() {
