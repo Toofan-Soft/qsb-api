@@ -12,7 +12,7 @@ internal val LocalTime.string: String
     get() = this.format(DateTimeFormatter.ofPattern("hh:mm a"))
 
 internal val LocalDateTime.string: String
-    get() = this.format(DateTimeFormatter.ofPattern("hh:mm a"))
+    get() = this.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a"))
 
 internal val Long.datetime get() = LocalDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
 internal val Long.date get() = LocalDate.ofEpochDay(this)

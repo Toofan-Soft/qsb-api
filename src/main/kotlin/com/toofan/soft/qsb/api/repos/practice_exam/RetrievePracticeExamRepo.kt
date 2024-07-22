@@ -103,7 +103,6 @@ object RetrievePracticeExamRepo {
         ) : IResponse {
             val datetime get() = _datetime.string
 
-//            private lateinit var listener: TimerListener
             companion object {
                 private var listener: TimerListener? = null
                 private var isRun: Boolean = false

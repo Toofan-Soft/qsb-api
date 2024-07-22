@@ -3,8 +3,10 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.services.Timer
 import com.toofan.soft.qsb.api.services.TimerListener
+import kotlinx.coroutines.runBlocking
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -119,7 +121,7 @@ object RetrieveOnlineExamRepo {
             }
 
             private fun startTimer() {
-                val remainingTime = Duration.between(_datetime.plusSeconds((duration * 60).toLong()), LocalDateTime.now()).toMillis()
+                val remainingTime = Duration.between(LocalDateTime.now(), _datetime.plusSeconds((duration * 60).toLong())).toMillis()
 
                 if (isTakable && !isComplete && remainingTime > 0) {
                     Timer((remainingTime))
@@ -149,5 +151,43 @@ object RetrieveOnlineExamRepo {
                 return getInstance().getResponse(data) as Response
             }
         }
+    }
+}
+
+
+fun main() {
+    runBlocking {
+        Api.init("192.168.1.15")
+        LoginRepo.execute(
+            data = {
+                it.invoke("fadi@gmail.com", "fadi1234")
+            },
+            onComplete = {
+                println("complete")
+                runBlocking {
+                    RetrieveOnlineExamRepo.execute(
+                        data = {
+                            it.invoke(12)
+                        },
+                        onComplete = {
+                            println("complete...")
+                            println(it.data)
+
+                            it.data!!.setOnRemainingTimerListener(object : TimerListener {
+                                override fun onUpdate(value: Long) {
+                                    println("...")
+                                    println((value).toString())
+                                }
+
+                                override fun onFinish() {
+                                    println("Finish.")
+                                }
+
+                            })
+                        }
+                    )
+                }
+            }
+        )
     }
 }

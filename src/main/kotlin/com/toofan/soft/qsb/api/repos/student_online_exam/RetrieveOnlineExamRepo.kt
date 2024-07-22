@@ -3,9 +3,11 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.services.Timer
 import com.toofan.soft.qsb.api.services.TimerListener
 import com.toofan.soft.qsb.api.test.StudentPusherListener
+import kotlinx.coroutines.runBlocking
 import java.time.Duration
 import java.time.LocalDateTime
 
@@ -145,7 +147,7 @@ object RetrieveOnlineExamRepo {
             }
 
             private fun startTimer() {
-                val remainingTime = Duration.between(_datetime.plusSeconds((duration * 60).toLong()), LocalDateTime.now()).toMillis()
+                val remainingTime = Duration.between(LocalDateTime.now(), _datetime.plusSeconds((duration * 60).toLong())).toMillis()
 
                 if (isTakable && !isCanceled && !isComplete && remainingTime > 0) {
                     Timer((remainingTime))
@@ -183,4 +185,63 @@ object RetrieveOnlineExamRepo {
             }
         }
     }
+}
+
+fun main() {
+    val thread1 = Thread {
+        // First process
+        for (i in 1..10) {
+            println("Thread 1 - Count: $i")
+            Thread.sleep(2000) // Simulating work with sleep
+        }
+    }
+
+    val thread2 = Thread {
+        runBlocking {
+            Api.init("192.168.1.15")
+            LoginRepo.execute(
+                data = {
+                    it.invoke("mohammed@gmail.com", "mohammed")
+                },
+                onComplete = {
+                    println("complete")
+                    runBlocking {
+                        RetrieveOnlineExamRepo.execute(
+                            data = {
+                                it.invoke(12)
+                            },
+                            onComplete = {
+                                when (it) {
+                                    is Resource.Success -> {
+                                        it.data?.let {
+                                            it.setOnRemainingTimerListener(object : TimerListener {
+                                                override fun onUpdate(value: Long) {
+
+                                                }
+
+                                                override fun onFinish() {
+                                                    TODO("Not yet implemented")
+                                                }
+                                            })
+                                        }
+                                    }
+                                    is Resource.Error -> {
+
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
+    }
+
+    thread1.start()
+    thread2.start()
+
+    thread1.join() // Wait for thread1 to finish
+    thread2.join() // Wait for thread2 to finish
+
+    println("Both threads have finished")
 }

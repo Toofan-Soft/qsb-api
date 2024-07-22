@@ -3,7 +3,9 @@ package com.toofan.soft.qsb.api.repos.proctor_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
 import com.toofan.soft.qsb.api.test.ProctorPusherListener
+import kotlinx.coroutines.runBlocking
 import java.time.LocalTime
 
 object RetrieveOnlineExamStudentsRepo {
@@ -28,12 +30,11 @@ object RetrieveOnlineExamStudentsRepo {
                 ) {
 //                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
 
-                    val resource = Response.map(it).getResource() as Resource<List<Response.Data>>
-                    onComplete(resource)
-
-                    when (resource) {
+                    when (val resource = Response.map(it).getResource() as Resource<List<Response.Data>>) {
                         is Resource.Success -> {
                             resource.data?.let { data ->
+                                onComplete(Resource.Success(data))
+
                                 ProctorPusherListener.addListener { new ->
                                     data.map {
                                         if (it.id != new.id) {
@@ -124,4 +125,59 @@ object RetrieveOnlineExamStudentsRepo {
             }
         }
     }
+}
+
+fun main() {
+    val thread1 = Thread {
+        // First process
+        for (i in 1..10) {
+            println("Thread 1 - Count: $i")
+            Thread.sleep(2000) // Simulating work with sleep
+        }
+    }
+
+    val thread2 = Thread {
+        runBlocking {
+            Api.init("192.168.1.15")
+            LoginRepo.execute(
+                data = {
+                    it.invoke("fadi@gmail.com", "fadi1234")
+                },
+                onComplete = {
+                    println("complete")
+                    runBlocking {
+                        RetrieveOnlineExamStudentsRepo.execute(
+                            data = {
+                                it.invoke(13)
+                            },
+                            onComplete = {
+                                when (it) {
+                                    is Resource.Success -> {
+                                        it.data?.let {
+                                            println("**************** Listen ****************")
+                                            it.forEach {
+                                                println(it.toString())
+                                            }
+                                            println("****************************************")
+                                        } ?: println("Error")
+                                    }
+                                    is Resource.Error -> {
+
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
+    }
+
+    thread1.start()
+    thread2.start()
+
+    thread1.join() // Wait for thread1 to finish
+    thread2.join() // Wait for thread2 to finish
+
+    println("Both threads have finished")
 }
