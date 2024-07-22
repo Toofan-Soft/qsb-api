@@ -87,5 +87,7 @@ fun main() {
 
     println("Formatted LocalTime: ${time.string}")
     println("Formatted LocalDateTime: ${dateTime.string}")
+    println("Formatted LocalDateTime: ${dateTime.minusDays(1).long}")
+    println("Formatted LocalDateTime: ${dateTime.plusDays(1).long}")
 
 }
