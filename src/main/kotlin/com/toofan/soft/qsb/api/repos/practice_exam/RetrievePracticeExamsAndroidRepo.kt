@@ -3,6 +3,8 @@ package com.toofan.soft.qsb.api.repos.practice_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
 
 object RetrievePracticeExamsAndroidRepo {
@@ -89,5 +91,30 @@ object RetrievePracticeExamsAndroidRepo {
                 return getInstance().getResponse(data) as Response
             }
         }
+    }
+}
+
+fun main() {
+    runBlocking {
+        Api.init("192.168.1.15")
+        LoginRepo.execute(
+            data = {
+                it.invoke("fadi@gmail.com", "fadi1234")
+            },
+            onComplete = {
+                println("complete")
+                runBlocking {
+                    RetrievePracticeExamsAndroidRepo.execute(
+                        data = {
+//                            it.invoke(12)
+                        },
+                        onComplete = {
+                            println("complete...")
+                            println(it.data)
+                        }
+                    )
+                }
+            }
+        )
     }
 }

@@ -94,8 +94,8 @@ internal interface IResponse {
             when (val targetType = field.type) {
                 Int::class.java, java.lang.Integer::class.java -> value.asString.toIntOrNull()
                 Long::class.java, java.lang.Long::class.java -> value.asString.toLongOrNull()
-                Float::class.java -> value.asFloat
-                Double::class.java -> value.asDouble
+                Float::class.java, java.lang.Float::class.java -> value.asFloat
+                Double::class.java, java.lang.Double::class.java -> value.asDouble
                 Boolean::class.java, java.lang.Boolean::class.java -> value.asBoolean
                 String::class.java -> if (value.isJsonNull) null else value.asString
                 LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.datetime
@@ -107,8 +107,8 @@ internal interface IResponse {
                         when(listType) {
                             Int::class.java, java.lang.Integer::class.java -> value.asJsonArray.map { it.asInt }
                             Long::class.java, java.lang.Long::class.java -> value.asJsonArray.map { it.asLong }
-                            Float::class.java -> value.asJsonArray.map { it.asFloat }
-                            Double::class.java -> value.asJsonArray.map { it.asDouble }
+                            Float::class.java, java.lang.Float::class.java -> value.asJsonArray.map { it.asFloat }
+                            Double::class.java, java.lang.Double::class.java -> value.asJsonArray.map { it.asDouble }
                             Boolean::class.java, java.lang.Boolean::class.java -> value.asJsonArray.map { it.asBoolean }
                             String::class.java -> value.asJsonArray.map { it.asString }
                             LocalDateTime::class.java -> (if (value.isJsonNull) null else value.asString.toDoubleOrNull()?.toLong())?.datetime
