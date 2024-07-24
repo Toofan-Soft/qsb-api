@@ -22,7 +22,17 @@ object FinishOnlineExamRepo {
                     route = Route.ProctorOnlineExam.Finish,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+
+                    when (val resource = Response.map(it).getResource() as Resource<Boolean>) {
+                        is Resource.Success -> {
+                            RetrieveOnlineExamRepo.Response.Data.stop()
+                            onComplete(resource)
+                        }
+                        is Resource.Error -> {
+                            onComplete(resource)
+                        }
+                    }
                 }
             }
         }

@@ -18,7 +18,6 @@ object AddCourseStudentsRepo {
             }
 
             request?.let {
-//                println(it.parametersPost)
                 ApiExecutor.execute(
                     route = Route.CourseStudent.AddList,
                     request = it

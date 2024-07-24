@@ -35,7 +35,12 @@ object RetrieveOnlineExamRepo {
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             resource.data?.let {
-                                it.run()
+                                if (it.isComplete) {
+                                    Response.Data.stop()
+                                }
+                                if (it.isTakable) {
+                                    it.run()
+                                }
                                 onComplete(Resource.Success(it))
                             }
                         }
@@ -116,6 +121,15 @@ object RetrieveOnlineExamRepo {
             }
 
             internal fun run() {
+                if (isRun) {
+                    stop()
+                    Thread {
+                        Thread.sleep(3000) // Simulating work with sleep
+                    }.apply {
+                        start()
+                        join()
+                    }
+                }
                 isRun = true
                 startTimer()
             }
@@ -127,11 +141,14 @@ object RetrieveOnlineExamRepo {
                     Timer((remainingTime))
                         .schedule(
                             onUpdate = {
-                                listener?.onUpdate(it / 1000)
+                                if (isRun) {
+                                    listener?.onUpdate(it / 1000)
+                                }
                                 isRun
                             },
                             onFinish = {
                                 listener?.onFinish()
+                                stop()
                             }
                         )
                 }

@@ -12,7 +12,6 @@ object RetrieveGendersRepo {
             ApiExecutor.execute(
                 route = Route.Enum.RetrieveGenderList
             ) {
-                println(Response.map(it).data.size.toString())
                 onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
             }
         }

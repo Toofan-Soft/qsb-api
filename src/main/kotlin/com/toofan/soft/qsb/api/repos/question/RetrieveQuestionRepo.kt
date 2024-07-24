@@ -3,6 +3,8 @@ package com.toofan.soft.qsb.api.repos.question
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.helper.QuestionHelper
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import kotlinx.coroutines.runBlocking
 
 object RetrieveQuestionRepo {
     @JvmStatic
@@ -176,4 +178,59 @@ object RetrieveQuestionRepo {
             }
         }
     }
+}
+
+
+fun main() {
+    val thread1 = Thread {
+        // First process
+        for (i in 1..10) {
+            println("Thread 1 - Count: $i")
+            Thread.sleep(2000) // Simulating work with sleep
+        }
+    }
+
+    val thread2 = Thread {
+        runBlocking {
+            Api.init("192.168.1.13")
+            LoginRepo.execute(
+                data = {
+//                    it.invoke("fadi@gmail.com", "fadi1234")
+                    it.invoke("fadiadmin@gmail.com", "fadiadmin")
+                },
+                onComplete = {
+                    println("complete")
+                    runBlocking {
+                        RetrieveQuestionRepo.execute(
+                            data = {
+                                it.invoke(60)
+                            },
+                            onComplete = {
+                                when (it) {
+                                    is Resource.Success -> {
+                                        it.data?.let {
+                                            println("**************** Listen ****************")
+                                            println(it.toString())
+                                            println("****************************************")
+                                        } ?: println("Error")
+                                    }
+                                    is Resource.Error -> {
+
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
+    }
+
+    thread1.start()
+    thread2.start()
+
+    thread1.join() // Wait for thread1 to finish
+    thread2.join() // Wait for thread2 to finish
+
+    println("Both threads have finished")
 }

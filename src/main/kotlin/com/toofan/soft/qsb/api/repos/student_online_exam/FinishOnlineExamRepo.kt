@@ -1,9 +1,6 @@
 package com.toofan.soft.qsb.api.repos.student_online_exam
 
 import com.toofan.soft.qsb.api.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 object FinishOnlineExamRepo {
     @JvmStatic
@@ -25,7 +22,17 @@ object FinishOnlineExamRepo {
                     route = Route.StudentOnlineExam.Finish,
                     request = it
                 ) {
-                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+//                    onComplete(Response.map(it).getResource() as Resource<Boolean>)
+
+                    when (val resource = Response.map(it).getResource() as Resource<Boolean>) {
+                        is Resource.Success -> {
+                            RetrieveOnlineExamRepo.Response.Data.stop()
+                            onComplete(resource)
+                        }
+                        is Resource.Error -> {
+                            onComplete(resource)
+                        }
+                    }
                 }
             }
         }

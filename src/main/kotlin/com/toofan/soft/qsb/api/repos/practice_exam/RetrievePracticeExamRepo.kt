@@ -32,7 +32,12 @@ object RetrievePracticeExamRepo {
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             resource.data?.let {
-                                it.run()
+                                if (it.isComplete || it.isSuspended == true || !it.isStarted) {
+                                    Response.Data.stop()
+                                }
+                                if (it.isStarted && it.isSuspended == false && !it.isComplete) {
+                                    it.run()
+                                }
                                 onComplete(resource)
                             }
                         }
@@ -112,7 +117,21 @@ object RetrievePracticeExamRepo {
                 }
             }
 
+//            internal fun run() {
+//                isRun = true
+//                startTimer()
+//            }
+
             internal fun run() {
+                if (isRun) {
+                    stop()
+                    Thread {
+                        Thread.sleep(3000) // Simulating work with sleep
+                    }.apply {
+                        start()
+                        join()
+                    }
+                }
                 isRun = true
                 startTimer()
             }
@@ -122,13 +141,14 @@ object RetrievePracticeExamRepo {
                     Timer((_remainingTime * 1000).toLong())
                         .schedule(
                             onUpdate = {
-//                                if (::listener.isInitialized) {}
-                                listener?.onUpdate(it / 1000)
+                                if (isRun) {
+                                    listener?.onUpdate(it / 1000)
+                                }
                                 isRun
                             },
                             onFinish = {
-//                                if (::listener.isInitialized) {}
                                 listener?.onFinish()
+                                stop()
                             }
                         )
                 }

@@ -52,13 +52,13 @@ object RetrieveOnlineExamRepo {
                                         if (new.isTakable) {
                                             it.run()
                                         }
-                                        onComplete(Resource.Success(it))
+                                        onComplete(resource)
                                     }
                                 }
                             }
                         }
                         is Resource.Error -> {
-                            onComplete(Resource.Error(resource.message))
+                            onComplete(resource)
                         }
                     }
                 }
@@ -143,7 +143,13 @@ object RetrieveOnlineExamRepo {
 
             internal fun run() {
                 if (isRun) {
-                    isRun = false
+                    stop()
+                    Thread {
+                        Thread.sleep(3000) // Simulating work with sleep
+                    }.apply {
+                        start()
+                        join()
+                    }
                 }
                 isRun = true
                 startTimer()
@@ -156,18 +162,14 @@ object RetrieveOnlineExamRepo {
                     Timer((remainingTime))
                         .schedule(
                             onUpdate = {
-//                                if (::listener.isInitialized) {
-//                                    listener.onUpdate(it / 1000)
-////                                    listener.onUpdate(formatSeconds(it))
-//                                }
-                                listener?.onUpdate(it / 1000)
+                                if (isRun) {
+                                    listener?.onUpdate(it / 1000)
+                                }
                                 isRun
                             },
                             onFinish = {
-//                                if (::listener.isInitialized) {
-//                                    listener.onFinish()
-//                                }
                                 listener?.onFinish()
+                                stop()
                             }
                         )
                 }
