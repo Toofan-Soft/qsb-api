@@ -4,31 +4,19 @@ import com.itextpdf.io.font.FontProgramFactory
 import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
-import java.io.File
 
 internal object Font {
-    private val TIMES_NEW_ROMAN =
-//        "E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\times new roman.ttf"
-        "src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\times new roman.ttf"
-//        "../pdf/fonts/times new roman.ttf"
-    private val TIMES_NEW_ROMAN_BOLD =
-//        "E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\times new roman bold.ttf"
-        "src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\times new roman bold.ttf"
-//        "fonts/times new roman bold.ttf"
-    private val ARIAL =
-        "src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\arial.ttf"
-//        "../fonts/arial.ttf"
-    private val ARIAL_BOLD =
-        "src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\services\\pdf\\fonts\\arial bold.ttf"
-//        "../fonts/arial bold.ttf"
+    private val TIMES_NEW_ROMAN = "fonts/times new roman.ttf"
+    private val TIMES_NEW_ROMAN_BOLD = "fonts/times new roman bold.ttf"
+    private val ARIAL = "fonts/arial.ttf"
+    private val ARIAL_BOLD = "fonts/arial bold.ttf"
 
     private fun createFont(path: String): PdfFont {
-//        return PdfFontFactory.createFont(
-//            FontProgramFactory.createFont(path),
-//            PdfEncodings.IDENTITY_H
-//        )!!
+//        val classLoader = this::class.java.classLoader
+//        val ttfFile = File(classLoader.getResource("fonts/arial.ttf")!!.file)
+
         return PdfFontFactory.createFont(
-            FontProgramFactory.createFont(File(path).readBytes()),
+            FontProgramFactory.createFont(path),
             PdfEncodings.IDENTITY_H
         )!!
     }
@@ -51,5 +39,4 @@ internal object Font {
             createFont(it)
         }
     }
-
 }
