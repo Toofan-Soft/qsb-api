@@ -46,13 +46,15 @@ object RetrieveOnlineExamRepo {
                                         isCanceled = new.isCanceled,
                                         isComplete = new.isComplete
                                     ).also {
+                                        println("new_data: $it")
+
                                         if (new.isCanceled || new.isComplete) {
                                             Response.Data.stop()
                                         }
                                         if (new.isTakable) {
                                             it.run()
                                         }
-                                        onComplete(resource)
+                                        onComplete(Resource.Success(it))
                                     }
                                 }
                             }
@@ -203,23 +205,24 @@ fun main() {
 
     val thread2 = Thread {
         runBlocking {
-            Api.init("192.168.1.13")
+            Api.init("192.168.1.15")
             LoginRepo.execute(
                 data = {
 //                    it.invoke("mohammed@gmail.com", "mohammed")
-                    it.invoke("student@gmail.com", "1dztjayi")
+                    it.invoke("777300002@gmail.com", "s777300002s")
                 },
                 onComplete = {
                     println("complete")
                     runBlocking {
                         RetrieveOnlineExamRepo.execute(
                             data = {
-                                it.invoke(16)
+                                it.invoke(2)
                             },
                             onComplete = {
                                 when (it) {
                                     is Resource.Success -> {
                                         it.data?.let {
+                                            println("data: $it")
                                             it.setOnRemainingTimerListener(object : TimerListener {
                                                 override fun onUpdate(value: Long) {
                                                     println(value)
