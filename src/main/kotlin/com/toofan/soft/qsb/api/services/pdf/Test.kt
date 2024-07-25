@@ -58,3 +58,10 @@ suspend fun testEnPdfGenerator(
         }
     }
 }
+
+suspend fun main() {
+    testArPdfGenerator(true, false, false) { papers, mirrors, answerMirrors ->
+        println("Done")
+
+    }
+}

@@ -246,11 +246,56 @@ fun main() {
         }
     }
 
+    val thread3 = Thread {
+        runBlocking {
+            Api.init("192.168.1.15")
+            LoginRepo.execute(
+                data = {
+//                    it.invoke("mohammed@gmail.com", "mohammed")
+                    it.invoke("777300003@gmail.com", "s777300003s")
+                },
+                onComplete = {
+                    println("complete")
+                    runBlocking {
+                        RetrieveOnlineExamRepo.execute(
+                            data = {
+                                it.invoke(2)
+                            },
+                            onComplete = {
+                                when (it) {
+                                    is Resource.Success -> {
+                                        it.data?.let {
+                                            println("data3: $it")
+                                            it.setOnRemainingTimerListener(object : TimerListener {
+                                                override fun onUpdate(value: Long) {
+                                                    println(value)
+                                                }
+
+                                                override fun onFinish() {
+                                                    TODO("Not yet implemented")
+                                                }
+                                            })
+                                        }
+                                    }
+                                    is Resource.Error -> {
+
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
+    }
+
     thread1.start()
     thread2.start()
+    thread3.start()
 
     thread1.join() // Wait for thread1 to finish
     thread2.join() // Wait for thread2 to finish
+    thread3.join() // Wait for thread3 to finish
 
     println("Both threads have finished")
 }

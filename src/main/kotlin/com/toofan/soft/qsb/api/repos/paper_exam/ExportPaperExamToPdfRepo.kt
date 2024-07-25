@@ -117,6 +117,7 @@ object ExportPaperExamToPdfRepo {
                                     request?._withMirror?.value ?: false,
                                     request?._withAnswerMirror?.value ?: false
                                 ) { papers, mirrors, answerMirrors ->
+                                    println("Done........")
                                     onComplete(
                                         Resource.Success(
                                             Result.Data(
@@ -285,6 +286,11 @@ object ExportPaperExamToPdfRepo {
                             listOf(
                                 QuestionHelper.Data.Data.Type.CORRECT.toData().copy(isTrue = isTrue),
                                 QuestionHelper.Data.Data.Type.INCORRECT.toData().copy(isTrue = !isTrue)
+                            )
+                        } else if (isTrue == null && choices == null) {
+                            listOf(
+                                QuestionHelper.Data.Data.Type.CORRECT.toData(),
+                                QuestionHelper.Data.Data.Type.INCORRECT.toData()
                             )
                         } else if (isTrue == null && choices != null) {
                             ArrayList<QuestionHelper.Data.Data>().apply {

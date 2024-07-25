@@ -138,18 +138,18 @@ fun main() {
 
     val thread2 = Thread {
         runBlocking {
-            Api.init("192.168.1.13")
+            Api.init("192.168.1.15")
             LoginRepo.execute(
                 data = {
 //                    it.invoke("fadi@gmail.com", "fadi1234")
-                    it.invoke("fadiadmin@gmail.com", "fadiadmin")
+                    it.invoke("eyadadmin@gmail.com", "eyadadmin1")
                 },
                 onComplete = {
                     println("complete")
                     runBlocking {
                         RetrieveOnlineExamStudentsRepo.execute(
                             data = {
-                                it.invoke(16)
+                                it.invoke(2)
                             },
                             onComplete = {
                                 when (it) {

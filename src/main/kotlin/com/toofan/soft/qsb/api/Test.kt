@@ -11,6 +11,7 @@ import com.toofan.soft.qsb.api.repos.lecturer_online_exam.AddOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveEditableOnlineExamRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormQuestionsRepo
 import com.toofan.soft.qsb.api.repos.lecturer_online_exam.RetrieveOnlineExamFormsRepo
+import com.toofan.soft.qsb.api.repos.paper_exam.ExportPaperExamToPdfRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.ModifyPaperExamRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.RetrievePaperExamFormQuestionsRepo
 import com.toofan.soft.qsb.api.repos.paper_exam.RetrievePaperExamFormsRepo
@@ -507,6 +508,22 @@ private suspend fun retrievePracticeExamResult() {
     )
 }
 
+private suspend fun exportPaperExam() {
+    ExportPaperExamToPdfRepo.execute(
+        data = { mandatory, optional ->
+            mandatory.invoke(3)
+
+//            optional.invoke {
+//
+//            }
+        },
+        onComplete = {
+            println("complete...")
+            println(it.data)
+        }
+    )
+}
+
 
 private suspend fun addQuestion() {
     AddQuestionRepo.execute(
@@ -543,7 +560,8 @@ fun main() {
 //                it.invoke("llll123456@gmail.com", "llll123456")
 //                it.invoke("ssss1234@gmail.com", "ssss1234")
 //                it.invoke("fadi@gmail.com", "fadi1234")
-                it.invoke("mohammed@gmail.com", "mohammed")
+//                it.invoke("mohammed@gmail.com", "mohammed")
+                it.invoke("eyadadmin@gmail.com", "eyadadmin1")
 //                it.invoke("fadiadmin@gmail.com", "fadiadmin")
             },
             onComplete = {
@@ -587,7 +605,9 @@ fun main() {
 //                    startStudent()
 
 //                    retrieveColleges()
-                    retrieveOnlineExamStudentQuestions()
+//                    retrieveOnlineExamStudentQuestions()
+
+                    exportPaperExam()
                 }
             }
         )

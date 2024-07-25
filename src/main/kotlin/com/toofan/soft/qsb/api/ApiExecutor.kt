@@ -89,6 +89,8 @@ object ApiExecutor {
                 jsonObject.addProperty("error_message", "There is an error! Please check back later :)")
 
                 onResponse(jsonObject)
+
+                e.printStackTrace()
             }
         } else {
             val jsonObject = JsonObject()
