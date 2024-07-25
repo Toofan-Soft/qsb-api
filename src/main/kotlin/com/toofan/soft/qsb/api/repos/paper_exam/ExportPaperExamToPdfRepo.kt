@@ -58,7 +58,7 @@ object ExportPaperExamToPdfRepo {
                                                 Data.Form(
                                                     name = it.name,
                                                     trueFalseQuestions = it.questions.filter {
-                                                        it.getChoices().all { it.id == 0 }
+                                                        it.getChoices().all { it.id in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
                                                     }.map {
                                                         Data.Form.TrueFalse(
                                                             it.content,
@@ -67,7 +67,7 @@ object ExportPaperExamToPdfRepo {
                                                         )
                                                     },
                                                     multiChoicesQuestions = it.questions.filter {
-                                                        it.getChoices().all { it.id != 0 }
+                                                        it.getChoices().all { it.id !in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
                                                     }.map {
                                                         Data.Form.MultiChoices(
                                                             it.content,
@@ -86,7 +86,7 @@ object ExportPaperExamToPdfRepo {
                                         } else emptyList(),
                                         if (resource.data.questions != null) {
                                             resource.data.questions.filter {
-                                                it.getChoices().all { it.id == 0 }
+                                                it.getChoices().all { it.id in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
                                             }.map {
                                                 Data.Form.TrueFalse(
                                                     it.content,
@@ -97,7 +97,7 @@ object ExportPaperExamToPdfRepo {
                                         } else emptyList(),
                                         if (resource.data.questions != null) {
                                             resource.data.questions.filter {
-                                                it.getChoices().all { it.id != 0 }
+                                                it.getChoices().all { it.id !in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
                                             }.map {
                                                 Data.Form.MultiChoices(
                                                     it.content,
