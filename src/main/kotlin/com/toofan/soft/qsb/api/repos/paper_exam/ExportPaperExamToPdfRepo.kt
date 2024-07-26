@@ -29,132 +29,142 @@ object ExportPaperExamToPdfRepo {
             )
 
             request?.let {
-                ApiExecutor.execute(
-                    route = Route.PaperExam.Export,
-                    request = it
-                ) {
-                    when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
-                        is Resource.Success -> {
-                            if (resource.data != null) {
-                                PdfGenerator.build(
-                                    Data(
-                                        resource.data.universityName,
-                                        resource.data.universityLogoUrl,
-                                        resource.data.collegeName,
-                                        resource.data.departmentName,
-                                        resource.data.levelName,
-                                        resource.data.semesterName,
-                                        resource.data.courseName,
-                                        resource.data.coursePartName,
-                                        resource.data.typeName,
-                                        resource.data.datetime.toString(),
-                                        resource.data.duration,
-                                        resource.data.lecturerName,
-                                        resource.data.score,
-                                        resource.data.languageId,
-                                        resource.data.notes,
-                                        if (resource.data.forms != null) {
-                                            resource.data.forms.map {
-                                                Data.Form(
-                                                    name = it.name,
-                                                    trueFalseQuestions = it.questions.filter {
-                                                        it.getChoices().all { it.id in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
-                                                    }.map {
-                                                        Data.Form.TrueFalse(
-                                                            it.content,
-                                                            it.attachmentUrl,
-                                                            it.isTrue
-                                                        )
-                                                    },
-                                                    multiChoicesQuestions = it.questions.filter {
-                                                        it.getChoices().all { it.id !in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
-                                                    }.map {
-                                                        Data.Form.MultiChoices(
-                                                            it.content,
-                                                            it.attachmentUrl,
-                                                            it.getChoices().map {
-                                                                Data.Form.MultiChoices.Choice(
-                                                                    it.content,
-                                                                    it.attachmentUrl,
-                                                                    it.isTrue
-                                                                )
-                                                            }
-                                                        )
-                                                    }
-                                                )
-                                            }
-                                        } else emptyList(),
-                                        if (resource.data.questions != null) {
-                                            resource.data.questions.filter {
-                                                it.getChoices().all { it.id in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
-                                            }.map {
-                                                Data.Form.TrueFalse(
-                                                    it.content,
-                                                    it.attachmentUrl,
-                                                    it.isTrue
-                                                )
-                                            }
-                                        } else emptyList(),
-                                        if (resource.data.questions != null) {
-                                            resource.data.questions.filter {
-                                                it.getChoices().all { it.id !in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
-                                            }.map {
-                                                Data.Form.MultiChoices(
-                                                    it.content,
-                                                    it.attachmentUrl,
-                                                    it.getChoices().map {
-                                                        Data.Form.MultiChoices.Choice(
-                                                            it.content,
-                                                            it.attachmentUrl,
-                                                            it.isTrue
-                                                        )
-                                                    }
-                                                )
-                                            }
-                                        } else emptyList()
-                                    ),
-                                    true,
-                                    request?._withMirror?.value ?: false,
-                                    request?._withAnswerMirror?.value ?: false
-                                ) { papers, mirrors, answerMirrors ->
-                                    println("Done........")
-                                    onComplete(
-                                        Resource.Success(
-                                            Result.Data(
-                                                papers = (papers ?: emptyList()).map {
-                                                    Result.Data.Data(
-                                                        it.form,
-                                                        it.bytes
-                                                    )
-                                                },
-                                                mirrors = (mirrors ?: emptyList()).map {
-                                                    Result.Data.Data(
-                                                        it.form,
-                                                        it.bytes
-                                                    )
-                                                },
-                                                answerMirrors = (answerMirrors ?: emptyList()).map {
-                                                    Result.Data.Data(
-                                                        it.form,
-                                                        it.bytes
+                val hasError = listOf(
+                    it._withPaper,
+                    it._withMirror,
+                    it._withAnswerMirror
+                ).none { it.value == true }
+
+                if (!hasError) {
+                    ApiExecutor.execute(
+                        route = Route.PaperExam.Export,
+                        request = it
+                    ) {
+                        when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
+                            is Resource.Success -> {
+                                if (resource.data != null) {
+                                    PdfGenerator.build(
+                                        Data(
+                                            resource.data.universityName,
+                                            resource.data.universityLogoUrl,
+                                            resource.data.collegeName,
+                                            resource.data.departmentName,
+                                            resource.data.levelName,
+                                            resource.data.semesterName,
+                                            resource.data.courseName,
+                                            resource.data.coursePartName,
+                                            resource.data.typeName,
+                                            resource.data.datetime.toString(),
+                                            resource.data.duration,
+                                            resource.data.lecturerName,
+                                            resource.data.score,
+                                            resource.data.languageId,
+                                            resource.data.notes,
+                                            if (resource.data.forms != null) {
+                                                resource.data.forms.map {
+                                                    Data.Form(
+                                                        name = it.name,
+                                                        trueFalseQuestions = it.questions.filter {
+                                                            it.getChoices().all { it.id in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
+                                                        }.map {
+                                                            Data.Form.TrueFalse(
+                                                                it.content,
+                                                                it.attachmentUrl,
+                                                                it.isTrue
+                                                            )
+                                                        },
+                                                        multiChoicesQuestions = it.questions.filter {
+                                                            it.getChoices().all { it.id !in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
+                                                        }.map {
+                                                            Data.Form.MultiChoices(
+                                                                it.content,
+                                                                it.attachmentUrl,
+                                                                it.getChoices().map {
+                                                                    Data.Form.MultiChoices.Choice(
+                                                                        it.content,
+                                                                        it.attachmentUrl,
+                                                                        it.isTrue
+                                                                    )
+                                                                }
+                                                            )
+                                                        }
                                                     )
                                                 }
+                                            } else emptyList(),
+                                            if (resource.data.questions != null) {
+                                                resource.data.questions.filter {
+                                                    it.getChoices().all { it.id in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
+                                                }.map {
+                                                    Data.Form.TrueFalse(
+                                                        it.content,
+                                                        it.attachmentUrl,
+                                                        it.isTrue
+                                                    )
+                                                }
+                                            } else emptyList(),
+                                            if (resource.data.questions != null) {
+                                                resource.data.questions.filter {
+                                                    it.getChoices().all { it.id !in QuestionHelper.Data.Data.Type.values().map { it.toData().id } }
+                                                }.map {
+                                                    Data.Form.MultiChoices(
+                                                        it.content,
+                                                        it.attachmentUrl,
+                                                        it.getChoices().map {
+                                                            Data.Form.MultiChoices.Choice(
+                                                                it.content,
+                                                                it.attachmentUrl,
+                                                                it.isTrue
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                            } else emptyList()
+                                        ),
+                                        request?._withPaper?.value ?: false,
+                                        request?._withMirror?.value ?: false,
+                                        request?._withAnswerMirror?.value ?: false
+                                    ) { papers, mirrors, answerMirrors ->
+                                        println("Done........")
+                                        onComplete(
+                                            Resource.Success(
+                                                Result.Data(
+                                                    papers = (papers ?: emptyList()).map {
+                                                        Result.Data.Data(
+                                                            it.form,
+                                                            it.bytes
+                                                        )
+                                                    },
+                                                    mirrors = (mirrors ?: emptyList()).map {
+                                                        Result.Data.Data(
+                                                            it.form,
+                                                            it.bytes
+                                                        )
+                                                    },
+                                                    answerMirrors = (answerMirrors ?: emptyList()).map {
+                                                        Result.Data.Data(
+                                                            it.form,
+                                                            it.bytes
+                                                        )
+                                                    }
+                                                )
                                             )
                                         )
+                                    }
+                                } else {
+                                    onComplete(
+                                        Resource.Error("Error!")
                                     )
                                 }
-                            } else {
+                            }
+                            is Resource.Error -> {
                                 onComplete(
-                                    Resource.Error("Error!")
+                                    resource as Resource<Result.Data>
                                 )
                             }
                         }
-                        is Resource.Error -> {
-                            onComplete(
-                                resource as Resource<Result.Data>
-                            )
-                        }
                     }
+                } else {
+                    onComplete(Resource.Error("Properties Error!"))
                 }
             }
         }
@@ -173,12 +183,13 @@ object ExportPaperExamToPdfRepo {
     data class Request(
         @Field("id")
         private val _id: Int,
-//        @Field("with_mirror")
-        internal val _withMirror: OptionalVariable<Boolean> = OptionalVariable(),
-//        @Field("with_answer_mirror")
         @Field("with_answer")
-        internal val _withAnswerMirror: OptionalVariable<Boolean> = OptionalVariable()
+        internal val _withAnswerMirror: OptionalVariable<Boolean> = OptionalVariable(),
+
+        internal val _withPaper: OptionalVariable<Boolean> = OptionalVariable(),
+        internal val _withMirror: OptionalVariable<Boolean> = OptionalVariable()
     ) : IRequest {
+        val withPaper = loggableProperty(_withPaper)
         val withMirror = loggableProperty(_withMirror)
         val withAnswerMirror = loggableProperty(_withAnswerMirror)
 
