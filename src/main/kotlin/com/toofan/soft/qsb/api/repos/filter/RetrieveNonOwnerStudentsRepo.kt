@@ -14,8 +14,8 @@ object RetrieveNonOwnerStudentsRepo {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { departmentId, levelId, semesterId ->
-                request = Request(departmentId, levelId, semesterId)
+            data.invoke { departmentId, levelId ->
+                request = Request(departmentId, levelId)
             }
 
             request?.let {
@@ -32,8 +32,7 @@ object RetrieveNonOwnerStudentsRepo {
     fun interface Mandatory {
         operator fun invoke(
             departmentId: Int,
-            levelId: Int,
-            semesterId: Int
+            levelId: Int
         )
     }
 
@@ -41,9 +40,7 @@ object RetrieveNonOwnerStudentsRepo {
         @Field("department_id")
         private val _departmentId: Int,
         @Field("level_id")
-        private val _levelId: Int,
-        @Field("semester_id")
-        private val _semesterId: Int
+        private val _levelId: Int
     ) : IRequest
 
     data class Response(
