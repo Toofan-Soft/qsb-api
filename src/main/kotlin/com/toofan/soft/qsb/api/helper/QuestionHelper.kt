@@ -74,8 +74,8 @@ object QuestionHelper {
                 private val arabicTitle: String,
                 private val englishTitle: String
             ) {
-                CORRECT(-1, "إجابة صحيحة", "Correct Answer"),
-                INCORRECT(-2, "إجابة خاطئة", "Incorrect Answer");
+                CORRECT(-999, "إجابة صحيحة", "Correct Answer"),
+                INCORRECT(-998, "إجابة خاطئة", "Incorrect Answer");
 
                 fun toData(): Data {
 //                    return Data(this.id, this.title)
