@@ -7,16 +7,20 @@ object RetrieveOwnerRolesRepo {
     @JvmStatic
     suspend fun execute(
         data: (
-            mandatory: Mandatory
+            mandatory: Mandatory,
+            optional: Optional<Request>
         ) -> Unit,
         onComplete: (Resource<List<Response.Data>>) -> Unit
     ) {
         Coroutine.launch {
             var request: Request? = null
 
-            data.invoke { ownerTypeId ->
-                request = Request(ownerTypeId)
-            }
+            data.invoke(
+                { ownerTypeId ->
+                    request = Request(ownerTypeId)
+                },
+                { request!!.optional(it) }
+            )
 
             request?.let {
                 ApiExecutor.execute(
@@ -37,8 +41,16 @@ object RetrieveOwnerRolesRepo {
 
     data class Request(
         @Field("owner_type_id")
-        private val _ownerTypeId: Int
-    ) : IRequest
+        private val _ownerTypeId: Int,
+        @Field("job_type_id")
+        private val _jobTypeId: OptionalVariable<Int> = OptionalVariable()
+    ) : IRequest {
+        val jobTypeId = loggableProperty(_jobTypeId)
+
+        fun optional(block: Request.() -> Unit): Request {
+            return build(block)
+        }
+    }
 
     data class Response(
         @Field("is_success")
