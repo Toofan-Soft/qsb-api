@@ -1,10 +1,10 @@
 package com.toofan.soft.qsb.api
 
+import com.toofan.soft.qsb.api.test.changeKey
+
 private object Constant {
     private const val URL = "http://localhost:8000/"
     const val HOME = URL + "api"
-    const val IMAGES = URL + "images"
-
 }
 
 object Api {
@@ -15,6 +15,19 @@ object Api {
     fun init(ip: String) {
         HOME = "http://$ip:8000/api"
         IMAGES = "http://$ip:8000/images"
+    }
+
+    @JvmStatic
+    fun init(ip: String, type: Type) {
+        HOME = "http://$ip:8000/api"
+        IMAGES = "http://$ip:8000/images"
+
+        changeKey(type)
+    }
+
+    enum class Type {
+        FADI,
+        M7DEVOO;
     }
 }
 

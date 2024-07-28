@@ -7,13 +7,22 @@ import com.pusher.client.PusherOptions
 import com.pusher.client.connection.ConnectionEventListener
 import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
+import com.toofan.soft.qsb.api.Api
 import com.toofan.soft.qsb.api.Field
 import com.toofan.soft.qsb.api.IResponse
 import com.toofan.soft.qsb.api.session.Session
 import java.time.LocalTime
 
+fun changeKey(type: Api.Type) {
+    PusherConstant.API_KEY = when (type) {
+        Api.Type.M7DEVOO -> "5c2ed29f204a9a3539c2"
+        Api.Type.FADI -> "8121ea8a2d9d2a6055c9"
+    }
+}
+
 private object PusherConstant {
-    const val API_KEY = "8121ea8a2d9d2a6055c9"
+//    const val API_KEY = "8121ea8a2d9d2a6055c9"
+    var API_KEY = "8121ea8a2d9d2a6055c9"
     const val CHANNEL = "qb_server"
     const val CLUSTER = "ap2"
 
