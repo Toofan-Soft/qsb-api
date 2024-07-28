@@ -32,11 +32,12 @@ object RetrieveOnlineExamStudentsRepo {
 
                     when (val resource = Response.map(it).getResource() as Resource<List<Response.Data>>) {
                         is Resource.Success -> {
-                            resource.data?.let { data ->
-                                onComplete(Resource.Success(data))
+                            resource.data?.let { _data ->
+                                onComplete(Resource.Success(_data))
 
+                                var data = _data
                                 ProctorPusherListener.addListener { new ->
-                                    data.map {
+                                    data = data.map {
                                         if (it.id != new.id) {
                                             it
                                         } else {
@@ -49,9 +50,8 @@ object RetrieveOnlineExamStudentsRepo {
                                                 isSuspended = new.isSuspended
                                             )
                                         }
-                                    }.also {
-                                        onComplete(Resource.Success(it))
                                     }
+                                    onComplete(Resource.Success(data))
                                 }
                             }
                         }
@@ -149,7 +149,7 @@ fun main() {
                     runBlocking {
                         RetrieveOnlineExamStudentsRepo.execute(
                             data = {
-                                it.invoke(2)
+                                it.invoke(5)
                             },
                             onComplete = {
                                 when (it) {
