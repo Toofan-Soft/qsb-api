@@ -8,7 +8,6 @@ internal annotation class Field(
      *
      * @return the name
      */
-//    val value: String,
     val _value: String,
     val isDate: Boolean = false,
     val isTime: Boolean = false,

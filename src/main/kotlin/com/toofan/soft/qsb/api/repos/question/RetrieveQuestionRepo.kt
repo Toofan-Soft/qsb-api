@@ -117,57 +117,6 @@ object RetrieveQuestionRepo {
             }
         }
 
-//        data class Data(
-//            @Field("difficulty_level_name")
-//            val difficultyLevelName: String = "",
-//            @Field("accessibility_status_Name")
-//            val accessibilityStatusName: String = "",
-//            @Field("language_Name")
-//            val languageName: String = "",
-//            @Field("estimated_answer_time")
-//            val estimatedAnswerTime: Int = 0,
-//            @Field("content")
-//            val content: String = "",
-//            @Field("attachment_url")
-//            val attachmentUrl: String? = null,
-//            @Field("title")
-//            val title: String? = null,
-//            @Field("status")
-//            val status: Status = Status(),
-//            @Field("answer")
-//            val answer: Answer
-//        ) : IResponse {
-//            data class Status(
-//                @Field("is_requested")
-//                val isRequested: Boolean = false,
-//                @Field("is_accepted")
-//                val isAccepted: Boolean = false
-//            ) : IResponse
-//
-//            sealed interface Answer {
-//                data class TrueFalse(
-//                    @Field("is_true")
-//                    val isTrue: Boolean = false
-//                ) : Answer
-//
-//                data class Choices(
-//                    @Field("choices")
-//                    val choices: List<Choice> = emptyList()
-//                ) : Answer
-//
-//                data class Choice(
-//                    @Field("id")
-//                    val id: Int = 0,
-//                    @Field("content")
-//                    val content: String = "",
-//                    @Field("is_true")
-//                    val isTrue: Boolean = false,
-//                    @Field("attachment_url")
-//                    val attachmentUrl: String? = null
-//                )
-//            }
-//        }
-
         companion object {
             private fun getInstance(): Response {
                 return Response()

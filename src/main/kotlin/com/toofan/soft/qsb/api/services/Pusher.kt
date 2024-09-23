@@ -1,4 +1,4 @@
-package com.toofan.soft.qsb.api.test
+package com.toofan.soft.qsb.api.services
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -155,17 +155,5 @@ internal object ProctorPusherListener {
                 return getInstance().getResponse(data) as Data
             }
         }
-    }
-}
-
-fun main() {
-    login()
-
-    StudentPusherListener.addListener {
-
-    }
-
-    ProctorPusherListener.addListener {
-
     }
 }

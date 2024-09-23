@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
-import com.toofan.soft.qsb.api.test.ProctorPusherListener
+import com.toofan.soft.qsb.api.services.ProctorPusherListener
 import kotlinx.coroutines.runBlocking
 import java.time.LocalTime
 
@@ -28,8 +28,6 @@ object RetrieveOnlineExamStudentsRepo {
                     route = Route.ProctorOnlineExam.RetrieveStudentList,
                     request = it
                 ) {
-//                    onComplete(Response.map(it).getResource() as Resource<List<Response.Data>>)
-
                     when (val resource = Response.map(it).getResource() as Resource<List<Response.Data>>) {
                         is Resource.Success -> {
                             resource.data?.let { _data ->

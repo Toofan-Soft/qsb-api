@@ -2,6 +2,8 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.helper.QuestionHelper
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import kotlinx.coroutines.runBlocking
 
 object SaveOnlineExamQuestionAnswerRepo {
     @JvmStatic
@@ -82,5 +84,38 @@ object SaveOnlineExamQuestionAnswerRepo {
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
         }
+    }
+}
+
+fun main() {
+    runBlocking {
+        Api.init("192.168.1.15")
+        LoginRepo.execute(
+            data = {
+                it.invoke("777300003@gmail.com", "s777300003s")
+            },
+            onComplete = {
+                println("complete")
+                runBlocking {
+                    SaveOnlineExamQuestionAnswerRepo.execute(
+                        data = {
+                            it.invoke(4, 1, -2)
+                        },
+                        onComplete = {
+                            when (it) {
+                                is Resource.Success -> {
+                                    it.data?.let {
+                                        println("data: $it")
+                                    }
+                                }
+                                is Resource.Error -> {
+
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        )
     }
 }

@@ -3,6 +3,9 @@ package com.toofan.soft.qsb.api.repos.student_online_exam
 import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.helper.QuestionHelper
+import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import com.toofan.soft.qsb.api.services.TimerListener
+import kotlinx.coroutines.runBlocking
 
 object RetrieveOnlineExamQuestionsRepo {
     @JvmStatic
@@ -49,12 +52,6 @@ object RetrieveOnlineExamQuestionsRepo {
         @Field("data")
         val data: List<Data> = emptyList()
     ) : IResponse {
-//        data class Data(
-//            @Field("type_name")
-//            val typeName: String = "",
-//            @Field("questions")
-//            val questions: List<Data> = emptyList()
-//        ) : IResponse {
             data class Data(
                 @Field("id")
                 val id: Int = 0,
@@ -68,26 +65,6 @@ object RetrieveOnlineExamQuestionsRepo {
                 @Field("choices")
                 private val choices: Data? = null
             ) : IResponse {
-//                data class Data(
-//                    @Field("id")
-//                    val id: Int = 0,
-//                    @Field("content")
-//                    val content: String = "",
-//                    @Field("attachment_url")
-//                    val attachmentUrl: String? = null
-//                ) : IResponse
-
-//                data class Data(
-//                    @Field("id")
-//                    val id: Int = 0,
-//                    @Field("content")
-//                    val content: String = "",
-//                    @Field("attachment_url")
-//                    val attachmentUrl: String? = null,
-//                    @Field("mix")
-//                    val mix: List<Data>? = null
-//                ) : IResponse
-
                 data class Data(
                     @Field("unmixed")
                     val unmixed: List<Data.Data>? = null,
@@ -163,118 +140,8 @@ object RetrieveOnlineExamQuestionsRepo {
                             emptyList()
                         }
                     }
-
-
-//                    return choices?.let {
-//                        ArrayList<QuestionHelper.Data.Data>().apply {
-//                            if (choices.mixed != null) {
-//                                choices.mixed.choices.map {
-//                                    QuestionHelper.Data.Data(
-//                                        id = it.id,
-//                                        content = it.content,
-//                                        attachmentUrl = it.attachmentUrl,
-//                                        isSelected = it.isSelected
-//                                    )
-//                                }.also {
-//                                    addAll(it)
-//                                    add(
-//                                        QuestionHelper.Data.Data.MIX_CHOICE
-//                                    )
-//                                }
-//                            }
-//
-//                            if (choices.unmixed != null) {
-//                                choices.unmixed.map {
-//                                    QuestionHelper.Data.Data(
-//                                        id = it.id,
-//                                        content = it.content,
-//                                        attachmentUrl = it.attachmentUrl,
-//                                        isSelected = it.isSelected
-//                                    )
-//                                }.also {
-//                                    addAll(it)
-//                                }
-//                            }
-//                        }
-//                    } ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
-
-//                    return choices?.flatMap { choice ->
-//                        if (choice.mix == null) {
-//                            listOf(
-//                                QuestionHelper.Data.Data(
-//                                    id = choice.id,
-//                                    content = choice.content,
-//                                    attachmentUrl = choice.attachmentUrl
-//                                )
-//                            )
-//                        } else {
-//                            choice.mix.map { choice ->
-//                                QuestionHelper.Data.Data(
-//                                    id = choice.id,
-//                                    content = choice.content,
-//                                    attachmentUrl = choice.attachmentUrl
-//                                )
-//                            }.let {
-//                                ArrayList(it).also {
-//                                    it.add(
-//                                        QuestionHelper.Data.Data.MIX_CHOICE.copy(
-//                                            id = choice.id
-//                                        )
-//                                    )
-//                                }
-//                            }
-//                        }
-//                    } ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
-
-//                    return choices?.map {
-//                        QuestionHelper.Data.Data(
-//                            id = it.id,
-//                            content = it.content,
-//                            attachmentUrl = it.attachmentUrl
-//                        )
-//                    }
-//                        ?: QuestionHelper.Data.Data.Type.values().map { it.toData() }
                 }
             }
-
-
-//        data class Data(
-//            @Field("type_name")
-//            val typeName: String = "",
-//            @Field("questions")
-//            val questions: List<Data> = emptyList()
-//        ) : IResponse {
-//            sealed interface Data {
-//                data class TrueFalse(
-//                    @Field("id")
-//                    val id: Int = 0,
-//                    @Field("content")
-//                    val content: String = "",
-//                    @Field("attachment_url")
-//                    val attachmentUrl: String? = null
-//                ) : Data
-//
-//                data class MultiChoice(
-//                    @Field("id")
-//                    val id: Int = 0,
-//                    @Field("content")
-//                    val content: String = "",
-//                    @Field("attachment_url")
-//                    val attachmentUrl: String? = null,
-//                    @Field("choices")
-//                    val choices: List<Data> = emptyList()
-//                ) : Data {
-//                    data class Data(
-//                        @Field("id")
-//                        val id: Int = 0,
-//                        @Field("content")
-//                        val content: String = "",
-//                        @Field("attachment_url")
-//                        val attachmentUrl: String? = null
-//                    )
-//                }
-//            }
-//        }
 
         companion object {
             private fun getInstance(): Response {
@@ -285,5 +152,47 @@ object RetrieveOnlineExamQuestionsRepo {
                 return getInstance().getResponse(data) as Response
             }
         }
+    }
+}
+
+fun main() {
+    runBlocking {
+        Api.init("192.168.1.15")
+        LoginRepo.execute(
+            data = {
+                it.invoke("777300003@gmail.com", "s777300002s")
+            },
+            onComplete = {
+                println("complete")
+                runBlocking {
+                    RetrieveOnlineExamRepo.execute(
+                        data = {
+                            it.invoke(2)
+                        },
+                        onComplete = {
+                            when (it) {
+                                is Resource.Success -> {
+                                    it.data?.let {
+                                        println("data: $it")
+                                        it.setOnRemainingTimerListener(object : TimerListener {
+                                            override fun onUpdate(value: Long) {
+                                                println(value)
+                                            }
+
+                                            override fun onFinish() {
+                                                TODO("Not yet implemented")
+                                            }
+                                        })
+                                    }
+                                }
+                                is Resource.Error -> {
+
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        )
     }
 }

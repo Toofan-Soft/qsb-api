@@ -1,4 +1,4 @@
-package com.toofan.soft.qsb.api.helper
+package com.toofan.soft.qsb.api.exceptions
 
 import com.toofan.soft.qsb.api.session.Auth
 import com.toofan.soft.qsb.api.session.Language

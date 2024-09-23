@@ -6,27 +6,16 @@ import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
 
 internal object Font {
-    private val TIMES_NEW_ROMAN = "fonts/times_new_roman.ttf"
-    private val TIMES_NEW_ROMAN_BOLD = "fonts/times_new_roman_bold.ttf"
-    private val ARIAL = "fonts/arial.ttf"
-    private val ARIAL_BOLD = "fonts/arial_bold.ttf"
+    private const val TIMES_NEW_ROMAN = "fonts/times_new_roman.ttf"
+    private const val TIMES_NEW_ROMAN_BOLD = "fonts/times_new_roman_bold.ttf"
+    private const val ARIAL = "fonts/arial.ttf"
+    private const val ARIAL_BOLD = "fonts/arial_bold.ttf"
 
     private fun createFont(path: String): PdfFont {
-//        val classLoader = this::class.java.classLoader
-//        val ttfFile = File(classLoader.getResource("fonts/arial.ttf")!!.file)
-//        val ttfFile = File(classLoader.getResource(path)!!.file)
-        println("Font..........")
         return PdfFontFactory.createFont(
             FontProgramFactory.createFont(path),
-//            FontProgramFactory.createFont(ttfFile.readBytes()),
             PdfEncodings.IDENTITY_H
         )!!
-    }
-
-    @JvmStatic
-    fun main(args: Array<String>) {
-        createFont(ARIAL)
-        println("done")
     }
 
     fun getFont(language: Data.Language, bold: Boolean = false): PdfFont {

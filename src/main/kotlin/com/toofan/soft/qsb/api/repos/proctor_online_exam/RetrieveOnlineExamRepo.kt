@@ -30,8 +30,6 @@ object RetrieveOnlineExamRepo {
                     route = Route.ProctorOnlineExam.Retrieve,
                     request = it
                 ) {
-//                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
-
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             resource.data?.let {
@@ -109,8 +107,6 @@ object RetrieveOnlineExamRepo {
         ) : IResponse {
             val datetime get() = _datetime.string
 
-//            private lateinit var listener: TimerListener
-
             companion object {
                 private var listener: TimerListener? = null
                 private var isRun: Boolean = false
@@ -124,7 +120,7 @@ object RetrieveOnlineExamRepo {
                 if (isRun) {
                     stop()
                     Thread {
-                        Thread.sleep(3000) // Simulating work with sleep
+                        Thread.sleep(3000)
                     }.apply {
                         start()
                         join()

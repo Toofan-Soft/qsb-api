@@ -4,9 +4,9 @@ import com.google.gson.JsonObject
 import com.toofan.soft.qsb.api.*
 import com.toofan.soft.qsb.api.extensions.string
 import com.toofan.soft.qsb.api.repos.user.LoginRepo
+import com.toofan.soft.qsb.api.services.StudentPusherListener
 import com.toofan.soft.qsb.api.services.Timer
 import com.toofan.soft.qsb.api.services.TimerListener
-import com.toofan.soft.qsb.api.test.StudentPusherListener
 import kotlinx.coroutines.runBlocking
 import java.time.Duration
 import java.time.LocalDateTime
@@ -31,8 +31,6 @@ object RetrieveOnlineExamRepo {
                     route = Route.StudentOnlineExam.Retrieve,
                     request = it
                 ) {
-//                    onComplete(Response.map(it).getResource() as Resource<Response.Data>)
-
                     when (val resource = Response.map(it).getResource() as Resource<Response.Data>) {
                         is Resource.Success -> {
                             resource.data?.let {
@@ -46,8 +44,6 @@ object RetrieveOnlineExamRepo {
                                         isCanceled = new.isCanceled,
                                         isComplete = new.isComplete
                                     ).also {
-                                        println("new_data: $it")
-
                                         if (new.isCanceled || new.isComplete) {
                                             Response.Data.stop()
                                         }
@@ -131,8 +127,6 @@ object RetrieveOnlineExamRepo {
             val isComplete: Boolean = false
         ) : IResponse {
             val datetime get() = _datetime.string
-
-//            private lateinit var listener: TimerListener
 
             companion object {
                 private var listener: TimerListener? = null

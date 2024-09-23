@@ -1,6 +1,6 @@
 package com.toofan.soft.qsb.api
 
-import com.toofan.soft.qsb.api.test.changeKey
+import com.toofan.soft.qsb.api.services.changeKey
 
 private object Constant {
     private const val URL = "http://localhost:8000/"
@@ -40,6 +40,9 @@ sealed class Route(
     internal val url get() = "${Api.HOME}/$_path"
     internal val method get() = _method.value
     internal val isAuthorized get() = _isAuthorized
+
+    object Test: Route("test", Method.POST, false)
+
 
     sealed class User(
         name: String,

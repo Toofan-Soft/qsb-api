@@ -1,10 +1,6 @@
 package com.toofan.soft.qsb.api.repos.university
 
 import com.toofan.soft.qsb.api.*
-import com.toofan.soft.qsb.api.image.fileToByteArray
-import com.toofan.soft.qsb.api.repos.user.LoginRepo
-import kotlinx.coroutines.runBlocking
-import java.io.File
 
 object ConfigureUniversityDataRepo {
     @JvmStatic
@@ -87,35 +83,5 @@ object ConfigureUniversityDataRepo {
         fun optional(block: Request.() -> Unit): Request {
             return build(block)
         }
-    }
-}
-
-
-fun main() {
-    runBlocking {
-        Api.init("192.168.1.15")
-//        Api.init("192.168.1.13")
-        LoginRepo.execute(
-            data = {
-                it.invoke("fadi@gmail.com", "fadi1234")
-            },
-            onComplete = {
-                println("complete")
-
-                runBlocking {
-                    val file = File("E:\\f\\ToofanSoft\\QsB\\coding\\github\\qsb-api\\src\\main\\kotlin\\com\\toofan\\soft\\qsb\\api\\image/home.png") // Replace with your image file path
-                    val logo = fileToByteArray(file)
-
-                    ConfigureUniversityDataRepo.execute(
-                        data = { mandatory, optional ->
-                            mandatory.invoke("جامعة", "uni", logo)
-                        },
-                        onComplete = {
-
-                        }
-                    )
-                }
-            }
-        )
     }
 }
